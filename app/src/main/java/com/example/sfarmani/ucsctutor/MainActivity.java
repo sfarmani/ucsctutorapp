@@ -1,5 +1,6 @@
 package com.example.sfarmani.ucsctutor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,14 @@ import android.view.MenuItem;
 
 import com.parse.ParseAnalytics;
 import com.parse.ParseObject;
+import com.sinch.android.rtc.AudioController;
+import com.sinch.android.rtc.MissingGCMException;
+import com.sinch.android.rtc.NotificationResult;
+import com.sinch.android.rtc.Sinch;
+import com.sinch.android.rtc.SinchClient;
+import com.sinch.android.rtc.SinchClientListener;
+import com.sinch.android.rtc.calling.CallClient;
+import com.sinch.android.rtc.messaging.MessageClient;
 
 public class MainActivity extends AppCompatActivity {
 

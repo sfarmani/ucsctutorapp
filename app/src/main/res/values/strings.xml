@@ -4,4 +4,6 @@
 
     <string name="parse_app_id">sm3IJPOksqi4vIIN99wmppWnGWFZ0lvsVLNQ9VuO</string>
     <string name="parse_client_key">WVDV3wAFEVf5BWn6uG9kBkQvgv52kP23rzfRBpQI</string>
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="title_activity_base">BaseActivity</string>
 </resources>
