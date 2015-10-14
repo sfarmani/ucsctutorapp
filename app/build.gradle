@@ -25,8 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
     compile 'com.parse:parse-android:1.10.3'
-    compile files('C:/Users/Brad Cardello/Desktop/Computer Science/CMPS-115/UCSC Tutor App/ucsctutorapp/libs/sinch-android-rtc-3.7.1.jar')
-
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/sinch-android-rtc-3.7.1.jar')
 }
