@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.dd.processbutton.FlatButton;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.sfarmani.ucsctutor.utils.ProgressGenerator;
 import com.parse.LogInCallback;
@@ -38,6 +39,8 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
 
         final ProgressGenerator progressGenerator = new ProgressGenerator(this);
         final ActionProcessButton btnSignIn = (ActionProcessButton) findViewById(R.id.login);
+        final FlatButton tutorSignup = (FlatButton)findViewById(R.id.signuptutor);
+        final FlatButton studentSignup = (FlatButton)findViewById(R.id.signupstudent);
         Bundle extras = getIntent().getExtras();
 
         if(extras != null && extras.getBoolean(EXTRAS_ENDLESS_MODE)) {
@@ -70,7 +73,7 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
                                     Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
                                     finish();
                                 }
-                            }, 5800);
+                            }, 6000);
                         } else {
                             username.setText("");
                             password.setText("");
@@ -82,7 +85,7 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
             }
         });
 
-        // Do the same as btnsignin for btnsignup, except it goes to another page. and it doesn't do the progress bar thing.
+
     }
 
     @Override

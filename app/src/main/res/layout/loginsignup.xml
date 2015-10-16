@@ -4,15 +4,18 @@
     android:layout_height="fill_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="10dip">
+    android:padding="10dip"
+    android:background="#ffffff">
 
     <TextView
         android:id="@+id/txtusername"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Username" />
-
-
+        android:text="@string/Username"
+        android:layout_marginTop="140dp"
+        android:layout_below="@+id/progressBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/username"
@@ -20,8 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtusername"
         android:inputType="text" />
-
-
 
     <TextView
         android:id="@+id/txtpassword"
@@ -44,12 +45,6 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:text="@string/LoginBtn"
-        android:layout_marginTop="46dp"
-        android:layout_below="@+id/password"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/progressBar"
-        android:layout_toStartOf="@+id/progressBar"
         custom:pb_colorComplete="@color/green_complete"
         custom:pb_colorNormal="@color/blue_normal"
         custom:pb_colorPressed="@color/blue_pressed"
@@ -57,28 +52,45 @@
         custom:pb_textComplete="Success"
         custom:pb_textProgress="Loading..."
         custom:pb_textError="Error"
-        custom:pb_colorError="@color/red_error"/>
+        custom:pb_colorError="@color/red_error"
+        android:layout_below="@+id/password"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-    <com.dd.processbutton.iml.ActionProcessButton
-        android:id="@+id/signup"
-        android:textSize="20sp"
+    <com.dd.processbutton.FlatButton
+        android:id="@+id/signuptutor"
+        android:textSize="15sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
-        android:text="@string/SignupBtn"
-        android:layout_alignTop="@+id/login"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/progressBar"
-        android:layout_toRightOf="@+id/progressBar"
-        custom:pb_colorComplete="@color/green_complete"
+        android:text="@string/SignupBtnTutor"
         custom:pb_colorNormal="@color/blue_normal"
         custom:pb_colorPressed="@color/blue_pressed"
-        custom:pb_colorProgress="@color/purple_progress"
-        custom:pb_textComplete="Success"
-        custom:pb_textProgress="Loading"
-        custom:pb_textError="Error"
-        custom:pb_colorError="@color/red_error"/>
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5pt"
+        android:layout_below="@+id/login"
+        android:layout_toLeftOf="@+id/progressBar"
+        android:layout_toStartOf="@+id/progressBar" />
+
+    <com.dd.processbutton.FlatButton
+        android:textColor="@android:color/white"
+        android:text="@string/SignupBtnStudent"
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:pb_colorNormal="@color/blue_normal"
+        custom:pb_colorPressed="@color/blue_pressed"
+        android:id="@+id/signupstudent"
+        android:layout_alignBaseline="@+id/signuptutor"
+        android:layout_alignBottom="@+id/signuptutor"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/progressBar"
+        android:layout_toEndOf="@+id/progressBar" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleSmall"
@@ -88,5 +100,25 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:visibility="invisible" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar2"
+        android:layout_above="@+id/username"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/ucsctutor"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        android:layout_above="@+id/progressBar2" />
+
 
 </RelativeLayout>
