@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="10dip">
+
+    <TextView
+        android:id="@+id/txtusername"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Username" />
+
+
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtusername"
+        android:inputType="text" />
+
+
+
+    <TextView
+        android:id="@+id/txtpassword"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/username"
+        android:text="@string/Password" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtpassword"
+        android:inputType="textPassword" />
+
+    <com.dd.processbutton.iml.ActionProcessButton
+        android:id="@+id/login"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:text="@string/LoginBtn"
+        android:layout_marginTop="46dp"
+        android:layout_below="@+id/password"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/progressBar"
+        android:layout_toStartOf="@+id/progressBar"
+        custom:pb_colorComplete="@color/green_complete"
+        custom:pb_colorNormal="@color/blue_normal"
+        custom:pb_colorPressed="@color/blue_pressed"
+        custom:pb_colorProgress="@color/purple_progress"
+        custom:pb_textComplete="Success"
+        custom:pb_textProgress="Loading..."
+        custom:pb_textError="Error"
+        custom:pb_colorError="@color/red_error"/>
+
+    <com.dd.processbutton.iml.ActionProcessButton
+        android:id="@+id/signup"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:text="@string/SignupBtn"
+        android:layout_alignTop="@+id/login"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/progressBar"
+        android:layout_toRightOf="@+id/progressBar"
+        custom:pb_colorComplete="@color/green_complete"
+        custom:pb_colorNormal="@color/blue_normal"
+        custom:pb_colorPressed="@color/blue_pressed"
+        custom:pb_colorProgress="@color/purple_progress"
+        custom:pb_textComplete="Success"
+        custom:pb_textProgress="Loading"
+        custom:pb_textError="Error"
+        custom:pb_colorError="@color/red_error"/>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+</RelativeLayout>

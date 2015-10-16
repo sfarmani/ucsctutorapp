@@ -2,48 +2,41 @@ package com.example.sfarmani.ucsctutor;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.parse.ParseAnalytics;
-import com.parse.ParseObject;
-import com.sinch.android.rtc.AudioController;
-import com.sinch.android.rtc.MissingGCMException;
-import com.sinch.android.rtc.NotificationResult;
-import com.sinch.android.rtc.Sinch;
-import com.sinch.android.rtc.SinchClient;
-import com.sinch.android.rtc.SinchClientListener;
-import com.sinch.android.rtc.calling.CallClient;
-import com.sinch.android.rtc.messaging.MessageClient;
+import com.parse.ParseAnonymousUtils;
+import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+        // Determine whether the current user is an anonymous user
+        if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
+            // If user is anonymous, send the user to LoginSignupActivity.class
+            Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            // If current user is NOT anonymous user
+            // Get current user data from Parse.com
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            if (currentUser != null) {
+                // Send logged in users to Welcome.class
+                Intent intent = new Intent(MainActivity.this, Welcome.class);
+                startActivity(intent);
+                finish();
+            } else {
+                // Send user to LoginSignupActivity.class
+                Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);
+                startActivity(intent);
+                finish();
             }
-        });
-
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
-
-        ParseAnalytics.trackAppOpenedInBackground(getIntent());
+        }
     }
 
     @Override
