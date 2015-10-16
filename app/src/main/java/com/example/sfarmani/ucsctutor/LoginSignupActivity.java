@@ -37,10 +37,13 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
         username = (EditText)findViewById(R.id.username);
         password = (EditText)findViewById(R.id.password);
 
+        //declare a progress generator for the login button
         final ProgressGenerator progressGenerator = new ProgressGenerator(this);
+
         final ActionProcessButton btnSignIn = (ActionProcessButton) findViewById(R.id.login);
         final FlatButton tutorSignup = (FlatButton)findViewById(R.id.signuptutor);
         final FlatButton studentSignup = (FlatButton)findViewById(R.id.signupstudent);
+
         Bundle extras = getIntent().getExtras();
 
         if(extras != null && extras.getBoolean(EXTRAS_ENDLESS_MODE)) {
@@ -49,20 +52,25 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
         else {
             btnSignIn.setMode(ActionProcessButton.Mode.PROGRESS);
         }
+        // if login button is pressed do the following...
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                // get the username and password that is typed in fields
                 usernametxt = username.getText().toString();
                 passwordtxt = password.getText().toString();
+                // compare the username and password to parse's database
                 ParseUser.logInInBackground(usernametxt, passwordtxt, new LogInCallback() {
                     public void done(ParseUser user, ParseException e) {
+                        // if user exists then show the progress bar on the button and disable the button along with the fields
                         if (user != null) {
                             progressGenerator.start(btnSignIn);
                             btnSignIn.setEnabled(false);
                             username.setEnabled(false);
                             password.setEnabled(false);
 
+                            // pause changing the screen for 6 seconds so that the progress animation can be shown
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
@@ -70,22 +78,38 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
                                     // If user exist and authenticated, send user to Welcome.class
                                     Intent intent = new Intent(LoginSignupActivity.this, Welcome.class);
                                     startActivity(intent);
-                                    Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
-                                    finish();
                                 }
                             }, 6000);
-                        } else {
+                        }
+                        // if no such user exists
+                        else {
+                            // set the username and field back to blank, make the login button say error, and display a Toast
                             username.setText("");
                             password.setText("");
                             btnSignIn.setProgress(-1);
-                            Toast.makeText(getApplicationContext(), "No such user exists, please signup", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Incorrect Username or Password.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
             }
         });
 
+        // when sign up as tutor is pressed, go to the tutor sign up activity.
+        tutorSignup.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent tutorIntent = new Intent(LoginSignupActivity.this, TutorSignUp.class);
+                startActivity(tutorIntent);
+            }
+        });
 
+        // when sign up as student is pressed, go to the student sign up activity
+        studentSignup.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override

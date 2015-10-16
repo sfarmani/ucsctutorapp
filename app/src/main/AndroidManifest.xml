@@ -36,17 +36,32 @@
 
         <activity
             android:name=".LoginSignupActivity"
-            android:label="Login">
+            android:label="Login"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".TutorSignUp"
+            android:label="Tutor Sign Up"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".StudentSignUp"
+            android:label="Student Sign Up"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
             android:name=".Welcome"
-            android:label="Welcome">
+            android:label="Welcome"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
             android:name=".LoginActivity"
-            android:label="UCSC Tutor">
+            android:label="UCSC Tutor"
+            android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
 
