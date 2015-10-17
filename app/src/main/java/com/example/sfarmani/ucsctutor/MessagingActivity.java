@@ -29,7 +29,7 @@ public class MessagingActivity extends BaseActivity implements MessageClientList
     private static final String TAG = MessagingActivity.class.getSimpleName();
 
     private MessageAdapter mMessageAdapter;
-    private EditText mTxtRecipient;
+    private String mTxtRecipient;
     private EditText mTxtTextBody;
     private Button mBtnSend;
 
@@ -38,7 +38,17 @@ public class MessagingActivity extends BaseActivity implements MessageClientList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messaging);
 
-        mTxtRecipient = (EditText) findViewById(R.id.txtRecipient);
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                mTxtRecipient= null;
+            } else {
+                mTxtRecipient= extras.getString("tutorName");
+            }
+        } else {
+            mTxtRecipient = (String) savedInstanceState.getSerializable("tutorName");
+        }
+
         mTxtTextBody = (EditText) findViewById(R.id.txtTextBody);
 
         mMessageAdapter = new MessageAdapter(this);
@@ -75,7 +85,7 @@ public class MessagingActivity extends BaseActivity implements MessageClientList
     }
 
     private void sendMessage() {
-        String recipient = mTxtRecipient.getText().toString();
+        String recipient = mTxtRecipient;
         String textBody = mTxtTextBody.getText().toString();
         if (recipient.isEmpty()) {
             Toast.makeText(this, "No recipient added", Toast.LENGTH_SHORT).show();

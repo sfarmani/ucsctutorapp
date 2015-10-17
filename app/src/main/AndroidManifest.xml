@@ -33,23 +33,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LoginSignupActivity"
-            android:label="Login">
+            android:label="Login" >
         </activity>
-
         <activity
             android:name=".Welcome"
-            android:label="Welcome">
+            android:label="Welcome" >
         </activity>
-
         <activity
             android:name=".LoginActivity"
-            android:label="UCSC Tutor">
-
+            android:label="UCSC Tutor" >
         </activity>
-
         <activity
             android:name=".MessagingActivity"
             android:label="@string/title_activity_chat"
@@ -61,6 +56,12 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".StudentActivity"
+            android:label="@string/title_activity_student"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

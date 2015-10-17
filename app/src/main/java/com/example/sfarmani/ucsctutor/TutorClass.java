@@ -15,6 +15,7 @@ public class TutorClass {
     double ovrRating;
 
     // Not sure how much actually needs to be done in this function
+    // probably needs to take in a View parameter as well for the UI
     public void editDescription(String newDesc){
         tutorDesc = newDesc;
     }

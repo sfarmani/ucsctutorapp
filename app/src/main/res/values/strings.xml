@@ -16,4 +16,5 @@
 
     <string name="LogoutBtn">Log Out</string>
     <string name="Welcome">Welcome</string>
+    <string name="title_activity_student">StudentActivity</string>
 </resources>
