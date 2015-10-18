@@ -7,7 +7,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.sfarmani.ucsctutor.R;
 import com.parse.ParseUser;
 
 /**

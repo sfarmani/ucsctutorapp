@@ -33,32 +33,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LoginSignupActivity"
             android:label="Login" >
         </activity>
-
         <activity
             android:name=".TutorSignUp"
-            android:label="tutor sign up">
+            android:label="tutor sign up" >
         </activity>
-
         <activity
             android:name=".StudentSignUp"
-            android:label="student sign up">
+            android:label="student sign up" >
         </activity>
-
         <activity
             android:name=".Welcome"
             android:label="Welcome" >
         </activity>
-
         <activity
             android:name=".LoginActivity"
             android:label="UCSC Tutor" >
         </activity>
-
         <activity
             android:name=".MessagingActivity"
             android:label="MessagingActivity"
@@ -76,7 +70,6 @@
             android:label="StudentActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-
         <activity
             android:name=".TutorActivity"
             android:label="@string/title_activity_tutor"

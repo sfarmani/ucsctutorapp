@@ -5,26 +5,56 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseUser;
 import com.sinch.android.rtc.SinchError;
 
 public class StudentActivity extends BaseActivity implements SinchService.StartFailedListener {
-    String userName = "TestUser";
-    String tutorName = "TestTutor";
+    // Declare Variable
+    Button logout;
+    ParseUser currentUser;
+    String struser;
+    String msgRecipient = "TestTutor";
 
     private ProgressDialog mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student);
+        setContentView(R.layout.content_student);
 
-        // GET EXTRAS HERE? get username, etc...
+        // Retrieve current user from Parse.com
+        currentUser = ParseUser.getCurrentUser();
+
+        // Convert currentUser into String
+        struser = currentUser.getUsername();
+
+        // Locate TextView in welcome.xml
+        TextView txtUserStudent = (TextView) findViewById(R.id.txtUserStudent);
+
+        // Set the currentUser String into TextView
+        txtUserStudent.setText("You are logged in as " + struser);
+
+        // Locate Button in welcome.xml
+        logout = (Button) findViewById(R.id.studentLogout);
+
+        // Logout Button Click Listener
+        logout.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View arg0) {
+                // Logout current user
+                ParseUser.logOut();
+                finish();
+            }
+        });
+
+        // probably not needed
         final StudentClass currStudent = new StudentClass();
-        currStudent.studentUserName = userName;
+        currStudent.studentUserName = struser;
 
-        final Button btnMsg = (Button) findViewById(R.id.msgbutton);
+        final Button btnMsg = (Button) findViewById(R.id.studentMsgButton);
         btnMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,10 +74,10 @@ public class StudentActivity extends BaseActivity implements SinchService.StartF
 
     private void beginSinchClient() {
         if (!getSinchServiceInterface().isStarted()) {
-            getSinchServiceInterface().startClient(userName);
+            getSinchServiceInterface().startClient(struser);
             showSpinner();
         } else {
-            openMessagingActivity(tutorName);
+            openMessagingActivity(msgRecipient);
         }
     }
 
@@ -65,14 +95,14 @@ public class StudentActivity extends BaseActivity implements SinchService.StartF
 
     private void openMessagingActivity(String recipient) {
         Intent messagingActivity = new Intent(this, MessagingActivity.class);
-        messagingActivity.putExtra("currUserName", userName);
+        messagingActivity.putExtra("currUserName", struser);
         messagingActivity.putExtra("recipient", recipient);
         startActivity(messagingActivity);
     }
 
     @Override
     public void onStarted() {
-        openMessagingActivity(tutorName);
+        openMessagingActivity(msgRecipient);
     }
 
     @Override

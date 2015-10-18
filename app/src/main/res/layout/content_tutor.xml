@@ -10,4 +10,35 @@
     tools:showIn="@layout/activity_tutor"
     tools:context="com.example.sfarmani.ucsctutor.TutorActivity">
 
+    <TextView
+        android:id="@+id/txtTutorWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/Welcome"
+        android:paddingTop="50dp"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/txtUserTutor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtwelcome"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/tutorLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/LogoutBtn"
+        android:layout_below="@+id/tutorMsgButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Message Test Student"
+        android:id="@+id/tutorMsgButton"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

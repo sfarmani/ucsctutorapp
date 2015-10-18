@@ -1,29 +1,122 @@
 package com.example.sfarmani.ucsctutor;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class TutorActivity extends AppCompatActivity {
+import com.parse.ParseUser;
+import com.sinch.android.rtc.SinchError;
+
+public class TutorActivity extends BaseActivity implements SinchService.StartFailedListener {
+    // Declare Variable
+    Button logout;
+    ParseUser currentUser;
+    String struser;
+    String msgRecipient = "TestStudent";
+
+    private ProgressDialog mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tutor);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.content_tutor);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        // Retrieve current user from Parse.com
+        currentUser = ParseUser.getCurrentUser();
+
+        // Convert currentUser into String
+        struser = currentUser.getUsername();
+
+        // Locate TextView in welcome.xml
+        TextView txtUserStudent = (TextView) findViewById(R.id.txtUserTutor);
+
+        // Set the currentUser String into TextView
+        txtUserStudent.setText("You are logged in as " + struser);
+
+        // Locate Button in welcome.xml
+        logout = (Button) findViewById(R.id.tutorLogout);
+
+        // Logout Button Click Listener
+        logout.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View arg0) {
+                // Logout current user
+                ParseUser.logOut();
+                finish();
+            }
+        });
+
+        // probably not needed
+        final TutorClass currTutor = new TutorClass();
+        currTutor.tutorUserName = struser;
+
+        final Button btnMsg = (Button) findViewById(R.id.tutorMsgButton);
+        btnMsg.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                // If tutor exists and is authenticated, send user to chat with tutor
+                // this line of code is causing a nullpointerexception
+                // I think it's not actually starting the SinchClient
+                beginSinchClient();
             }
         });
     }
 
+    @Override
+    protected void onServiceConnected() {
+        getSinchServiceInterface().setStartListener(this);
+    }
+
+
+    private void beginSinchClient() {
+        if (!getSinchServiceInterface().isStarted()) {
+            getSinchServiceInterface().startClient(struser);
+            showSpinner();
+        } else {
+            openMessagingActivity(msgRecipient);
+        }
+    }
+
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        if (mSpinner != null) {
+            mSpinner.dismiss();
+        }
+        super.onPause();
+    }
+
+    private void openMessagingActivity(String recipient) {
+        Intent messagingActivity = new Intent(this, MessagingActivity.class);
+        messagingActivity.putExtra("currUserName", struser);
+        messagingActivity.putExtra("recipient", recipient);
+        startActivity(messagingActivity);
+    }
+
+    @Override
+    public void onStarted() {
+        openMessagingActivity(msgRecipient);
+    }
+
+    @Override
+    public void onStartFailed(SinchError error) {
+        Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+        if (mSpinner != null) {
+            mSpinner.dismiss();
+        }
+    }
+
+    private void showSpinner() {
+        mSpinner = new ProgressDialog(this);
+        mSpinner.setTitle("Receiving message data");
+        mSpinner.setMessage("Please wait...");
+        mSpinner.show();
+    }
 }
