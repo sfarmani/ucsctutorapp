@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.parse.ParseUser;
 
 /**
- * Created by RetardedNinja on 10/14/2015.
+ * Created by Shayan Farmani on 10/14/2015.
  */
 public class Welcome extends Activity {
 

@@ -26,10 +26,16 @@ public class MainActivity extends AppCompatActivity {
             // Get current user data from Parse.com
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
-                // Send logged in users to Welcome.class
-                Intent intent = new Intent(MainActivity.this, Welcome.class);
-                startActivity(intent);
-                finish();
+                if(currentUser.getBoolean("isTutor")){
+                    Intent intent = new Intent(MainActivity.this, TutorActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(!currentUser.getBoolean("isTutor")){
+                    Intent intent = new Intent(MainActivity.this, StudentActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             } else {
                 // Send user to LoginSignupActivity.class
                 Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);

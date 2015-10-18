@@ -16,7 +16,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 /**
- * Created by RetardedNinja on 10/15/2015.
+ * Created by Shayan Farmani on 10/15/2015.
  */
 public class TutorSignUp extends Activity implements ProgressGenerator.OnCompleteListener{
 
