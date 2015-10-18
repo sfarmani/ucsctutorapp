@@ -74,7 +74,6 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
                                         Intent intent = new Intent(LoginSignupActivity.this, TutorActivity.class);
                                         startActivity(intent);
                                         Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
-                                        finish();
                                     }
                                 }, 6000);
                             } else {
@@ -86,7 +85,6 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
                                         Intent intent = new Intent(LoginSignupActivity.this, StudentActivity.class);
                                         startActivity(intent);
                                         Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
-                                        finish();
                                     }
                                 }, 6000);
                             }
@@ -95,6 +93,13 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
                             password.setText("");
                             btnSignIn.setProgress(-1);
                             Toast.makeText(getApplicationContext(), "No such user exists, please signup", Toast.LENGTH_LONG).show();
+                            Handler errorhandler = new Handler();
+                            errorhandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    btnSignIn.setProgress(0);
+                                }
+                            }, 3000);
                         }
                     }
                 });
@@ -114,8 +119,8 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
         studentSignup.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent tutorIntent = new Intent(LoginSignupActivity.this, StudentSignUp.class);
-                startActivity(tutorIntent);
+                Intent studentIntent = new Intent(LoginSignupActivity.this, StudentSignUp.class);
+                startActivity(studentIntent);
             }
         });
     }
