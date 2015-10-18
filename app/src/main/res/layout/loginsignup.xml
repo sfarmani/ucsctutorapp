@@ -12,6 +12,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/Username"
+        android:textSize="8pt"
+        android:textColor="@color/blue_normal"
         android:layout_marginTop="140dp"
         android:layout_below="@+id/progressBar"
         android:layout_alignParentLeft="true"
@@ -28,6 +30,8 @@
         android:id="@+id/txtpassword"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textSize="8pt"
+        android:textColor="@color/blue_normal"
         android:layout_below="@+id/username"
         android:text="@string/Password" />
 
