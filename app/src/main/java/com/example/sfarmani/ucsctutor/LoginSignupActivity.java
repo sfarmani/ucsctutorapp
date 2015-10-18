@@ -63,17 +63,31 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
                             username.setEnabled(false);
                             password.setEnabled(false);
 
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // If user exist and authenticated, send user to Welcome.class
-                                    Intent intent = new Intent(LoginSignupActivity.this, Welcome.class);
-                                    startActivity(intent);
-                                    Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
-                                    finish();
-                                }
-                            }, 6000);
+                            if (user.getBoolean("isTutor")) {
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // If user exist and authenticated, send user to Welcome.class
+                                        Intent intent = new Intent(LoginSignupActivity.this, TutorActivity.class);
+                                        startActivity(intent);
+                                        Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
+                                }, 6000);
+                            } else {
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // If user exist and authenticated, send user to Welcome.class
+                                        Intent intent = new Intent(LoginSignupActivity.this, StudentActivity.class);
+                                        startActivity(intent);
+                                        Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
+                                }, 6000);
+                            }
                         } else {
                             username.setText("");
                             password.setText("");
@@ -84,8 +98,6 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
                 });
             }
         });
-
-
     }
 
     @Override

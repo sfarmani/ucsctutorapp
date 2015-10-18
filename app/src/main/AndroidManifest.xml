@@ -31,6 +31,11 @@
         <activity
             android:name=".LoginSignupActivity"
             android:label="Login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Welcome"
@@ -49,18 +54,18 @@
         <service
             android:name=".SinchService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
         </service>
 
         <activity
             android:name=".StudentActivity"
-            android:label="@string/title_activity_student"
+            android:label="StudentActivity"
             android:theme="@style/AppTheme.NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity
+            android:name=".TutorActivity"
+            android:label="@string/title_activity_tutor"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 

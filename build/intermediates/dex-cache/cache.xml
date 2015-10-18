@@ -23,13 +23,6 @@
         <dex dex="C:\Users\Brad Cardello\Desktop\Computer Science\CMPS-115\UCSC Tutor App\ucsctutorapp\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-028afdf2ce6b0b75317fdbc13ba77cde9b4d0a2f.jar" />
     </item>
     <item
-        jar="C:\Users\Brad Cardello\.gradle\caches\modules-2\files-2.1\com.parse\parse-android\1.10.3\36366e460af2c0f224bb8f70b64e3302f638b138\parse-android-1.10.3.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="36366e460af2c0f224bb8f70b64e3302f638b138">
-        <dex dex="C:\Users\Brad Cardello\Desktop\Computer Science\CMPS-115\UCSC Tutor App\ucsctutorapp\app\build\intermediates\pre-dexed\debug\parse-android-1.10.3-e9a51384222ef518a0921111517761d812fb620e.jar" />
-    </item>
-    <item
         jar="C:\Users\Brad Cardello\Desktop\Computer Science\CMPS-115\UCSC Tutor App\ucsctutorapp\app\build\intermediates\exploded-aar\com.android.support\design\23.0.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
@@ -37,11 +30,11 @@
         <dex dex="C:\Users\Brad Cardello\Desktop\Computer Science\CMPS-115\UCSC Tutor App\ucsctutorapp\app\build\intermediates\pre-dexed\debug\classes-e4c63a6e96f3de6cd38d6dd91ea130fbd49375a2.jar" />
     </item>
     <item
-        jar="C:\Users\Brad Cardello\Desktop\Computer Science\CMPS-115\UCSC Tutor App\ucsctutorapp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jar="C:\Users\Brad Cardello\.gradle\caches\modules-2\files-2.1\com.parse\parse-android\1.10.3\36366e460af2c0f224bb8f70b64e3302f638b138\parse-android-1.10.3.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="C:\Users\Brad Cardello\Desktop\Computer Science\CMPS-115\UCSC Tutor App\ucsctutorapp\app\build\intermediates\pre-dexed\debug\classes-0d17714f25363feacf641f916306ebcfe153db6e.jar" />
+        sha1="36366e460af2c0f224bb8f70b64e3302f638b138">
+        <dex dex="C:\Users\Brad Cardello\Desktop\Computer Science\CMPS-115\UCSC Tutor App\ucsctutorapp\app\build\intermediates\pre-dexed\debug\parse-android-1.10.3-e9a51384222ef518a0921111517761d812fb620e.jar" />
     </item>
     <item
         jar="C:\Users\Brad Cardello\Desktop\Computer Science\CMPS-115\UCSC Tutor App\ucsctutorapp\app\libs\sinch-android-rtc-3.7.1.jar"
@@ -49,6 +42,13 @@
         revision="23.0.1"
         sha1="bf69cf98f8d8eb6c78ec7d0a0bcb016e95f79b5e">
         <dex dex="C:\Users\Brad Cardello\Desktop\Computer Science\CMPS-115\UCSC Tutor App\ucsctutorapp\app\build\intermediates\pre-dexed\debug\sinch-android-rtc-3.7.1-72e9fb0f8d668213fb577764a2dfa3a5cd03e98e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Brad Cardello\Desktop\Computer Science\CMPS-115\UCSC Tutor App\ucsctutorapp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="C:\Users\Brad Cardello\Desktop\Computer Science\CMPS-115\UCSC Tutor App\ucsctutorapp\app\build\intermediates\pre-dexed\debug\classes-0d17714f25363feacf641f916306ebcfe153db6e.jar" />
     </item>
     <item
         jar="C:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
