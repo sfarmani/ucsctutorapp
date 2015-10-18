@@ -13,7 +13,7 @@
 
     <string name="lname">Last Name</string>
     <string name="fname">First Name</string>
-    <string name="gender">Gender</string>
+    <string name="email">Email</string>
 
     <string name="LoginBtn">Login</string>
     <string name="SignupBtnTutor">Sign Up as Tutor</string>

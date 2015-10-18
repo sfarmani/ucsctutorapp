@@ -26,7 +26,9 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
     EditText password;
     EditText username;
 
-
+    @Override
+    public void onComplete() {
+    }
 
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
@@ -107,69 +109,9 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
         studentSignup.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
+                Intent tutorIntent = new Intent(LoginSignupActivity.this, StudentSignUp.class);
+                startActivity(tutorIntent);
             }
         });
     }
-
-    @Override
-    public void onComplete() {
-    }
-
-
-    /*public void Login(View v){
-        final ProgressGenerator progressGenerator = new ProgressGenerator(this);
-        final ActionProcessButton loginbtn = (ActionProcessButton) findViewById(R.id.login);
-        loginbtn.setMode(ActionProcessButton.Mode.PROGRESS);
-
-        // Retrieve the text entered from the EditText
-        usernametxt = username.getText().toString();
-        passwordtxt = password.getText().toString();
-        loginbtn.setProgress(0);
-
-        // Send data to Parse.com for verification
-        ParseUser.logInInBackground(usernametxt, passwordtxt, new LogInCallback() {
-            public void done(ParseUser user, ParseException e) {
-                if (user != null) {
-                    // If user exist and authenticated, send user to Welcome.class
-                    Intent intent = new Intent(LoginSignupActivity.this, Welcome.class);
-                    startActivity(intent);
-                    Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
-                    loginbtn.setProgress(100);
-                    finish();
-                } else {
-                    username.setText("");
-                    password.setText("");
-                    loginbtn.setProgress(-1);
-                    Toast.makeText(getApplicationContext(), "No such user exists, please signup", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-    public void signUp(View v){
-        // Retrieve the text entered from the EditText
-        usernametxt = username.getText().toString();
-        passwordtxt = password.getText().toString();
-
-        // Force user to fill up the form
-        if (usernametxt.equals("") && passwordtxt.equals("")) {
-            Toast.makeText(getApplicationContext(),"Please complete the sign up form",Toast.LENGTH_LONG).show();
-        } else {
-            // Save new user data into Parse.com Data Storage
-            ParseUser user = new ParseUser();
-            user.setUsername(usernametxt);
-            user.setPassword(passwordtxt);
-            user.signUpInBackground(new SignUpCallback() {
-                public void done(ParseException e) {
-                    if (e == null) {
-                        // Show a simple Toast message upon successful registration
-                        Toast.makeText(getApplicationContext(),"Successfully Signed up, please log in.",Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(),"Sign up Error", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-        }
-    }*/
 }
