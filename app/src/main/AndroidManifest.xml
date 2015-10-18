@@ -27,11 +27,6 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".LoginSignupActivity"
@@ -47,20 +42,25 @@
         </activity>
         <activity
             android:name=".MessagingActivity"
-            android:label="@string/title_activity_chat"
+            android:label="MessagingActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
 
         <service
             android:name=".SinchService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
         </service>
 
         <activity
             android:name=".StudentActivity"
             android:label="@string/title_activity_student"
             android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

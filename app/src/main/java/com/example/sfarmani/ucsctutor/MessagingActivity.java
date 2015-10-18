@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class MessagingActivity extends BaseActivity implements MessageClientList
     private static final String TAG = MessagingActivity.class.getSimpleName();
 
     private MessageAdapter mMessageAdapter;
-    private String mTxtRecipient;
+    private String recipient;
     private EditText mTxtTextBody;
     private Button mBtnSend;
 
@@ -41,15 +42,18 @@ public class MessagingActivity extends BaseActivity implements MessageClientList
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
-                mTxtRecipient= null;
+                recipient = null;
             } else {
-                mTxtRecipient= extras.getString("tutorName");
+                recipient = extras.getString("recipient");
             }
         } else {
-            mTxtRecipient = (String) savedInstanceState.getSerializable("tutorName");
+            recipient = (String) savedInstanceState.getSerializable("tutorName");
         }
+        Log.i("The Tutorname is", "tutorName: " + recipient);
 
         mTxtTextBody = (EditText) findViewById(R.id.txtTextBody);
+        TextView tutorName = (TextView) findViewById(R.id.txtRecipient);
+        tutorName.setText(recipient);
 
         mMessageAdapter = new MessageAdapter(this);
         ListView messagesList = (ListView) findViewById(R.id.lstMessages);
@@ -85,7 +89,6 @@ public class MessagingActivity extends BaseActivity implements MessageClientList
     }
 
     private void sendMessage() {
-        String recipient = mTxtRecipient;
         String textBody = mTxtTextBody.getText().toString();
         if (recipient.isEmpty()) {
             Toast.makeText(this, "No recipient added", Toast.LENGTH_SHORT).show();

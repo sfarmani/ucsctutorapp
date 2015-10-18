@@ -92,7 +92,6 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
     public void onComplete() {
     }
 
-
     /*public void Login(View v){
         final ProgressGenerator progressGenerator = new ProgressGenerator(this);
         final ActionProcessButton loginbtn = (ActionProcessButton) findViewById(R.id.login);
