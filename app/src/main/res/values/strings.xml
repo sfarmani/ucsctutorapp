@@ -8,12 +8,14 @@
     <string name="title_activity_chat">ChatActivity</string>
     <string name="title_activity_base">BaseActivity</string>
 
-    <string name="Username">Username</string>
+    <string name="Username">Username (Email)</string>
     <string name="Password">Password</string>
 
     <string name="lname">Last Name</string>
     <string name="fname">First Name</string>
     <string name="email">Email</string>
+    <string name="emailconfirm">Confirm Email</string>
+    <string name="passwordconfirm">Re-type Password</string>
 
     <string name="LoginBtn">Login</string>
     <string name="SignupBtnTutor">Sign Up as Tutor</string>
