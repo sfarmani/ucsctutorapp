@@ -140,7 +140,7 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                     user.setEmail(emailTxt);
 
                     // user.put manually puts any specific field you want to put in parse
-                    user.put("isTutor", true);
+                    user.put("isTutor", false);
                     user.put("FirstName", fNameTxt);
                     user.put("LastName", lNameTxt);
                     // finally signs them up.

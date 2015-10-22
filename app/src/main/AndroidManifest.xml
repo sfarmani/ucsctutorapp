@@ -59,21 +59,13 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
-            android:label="UCSC Tutor"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
-        <activity
             android:name=".MessagingActivity"
             android:label="MessagingActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
 
         <service
-            android:name=".SinchService"
-            android:enabled="true"
-            android:exported="true" >
+            android:name=".SinchService">
         </service>
 
         <activity

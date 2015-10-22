@@ -1,44 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_tutor"
-    tools:context="com.example.sfarmani.ucsctutor.TutorActivity">
-
-    <TextView
-        android:id="@+id/txtTutorWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/Welcome"
-        android:paddingTop="50dp"
-        android:textSize="25sp" />
-
-    <TextView
-        android:id="@+id/txtUserTutor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtwelcome"
-        android:layout_centerHorizontal="true" />
+    tools:context="com.sinch.messagingtutorial.app.ListUsersActivity"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
     <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
         android:id="@+id/tutorLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/LogoutBtn"
-        android:layout_below="@+id/tutorMsgButton"
-        android:layout_centerHorizontal="true" />
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:textSize="24sp"
+        android:padding="15dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Message Test Student"
-        android:id="@+id/tutorMsgButton"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:id="@+id/tutorListView">
+    </ListView>
+</LinearLayout>

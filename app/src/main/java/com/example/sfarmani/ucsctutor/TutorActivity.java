@@ -1,22 +1,38 @@
 package com.example.sfarmani.ucsctutor;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sinch.android.rtc.SinchError;
 
-public class TutorActivity extends BaseActivity implements SinchService.StartFailedListener {
-    // Declare Variable
-    Button logout;
-    ParseUser currentUser;
-    String struser;
-    String msgRecipient = "TestStudent";
+import java.util.ArrayList;
+import java.util.List;
+
+public class TutorActivity extends Activity{
+    private ArrayAdapter<String> namesArrayAdapter;
+    private ArrayList<String> names;
+    private ListView usersListView;
+    private Button logoutButton;
+    private ProgressDialog progressDialog;
+    private BroadcastReceiver receiver = null;
+
+    private String currentUserId;
 
     private ProgressDialog mSpinner;
 
@@ -26,19 +42,19 @@ public class TutorActivity extends BaseActivity implements SinchService.StartFai
         setContentView(R.layout.content_tutor);
 
         // Retrieve current user from Parse.com
-        currentUser = ParseUser.getCurrentUser();
+        ParseUser currentUser = ParseUser.getCurrentUser();
 
         // Convert currentUser into String
-        struser = currentUser.getUsername();
+        currentUserId = currentUser.getUsername();
 
-        // Locate TextView in welcome.xml
-        TextView txtUserStudent = (TextView) findViewById(R.id.txtUserTutor);
+        // Locate TextView in content_tutor.xml
+        //TextView txtUserStudent = (TextView) findViewById(R.id.txtUserTutor);
 
         // Set the currentUser String into TextView
-        txtUserStudent.setText("You are logged in as " + struser);
+        //txtUserStudent.setText("You are logged in as " + currentUserId);
 
-        // Locate Button in welcome.xml
-        logout = (Button) findViewById(R.id.tutorLogout);
+        // Locate Button in content_tutor.xml
+        Button logout = (Button) findViewById(R.id.tutorLogout);
 
         // Logout Button Click Listener
         logout.setOnClickListener(new View.OnClickListener() {
@@ -52,20 +68,21 @@ public class TutorActivity extends BaseActivity implements SinchService.StartFai
 
         // probably not needed
         final TutorClass currTutor = new TutorClass();
-        currTutor.tutorUserName = struser;
+        currTutor.tutorUserName = currentUserId;
 
+        /*
         final Button btnMsg = (Button) findViewById(R.id.tutorMsgButton);
         btnMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // If tutor exists and is authenticated, send user to chat with tutor
-                // this line of code is causing a nullpointerexception
-                // I think it's not actually starting the SinchClient
                 beginSinchClient();
             }
         });
+        */
     }
 
+    /*
     @Override
     protected void onServiceConnected() {
         getSinchServiceInterface().setStartListener(this);
@@ -74,14 +91,16 @@ public class TutorActivity extends BaseActivity implements SinchService.StartFai
 
     private void beginSinchClient() {
         if (!getSinchServiceInterface().isStarted()) {
-            getSinchServiceInterface().startClient(struser);
+            getSinchServiceInterface().startClient(currentUserId);
             showSpinner();
         } else {
             openMessagingActivity(msgRecipient);
         }
     }
+    */
 
     protected void onResume() {
+        setConversationsList();
         super.onResume();
     }
 
@@ -93,16 +112,66 @@ public class TutorActivity extends BaseActivity implements SinchService.StartFai
         super.onPause();
     }
 
-    private void openMessagingActivity(String recipient) {
-        Intent messagingActivity = new Intent(this, MessagingActivity.class);
-        messagingActivity.putExtra("currUserName", struser);
-        messagingActivity.putExtra("recipient", recipient);
-        startActivity(messagingActivity);
+    //display clickable a list of all users
+    private void setConversationsList() {
+        currentUserId = ParseUser.getCurrentUser().getObjectId();
+        names = new ArrayList<String>();
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereNotEqualTo("isTutor", true);
+        query.whereNotEqualTo("objectId", currentUserId);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> userList, com.parse.ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < userList.size(); i++) {
+                        names.add(userList.get(i).getUsername().toString());
+                    }
+
+                    usersListView = (ListView) findViewById(R.id.tutorListView);
+                    namesArrayAdapter =
+                            new ArrayAdapter<String>(getApplicationContext(),
+                                    R.layout.user_list_item, names);
+                    usersListView.setAdapter(namesArrayAdapter);
+
+                    usersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> a, View v, int i, long l) {
+                            openConversation(names, i);
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error loading user list",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
+    //open a conversation with one person
+    public void openConversation(ArrayList<String> names, int pos) {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", names.get(pos));
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> user, com.parse.ParseException e) {
+                if (e == null) {
+                    Intent intent = new Intent(getApplicationContext(), MessagingActivity.class);
+                    intent.putExtra("RECIPIENT_ID", user.get(0).getObjectId());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error finding that user",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    /*
     @Override
     public void onStarted() {
-        openMessagingActivity(msgRecipient);
+        super.onStart();
     }
 
     @Override
@@ -112,11 +181,26 @@ public class TutorActivity extends BaseActivity implements SinchService.StartFai
             mSpinner.dismiss();
         }
     }
+    */
 
+    //show a loading spinner while the sinch client starts
     private void showSpinner() {
-        mSpinner = new ProgressDialog(this);
-        mSpinner.setTitle("Receiving message data");
-        mSpinner.setMessage("Please wait...");
-        mSpinner.show();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Boolean success = intent.getBooleanExtra("success", false);
+                progressDialog.dismiss();
+                if (!success) {
+                    Toast.makeText(getApplicationContext(), "Messaging service failed to start", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("com.sinch.messagingtutorial.app.ListUsersActivity"));
     }
 }

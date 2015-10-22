@@ -1,8 +1,11 @@
 package com.example.sfarmani.ucsctutor;
 
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,11 +18,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent serviceIntent;
+        Log.i("service started", "");
+
         // Determine whether the current user is an anonymous user
         if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
             // If user is anonymous, send the user to LoginSignupActivity.class
             Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);
             startActivity(intent);
+
+            serviceIntent = new Intent(MainActivity.this, SinchService.class);
+            startService(serviceIntent);
+
             finish();
         } else {
             // If current user is NOT anonymous user
@@ -29,18 +39,24 @@ public class MainActivity extends AppCompatActivity {
                 if(currentUser.getBoolean("isTutor")){
                     Intent intent = new Intent(MainActivity.this, TutorActivity.class);
                     startActivity(intent);
-                    finish();
+
+                    finish();serviceIntent = new Intent(MainActivity.this, SinchService.class);
+                    startService(serviceIntent);
                 }
                 else if(!currentUser.getBoolean("isTutor")){
                     Intent intent = new Intent(MainActivity.this, StudentActivity.class);
                     startActivity(intent);
-                    finish();
+
+                    finish();serviceIntent = new Intent(MainActivity.this, SinchService.class);
+                    startService(serviceIntent);
                 }
             } else {
                 // Send user to LoginSignupActivity.class
                 Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);
                 startActivity(intent);
-                finish();
+
+                finish();serviceIntent = new Intent(MainActivity.this, SinchService.class);
+                startService(serviceIntent);
             }
         }
     }
