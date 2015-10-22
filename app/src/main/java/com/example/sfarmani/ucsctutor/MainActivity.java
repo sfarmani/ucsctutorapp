@@ -55,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);
                 startActivity(intent);
 
-                finish();serviceIntent = new Intent(MainActivity.this, SinchService.class);
+                serviceIntent = new Intent(MainActivity.this, SinchService.class);
                 startService(serviceIntent);
+
+                finish();
             }
         }
     }

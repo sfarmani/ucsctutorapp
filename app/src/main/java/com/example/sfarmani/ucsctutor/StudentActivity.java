@@ -58,6 +58,9 @@ public class StudentActivity extends Activity {
         // Locate Button in welcome.xml
         logout = (Button) findViewById(R.id.studentLogout);
 
+        Intent serviceIntent = new Intent(StudentActivity.this, SinchService.class);
+        startService(serviceIntent);
+        
         // Logout Button Click Listener
         logout.setOnClickListener(new View.OnClickListener() {
 
