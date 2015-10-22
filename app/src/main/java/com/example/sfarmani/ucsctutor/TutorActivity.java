@@ -40,6 +40,7 @@ public class TutorActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_tutor);
+        showSpinner();
 
         // Retrieve current user from Parse.com
         ParseUser currentUser = ParseUser.getCurrentUser();
@@ -53,6 +54,8 @@ public class TutorActivity extends Activity{
         // Set the currentUser String into TextView
         //txtUserStudent.setText("You are logged in as " + currentUserId);
 
+        Intent serviceIntent = new Intent(TutorActivity.this, SinchService.class);
+        startService(serviceIntent);
         // Locate Button in content_tutor.xml
         Button logout = (Button) findViewById(R.id.tutorLogout);
 
@@ -118,7 +121,7 @@ public class TutorActivity extends Activity{
         names = new ArrayList<String>();
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereNotEqualTo("isTutor", true);
+        query.whereEqualTo("isTutor", false);
         query.whereNotEqualTo("objectId", currentUserId);
         query.findInBackground(new FindCallback<ParseUser>() {
             public void done(List<ParseUser> userList, com.parse.ParseException e) {

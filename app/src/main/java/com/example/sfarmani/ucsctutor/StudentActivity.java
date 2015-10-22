@@ -41,7 +41,7 @@ public class StudentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_student);
-        showSpinner();
+
 
         // Retrieve current user from Parse.com
         currentUser = ParseUser.getCurrentUser();
@@ -60,7 +60,7 @@ public class StudentActivity extends Activity {
 
         Intent serviceIntent = new Intent(StudentActivity.this, SinchService.class);
         startService(serviceIntent);
-        
+
         // Logout Button Click Listener
         logout.setOnClickListener(new View.OnClickListener() {
 
