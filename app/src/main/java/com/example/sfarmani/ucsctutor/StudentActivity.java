@@ -41,7 +41,7 @@ public class StudentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_student);
-
+        showSpinner();
 
         // Retrieve current user from Parse.com
         currentUser = ParseUser.getCurrentUser();
@@ -49,18 +49,14 @@ public class StudentActivity extends Activity {
         // Convert currentUser into String
         currentUserId = currentUser.getUsername();
 
-        // Locate TextView in welcome.xml
-        //TextView txtUserStudent = (TextView) findViewById(R.id.txtUserStudent);
-
-        // Set the currentUser String into TextView
-        //txtUserStudent.setText("You are logged in as " + currentUserId);
-
-        // Locate Button in welcome.xml
-        logout = (Button) findViewById(R.id.studentLogout);
+        // probably not needed
+        final StudentClass currStudent = new StudentClass();
+        currStudent.studentUserName = currentUserId;
 
         Intent serviceIntent = new Intent(StudentActivity.this, SinchService.class);
         startService(serviceIntent);
 
+        logout = (Button) findViewById(R.id.studentLogout);
         // Logout Button Click Listener
         logout.setOnClickListener(new View.OnClickListener() {
 
@@ -72,40 +68,7 @@ public class StudentActivity extends Activity {
                 finish();
             }
         });
-
-        // probably not needed
-        final StudentClass currStudent = new StudentClass();
-        currStudent.studentUserName = currentUserId;
-
-        /*
-        final Button btnMsg = (Button) findViewById(R.id.studentMsgButton);
-        btnMsg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // If tutor exists and is authenticated, send user to chat with tutor
-                beginSinchClient();
-            }
-        });
-        */
     }
-
-    /*@Override
-    protected void onServiceConnected() {
-        getSinchServiceInterface().setStartListener(this);
-    }
-    */
-
-
-    /*
-    private void beginSinchClient() {
-        if (!getSinchServiceInterface().isStarted()) {
-            getSinchServiceInterface().startClient(currentUserId);
-            showSpinner();
-        } else {
-            openMessagingActivity(msgRecipient);
-        }
-    }
-    */
 
     @Override
     public void onResume() {
@@ -119,6 +82,11 @@ public class StudentActivity extends Activity {
             progressDialog.dismiss();
         }
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     //display clickable a list of all users
@@ -177,33 +145,6 @@ public class StudentActivity extends Activity {
             }
         });
     }
-
-
-    /*
-    private void openMessagingActivity(String recipient) {
-        Intent messagingActivity = new Intent(this, MessagingActivity.class);
-        messagingActivity.putExtra("currUserName", currentUserId);
-        messagingActivity.putExtra("recipient", recipient);
-        startActivity(messagingActivity);
-    }
-    */
-
-    /*
-    @Override
-    public void onStarted() {
-        openMessagingActivity(msgRecipient);
-    }
-    */
-
-    /*
-    @Override
-    public void onStartFailed(SinchError error) {
-        Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
-    */
 
     //show a loading spinner while the sinch client starts
     private void showSpinner() {
