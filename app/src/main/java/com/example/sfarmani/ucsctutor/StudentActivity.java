@@ -164,6 +164,6 @@ public class StudentActivity extends Activity {
             }
         };
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("com.sinch.messagingtutorial.app.ListUsersActivity"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("com.example.sfarmani.ucsctutor.app.StudentActivity"));
     }
 }
