@@ -74,7 +74,7 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
                                     @Override
                                     public void run() {
                                         // If user exist and authenticated, send user to Welcome.class
-                                        Intent intent = new Intent(LoginSignupActivity.this, TutorActivity.class);
+                                        Intent intent = new Intent(LoginSignupActivity.this, ListStudentsActivity.class);
                                         startActivity(intent);
                                         Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
                                     }
@@ -85,7 +85,7 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
                                     @Override
                                     public void run() {
                                         // If user exist and authenticated, send user to Welcome.class
-                                        Intent intent = new Intent(LoginSignupActivity.this, StudentActivity.class);
+                                        Intent intent = new Intent(LoginSignupActivity.this, ListTutorsActivity.class);
                                         startActivity(intent);
                                         Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
                                     }
