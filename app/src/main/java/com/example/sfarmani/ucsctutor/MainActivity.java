@@ -1,7 +1,5 @@
 package com.example.sfarmani.ucsctutor;
 
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,14 +35,14 @@ public class MainActivity extends AppCompatActivity {
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
                 if(currentUser.getBoolean("isTutor")){
-                    Intent intent = new Intent(MainActivity.this, TutorActivity.class);
+                    Intent intent = new Intent(MainActivity.this, ListStudentsActivity.class);
                     startActivity(intent);
 
                     finish();serviceIntent = new Intent(MainActivity.this, SinchService.class);
                     startService(serviceIntent);
                 }
                 else if(!currentUser.getBoolean("isTutor")){
-                    Intent intent = new Intent(MainActivity.this, StudentActivity.class);
+                    Intent intent = new Intent(MainActivity.this, HomePrototype.class);
                     startActivity(intent);
 
                     finish();serviceIntent = new Intent(MainActivity.this, SinchService.class);

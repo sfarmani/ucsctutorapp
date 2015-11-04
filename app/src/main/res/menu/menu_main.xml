@@ -2,5 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+        android:orderInCategory="2" app:showAsAction="never" />
+    <item android:id="@+id/action_search" android:title="Search"
+        android:orderInCategory="1" app:showAsAction="always"
+        android:icon="@mipmap/ic_search_black_24dp"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
 </menu>
