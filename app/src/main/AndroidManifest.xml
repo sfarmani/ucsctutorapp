@@ -44,6 +44,16 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
+            android:name=".HomeActivity"
+            android:label="HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".ScheduleActivity"
+            android:label="ScheduleActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
             android:name=".MessagingActivity"
             android:label="MessagingActivity"
             android:theme="@style/AppTheme.NoActionBar" >

@@ -35,14 +35,14 @@ public class MainActivity extends AppCompatActivity {
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
                 if(currentUser.getBoolean("isTutor")){
-                    Intent intent = new Intent(MainActivity.this, ListStudentsActivity.class);
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
 
                     finish();serviceIntent = new Intent(MainActivity.this, SinchService.class);
                     startService(serviceIntent);
                 }
                 else if(!currentUser.getBoolean("isTutor")){
-                    Intent intent = new Intent(MainActivity.this, HomePrototype.class);
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
 
                     finish();serviceIntent = new Intent(MainActivity.this, SinchService.class);
