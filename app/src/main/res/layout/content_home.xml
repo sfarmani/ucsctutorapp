@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_edit_profile"
+    tools:context="com.example.sfarmani.ucsctutor.HomeActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Schedule"
+        android:id="@+id/editSchedule"
+        android:layout_weight="1"
+        android:onClick="editSchedule"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignTop="@+id/editCreds"
+        android:layout_alignRight="@+id/editBio"
+        android:layout_alignEnd="@+id/editBio"
+        android:layout_alignLeft="@+id/editBio"
+        android:layout_alignStart="@+id/editBio"
+        android:layout_alignBottom="@+id/editCreds" />
+
+    <TextView
+        android:textSize="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:inputType="textPersonName"
+        android:text="Welcome!"
+        android:ems="10"
+        android:id="@+id/welcome"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Credentials"
+        android:id="@+id/editCreds"
+        android:layout_below="@+id/msgBtn"
+        android:layout_alignLeft="@+id/msgBtn"
+        android:layout_alignStart="@+id/msgBtn"
+        android:layout_toLeftOf="@+id/progressBar3"
+        android:layout_toStartOf="@+id/progressBar3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Bio"
+        android:id="@+id/editBio"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignRight="@+id/welcome"
+        android:layout_alignEnd="@+id/welcome"
+        android:layout_toEndOf="@+id/editCreds"
+        android:layout_toRightOf="@+id/editCreds"
+        android:layout_alignLeft="@+id/progressBar3"
+        android:layout_alignStart="@+id/progressBar3" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="125dp"
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/welcome"
+        android:layout_alignRight="@+id/prevProfBtn"
+        android:layout_alignEnd="@+id/prevProfBtn"
+        android:layout_alignLeft="@+id/prevProfBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_alignStart="@+id/prevProfBtn" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Messages"
+        android:id="@+id/msgBtn"
+        android:layout_alignLeft="@+id/welcome"
+        android:layout_alignStart="@+id/welcome"
+        android:layout_alignBottom="@+id/editBio"
+        android:layout_below="@+id/imageView2"
+        android:layout_toStartOf="@+id/progressBar3"
+        android:layout_toLeftOf="@+id/progressBar3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+        android:id="@+id/logout"
+        android:onClick="logout"
+        android:layout_marginTop="67dp"
+        android:layout_below="@+id/prevProfBtn"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="Preview Profile"
+        android:id="@+id/prevProfBtn"
+        android:layout_below="@+id/editSchedule"
+        android:layout_centerHorizontal="true" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar3"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+</RelativeLayout>
