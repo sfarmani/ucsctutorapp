@@ -51,6 +51,7 @@ public class MessagingActivity extends Activity {
 
         Intent intent = getIntent();
         recipientId = intent.getStringExtra("RECIPIENT_ID");
+        Log.i("THE RECIPIENT IS", recipientId);
         currentUserId = ParseUser.getCurrentUser().getObjectId();
 
         messagesList = (ListView) findViewById(R.id.listMessages);
@@ -102,6 +103,7 @@ public class MessagingActivity extends Activity {
             return;
         }
 
+        Log.i("THE MESSAGE IS", messageBody);
         sinchService.sendMessage(recipientId, messageBody);
         messageBodyField.setText("");
     }

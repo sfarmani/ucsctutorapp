@@ -33,4 +33,9 @@
 
     <string name="searchable_label">Search</string>
     <string name="searchable_hint">Search Users</string>
+    <string name="title_activity_search_users">Search</string>
+
+    <string name="login_error_message">Please make sure enter you username and password!</string>
+    <string name="login_error_title">Opss!</string>
+    <string name="error_title">We\'re sorry :(</string>
 </resources>

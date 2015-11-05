@@ -23,6 +23,8 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+// DON'T REALLY NEED THIS, WILL DELETE BEFORE RELEASE
+// SOME CODE RELIES ON IT, SO NO DELETION YET
 public class ListTutorsActivity extends Activity {
     // Declare Variable
     Button logout;

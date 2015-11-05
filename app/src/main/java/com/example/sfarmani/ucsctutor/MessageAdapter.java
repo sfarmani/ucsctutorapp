@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.sinch.android.rtc.messaging.WritableMessage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MessageAdapter extends BaseAdapter {
@@ -77,6 +79,13 @@ public class MessageAdapter extends BaseAdapter {
         TextView txtMessage = (TextView) convertView.findViewById(R.id.txtMessage);
         txtMessage.setText(message.getTextBody());
 
+        /* SHOWING UP FOR EACH MESSAGE WITH THE SAME DATE
+        // Display time message was sent in AM/PM format
+        TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
+        Calendar now = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("hh:mm aa");
+        txtDate.setText(df.format(now.getTime()));
+        */
         return convertView;
     }
 }

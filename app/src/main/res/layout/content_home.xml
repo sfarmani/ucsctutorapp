@@ -13,6 +13,14 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Search"
+        android:id="@+id/search_button"
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Edit Schedule"
         android:id="@+id/editSchedule"
         android:layout_weight="1"
@@ -26,10 +34,9 @@
         android:layout_alignBottom="@+id/editCreds" />
 
     <TextView
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:inputType="textPersonName"
         android:text="Welcome!"
         android:ems="10"
         android:id="@+id/welcome"

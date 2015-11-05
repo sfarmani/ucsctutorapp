@@ -29,8 +29,8 @@ public class SinchService extends Service implements SinchClientListener {
     boolean isTutor = (currentUser.getBoolean("isTutor"));
     private String currentUserId;
     private LocalBroadcastManager broadcaster;
-    private Intent broadcastIntentTutor = new Intent("com.example.sfarmani.ucsctutor.TutorActivity");
-    private Intent broadcastIntentStudent = new Intent("com.example.sfarmani.ucsctutor.StudentActivity");
+    private Intent broadcastIntentTutor = new Intent("com.example.sfarmani.ucsctutor.ListStudentsActivity");
+    private Intent broadcastIntentStudent = new Intent("com.example.sfarmani.ucsctutor.ListTutorsActivity");
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {

@@ -12,14 +12,15 @@
                 android:id="@+id/txtSender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:text="Sender Ipsum"
+            android:text="   You"
                 android:textSize="16sp"
                 android:singleLine="true"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
+            android:paddingLeft="10dp"
                 android:paddingBottom="6dp"
-                android:textColor="@android:color/black" android:textStyle="bold"/>
+                android:textColor="@android:color/black" android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
                 android:id="@+id/txtDate"

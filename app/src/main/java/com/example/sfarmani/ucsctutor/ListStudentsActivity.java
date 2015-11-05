@@ -22,6 +22,9 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+
+// DON'T REALLY NEED THIS, WILL DELETE BEFORE RELEASE
+// SOME CODE RELIES ON IT, SO NO DELETION YET
 public class ListStudentsActivity extends Activity{
     private ArrayAdapter<String> namesArrayAdapter;
     private ArrayList<String> names;
