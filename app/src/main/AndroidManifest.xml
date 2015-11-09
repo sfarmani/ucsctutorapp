@@ -5,6 +5,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!-- Might not need these, using them for Sinch SDK -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -20,46 +31,82 @@
             android:value="@string/parse_client_key" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".LoginSignupActivity"
-            android:label="Login" >
+            android:label="Login"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
+
         <activity
             android:name=".TutorSignUp"
             android:label="tutor sign up"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
+
         <activity
             android:name=".StudentSignUp"
             android:label="student sign up"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
+
         <activity
             android:name=".FragmentPagerSupport"
             android:label="Fragment Pager Support"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
         </activity>
+
+        <activity
+            android:name=".HomeFragment"
+            android:label="Fragment Pager Support"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <activity
             android:name=".ScheduleActivity"
             android:label="Set Schedule"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <service
+        
+        <service 
             android:name=".SinchService" >
         </service>
 
         <activity
+            android:name=".TutorSignUpCont"
+            android:label="UCSC Tutor"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:name=".MessagingActivity"
             android:label="Messaging"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
         </activity>
+
         <activity
             android:name=".Search"
             android:label="@string/title_activity_search_users"

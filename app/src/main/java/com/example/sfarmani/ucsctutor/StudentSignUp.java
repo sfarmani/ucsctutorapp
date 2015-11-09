@@ -1,11 +1,15 @@
 package com.example.sfarmani.ucsctutor;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,16 +31,33 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
     String fNameTxt;
     String lNameTxt;
     String emailTxt;
-    String emailTxtconfirm;
+    String usernametxt;
+    EditText username;
     EditText password;
     EditText passwordconfirm;
     EditText email;
-    EditText emailconfirm;
     EditText fName;
     EditText lName;
 
     @Override
     public void onComplete() {
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 
     // maniupulate how the data is sent into parse for tutor.
@@ -46,9 +67,9 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
 
         // get the edit text fields for each requirement
         password = (EditText)findViewById(R.id.studentpasswordtextfield);
+        username = (EditText)findViewById(R.id.studentusernamefield);
         passwordconfirm = (EditText)findViewById(R.id.studentpasswordconfirmfield);
         email = (EditText)findViewById(R.id.studentemailfield);
-        emailconfirm = (EditText)findViewById(R.id.studentemailconfirmfield);
         fName = (EditText)findViewById(R.id.studentfnamefield);
         lName = (EditText)findViewById(R.id.studentlnamefield);
 
@@ -74,12 +95,12 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                 passwordtxt = password.getText().toString();
                 passwordtxtconfirm = passwordconfirm.getText().toString();
                 emailTxt = email.getText().toString();
-                emailTxtconfirm = emailconfirm.getText().toString();
+                usernametxt = username.getText().toString();
                 fNameTxt = fName.getText().toString();
                 lNameTxt = lName.getText().toString();
 
                 // if any of the fields are left empty then show them a Toast saying they need to finish
-                if(passwordtxt.equals("") || passwordtxtconfirm.equals("") || emailTxt.equals("") || emailTxtconfirm.equals("")||
+                if(usernametxt.equals("") || passwordtxt.equals("") || passwordtxtconfirm.equals("") || emailTxt.equals("") ||
                         fNameTxt.equals("") || lNameTxt.equals("")){
                     submit.setProgress(-1);
                     Toast.makeText(getApplicationContext(), "Please complete the sign up form", Toast.LENGTH_LONG).show();
@@ -91,13 +112,10 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                         }
                     }, 3000);
                 }
-                else if(!(emailTxtconfirm.equals(emailTxt)) && !(passwordtxtconfirm.equals(passwordtxt))){
+                else if(!usernametxt.matches("[a-zA-Z]+")){
                     submit.setProgress(-1);
-                    email.setText("");
-                    emailconfirm.setText("");
-                    password.setText("");
-                    passwordconfirm.setText("");
-                    Toast.makeText(getApplicationContext(), "Emails and Passwords do not match", Toast.LENGTH_LONG).show();
+                    username.setText("");
+                    Toast.makeText(getApplicationContext(), "Username cannot include any non-word\ncharacter. Only letters, numbers, underscores", Toast.LENGTH_LONG).show();
                     Handler errorhandler = new Handler();
                     errorhandler.postDelayed(new Runnable() {
                         @Override
@@ -106,19 +124,7 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                         }
                     }, 3000);
                 }
-                else if(!emailTxtconfirm.equals(emailTxt)){
-                    submit.setProgress(-1);
-                    email.setText("");
-                    emailconfirm.setText("");
-                    Toast.makeText(getApplicationContext(), "Emails do not match", Toast.LENGTH_LONG).show();
-                    Handler errorhandler = new Handler();
-                    errorhandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            submit.setProgress(0);
-                        }
-                    }, 3000);
-                }
+                // if password and confirm password is not the same send an error message
                 else if(!passwordtxtconfirm.equals(passwordtxt)){
                     submit.setProgress(-1);
                     password.setText("");
@@ -132,10 +138,36 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                         }
                     }, 3000);
                 }
+                // if email is not a ucsc email send an error message
+                else if(!emailTxt.matches("[a-zA-Z]+@ucsc.edu")){
+                    submit.setProgress(-1);
+                    email.setText("");
+                    Toast.makeText(getApplicationContext(), "Please sign up with your UCSC email", Toast.LENGTH_LONG).show();
+                    Handler errorhandler = new Handler();
+                    errorhandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            submit.setProgress(0);
+                        }
+                    }, 3000);
+                }
+                else if(passwordtxt.length() < 4){
+                    submit.setProgress(-1);
+                    password.setText("");
+                    passwordconfirm.setText("");
+                    Toast.makeText(getApplicationContext(), "Password has to be 4 or more characters.", Toast.LENGTH_LONG).show();
+                    Handler errorhandler = new Handler();
+                    errorhandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            submit.setProgress(0);
+                        }
+                    }, 3000);
+                }
                 else{
                     // start adding the fields to parse
                     ParseUser user = new ParseUser();
-                    user.setUsername(emailTxt);
+                    user.setUsername(usernametxt);
                     user.setPassword(passwordtxt);
                     user.setEmail(emailTxt);
 
@@ -161,7 +193,7 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                 }, 3000);
                                 // if a user exists wipe the username and password field and give them an error message.
                                 if (e.getCode() == 202) {
-                                    Toast.makeText(StudentSignUp.this,"Email already in use \nPlease use a different Email",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(StudentSignUp.this,"Username already in use\nUsername use a different Email",Toast.LENGTH_LONG).show();
                                     password.setText("");
                                 }
                             }
@@ -170,10 +202,10 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                 // start the animation for the submit button and disable the fields and submit button
                                 progressGenerator.start(submit);
                                 submit.setEnabled(false);
+                                username.setEnabled(false);
                                 password.setEnabled(false);
                                 passwordconfirm.setEnabled(false);
                                 email.setEnabled(false);
-                                emailconfirm.setEnabled(false);
                                 fName.setEnabled(false);
                                 lName.setEnabled(false);
                                 // delay the code so that the animation can play out.

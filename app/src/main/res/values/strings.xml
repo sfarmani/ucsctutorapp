@@ -8,13 +8,13 @@
     <string name="title_activity_chat">ChatActivity</string>
     <string name="title_activity_base">BaseActivity</string>
 
-    <string name="Username">Username (Email)</string>
+    <string name="Username">Username</string>
     <string name="Password">Password</string>
 
     <string name="lname">Last Name</string>
     <string name="fname">First Name</string>
-    <string name="email">Email</string>
-    <string name="emailconfirm">Confirm Email</string>
+    <string name="email">Email (UCSC Email)</string>
+    <string name="emailconfirm">Confirm Email (UCSC Email)</string>
     <string name="passwordconfirm">Re-type Password</string>
 
     <string name="LoginBtn">Login</string>
@@ -22,6 +22,7 @@
     <string name="SignupBtnStudent">Sign Up as Student</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
+    <string name="next">Next Page >></string>
 
     <string name="LogoutBtn">Log Out</string>
     <string name="Welcome">Welcome</string>
@@ -39,6 +40,14 @@
     <string name="login_error_title">Opss!</string>
     <string name="error_title">We\'re sorry :(</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile_picture">Profile Picture (optional)</string>
+    <string name="tutorclass">What Class/Subject do you want to tutor?</string>
+    <string name="transcript">Transcript (To see if you qualify)</string>
+    <string name="location">Location (meeting place)</string>
+    <string name="availability">Availability</string>
+
+    <string name="pic">Choose a Picture</string>
+    <string name="upload">Upload</string>
 </resources>

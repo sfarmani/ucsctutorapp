@@ -1,10 +1,14 @@
 package com.example.sfarmani.ucsctutor;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -31,68 +35,89 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
     public void onComplete() {
     }
 
+    // Makes it so that when you tap away from any EditText it loses focus.
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
+
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Get the view from main.xml
         setContentView(R.layout.loginsignup);
-        // Locate EditTexts in main.xml
+
+        // get the edit text fields for each requirement
         username = (EditText)findViewById(R.id.username);
         password = (EditText)findViewById(R.id.password);
 
+        // make a progress generator for the animation of the login button
         final ProgressGenerator progressGenerator = new ProgressGenerator(this);
         final ActionProcessButton btnSignIn = (ActionProcessButton) findViewById(R.id.login);
+
+        // get the views for the two sign up buttons
         final FlatButton tutorSignup = (FlatButton)findViewById(R.id.signuptutor);
         final FlatButton studentSignup = (FlatButton)findViewById(R.id.signupstudent);
         Bundle extras = getIntent().getExtras();
 
+        // not sure what this is for, but its here and it apprently does something.
         if(extras != null && extras.getBoolean(EXTRAS_ENDLESS_MODE)) {
             btnSignIn.setMode(ActionProcessButton.Mode.ENDLESS);
         }
         else {
             btnSignIn.setMode(ActionProcessButton.Mode.PROGRESS);
         }
+
+        // when the login button is pressed do the following...
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            // get the string that was inputted by the user
+            usernametxt = username.getText().toString();
+            passwordtxt = password.getText().toString();
 
-                usernametxt = username.getText().toString();
-                passwordtxt = password.getText().toString();
-                serviceIntent = new Intent(getApplicationContext(), SinchService.class);
+            // prepare to start the service
+            serviceIntent = new Intent(getApplicationContext(), SinchService.class);
 
-                ParseUser.logInInBackground(usernametxt, passwordtxt, new LogInCallback() {
-                    public void done(ParseUser user, ParseException e) {
-                        if (user != null) {
-                            progressGenerator.start(btnSignIn);
-                            btnSignIn.setEnabled(false);
-                            username.setEnabled(false);
-                            password.setEnabled(false);
+            ParseUser.logInInBackground(usernametxt, passwordtxt, new LogInCallback() {
+                public void done(ParseUser user, ParseException e) {
+                // if everything went well
+                    if (user != null) {
+                        // start the animation for the button and disable the buttons and fields
+                        progressGenerator.start(btnSignIn);
+                        btnSignIn.setEnabled(false);
+                        tutorSignup.setEnabled(false);
+                        studentSignup.setEnabled(false);
+                        username.setEnabled(false);
+                        password.setEnabled(false);
 
-                            if (user.getBoolean("isTutor")) {
-                                Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        // If user exist and authenticated, send user to Welcome.class
-                                        Intent intent = new Intent(LoginSignupActivity.this, HomeFragment.class);
-                                        startActivity(intent);
-                                        Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
-                                    }
-                                }, 6000);
-                            } else {
-                                Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        // If user exist and authenticated, send user to Welcome.class
-                                        Intent intent = new Intent(LoginSignupActivity.this, HomeFragment.class);
-                                        startActivity(intent);
-                                        Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
-                                    }
-                                }, 6000);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // If user exist and authenticated, send user to HomeActivity.class
+                                Intent intent = new Intent(LoginSignupActivity.this, FragmentPagerSupport.class);
+                                startActivity(intent);
+                                Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
+                                btnSignIn.setProgress(0);
+                                username.setText("");
+                                password.setText("");
                             }
-                            startService(serviceIntent);
-                        } else {
+                        }, 6000);
+                        startService(serviceIntent);
+                    }
+                    else {
                             username.setText("");
                             password.setText("");
                             btnSignIn.setProgress(-1);

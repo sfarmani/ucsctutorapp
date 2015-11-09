@@ -11,7 +11,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:clickable="false"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true">
 
 
         <TextView
@@ -25,6 +27,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="25"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/studentfnamefield" />
@@ -40,9 +43,26 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="25"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/studentlnamefield" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8pt"
+            android:textColor="@color/blue_normal"
+            android:text="@string/Username"
+            android:id="@+id/studentusername" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="25"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/studentusernamefield" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,24 +75,10 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="25"
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/studentemailfield" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="8pt"
-            android:textColor="@color/blue_normal"
-            android:text="@string/emailconfirm"
-            android:id="@+id/studentemailconfirm" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:id="@+id/studentemailconfirmfield" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,6 +91,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="25"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/studentpasswordtextfield" />
@@ -100,6 +107,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="25"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/studentpasswordconfirmfield" />

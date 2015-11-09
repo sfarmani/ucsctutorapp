@@ -34,20 +34,11 @@ public class MainActivity extends AppCompatActivity {
             // Get current user data from Parse.com
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
-                if(currentUser.getBoolean("isTutor")){
-                    Intent intent = new Intent(MainActivity.this, FragmentPagerSupport.class);
-                    startActivity(intent);
-
-                    finish();serviceIntent = new Intent(MainActivity.this, SinchService.class);
-                    startService(serviceIntent);
-                }
-                else if(!currentUser.getBoolean("isTutor")){
-                    Intent intent = new Intent(MainActivity.this, FragmentPagerSupport.class);
-                    startActivity(intent);
-
-                    finish();serviceIntent = new Intent(MainActivity.this, SinchService.class);
-                    startService(serviceIntent);
-                }
+                Intent intent = new Intent(MainActivity.this, FragmentPagerSupport.class);
+                startActivity(intent);
+                finish();
+                serviceIntent = new Intent(MainActivity.this, SinchService.class);
+                startService(serviceIntent);
             } else {
                 // Send user to LoginSignupActivity.class
                 Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);
