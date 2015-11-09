@@ -12,7 +12,7 @@
                 android:id="@+id/txtSender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-            android:text="   You"
+            android:text=""
                 android:textSize="16sp"
                 android:singleLine="true"
             android:paddingLeft="10dp"

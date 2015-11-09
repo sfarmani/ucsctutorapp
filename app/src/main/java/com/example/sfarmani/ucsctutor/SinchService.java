@@ -26,11 +26,9 @@ public class SinchService extends Service implements SinchClientListener {
     private SinchClient sinchClient = null;
     private MessageClient messageClient = null;
     ParseUser currentUser = ParseUser.getCurrentUser();
-    boolean isTutor = (currentUser.getBoolean("isTutor"));
     private String currentUserId;
     private LocalBroadcastManager broadcaster;
-    private Intent broadcastIntentTutor = new Intent("com.example.sfarmani.ucsctutor.ListStudentsActivity");
-    private Intent broadcastIntentStudent = new Intent("com.example.sfarmani.ucsctutor.ListTutorsActivity");
+    private Intent broadcastIntent = new Intent("com.example.sfarmani.ucsctutor.ListUsersFragment");
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -69,14 +67,8 @@ public class SinchService extends Service implements SinchClientListener {
     @Override
     public void onClientFailed(SinchClient client, SinchError error) {
         Log.i("onClientFailed", "");
-        if (isTutor){
-            broadcastIntentTutor.putExtra("success", false);
-            broadcaster.sendBroadcast(broadcastIntentTutor);
-        }
-        else{
-            broadcastIntentStudent.putExtra("success", false);
-            broadcaster.sendBroadcast(broadcastIntentStudent);
-        }
+        broadcastIntent.putExtra("success", false);
+        broadcaster.sendBroadcast(broadcastIntent);
 
 
         sinchClient = null;
@@ -85,14 +77,8 @@ public class SinchService extends Service implements SinchClientListener {
     @Override
     public void onClientStarted(SinchClient client) {
         Log.i("onClientStarted", "");
-        if (isTutor){
-            broadcastIntentTutor.putExtra("success", true);
-            broadcaster.sendBroadcast(broadcastIntentTutor);
-        }
-        else{
-            broadcastIntentTutor.putExtra("success", true);
-            broadcaster.sendBroadcast(broadcastIntentTutor);
-        }
+        broadcastIntent.putExtra("success", true);
+        broadcaster.sendBroadcast(broadcastIntent);
 
         client.startListeningOnActiveConnection();
         messageClient = client.getMessageClient();

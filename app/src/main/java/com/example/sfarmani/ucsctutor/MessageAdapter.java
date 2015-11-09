@@ -82,9 +82,7 @@ public class MessageAdapter extends BaseAdapter {
         /* SHOWING UP FOR EACH MESSAGE WITH THE SAME DATE
         // Display time message was sent in AM/PM format
         TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
-        Calendar now = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("hh:mm aa");
-        txtDate.setText(df.format(now.getTime()));
+        txtDate.setText(mFormatter.format(message.getTimestamp()));
         */
         return convertView;
     }
@@ -99,7 +97,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.sinch.android.rtc.messaging.Message;
+import com.sinch.android.rtc.content_messaging.Message;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -107,7 +105,7 @@ import java.util.List;
 */
 /**
  * Copy of MessageAdapter.java
- * Original file available in sinch-rtc-sample-messaging sample provided in Sinch.com's SDK
+ * Original file available in sinch-rtc-sample-content_messaging sample provided in Sinch.com's SDK
  *
  * FILE DESCRIPTION:
  *

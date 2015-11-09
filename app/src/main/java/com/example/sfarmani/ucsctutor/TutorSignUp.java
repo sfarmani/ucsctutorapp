@@ -183,7 +183,7 @@ public class TutorSignUp extends Activity implements ProgressGenerator.OnComplet
                                     public void run() {
                                         // give a message saying it succeeded and change the screen to the welcome page.
                                         Toast.makeText(TutorSignUp.this, "User Saved",Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(TutorSignUp.this, ListStudentsActivity.class);
+                                        Intent intent = new Intent(TutorSignUp.this, FragmentPagerSupport.class);
                                         startActivity(intent);
                                         finish();
                                     }

@@ -22,10 +22,11 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:design:23.0.1'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:design:23.1.0'
     compile 'com.parse:parse-android:1.10.3'
     compile files('libs/sinch-android-rtc-3.7.1.jar')
+    compile files('libs/json-simple-1.1.1.jar')
 
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
 }

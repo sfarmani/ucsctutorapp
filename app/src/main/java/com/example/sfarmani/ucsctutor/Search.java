@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;

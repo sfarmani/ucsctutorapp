@@ -12,7 +12,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:text="Tutor"
                 android:textSize="16sp"
                 android:singleLine="true"
                 android:layout_alignParentRight="true"
