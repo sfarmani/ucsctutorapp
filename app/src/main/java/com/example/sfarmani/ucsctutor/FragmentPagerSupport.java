@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Brad Cardello on 11/7/2015.
@@ -26,7 +27,8 @@ public class FragmentPagerSupport extends FragmentActivity {
     ViewPager mPager;
 
     // Store variables needed by Venmo
-    public final String app_secret = "KrtYzn2YSDhxGvrEj9H3QjkJ4sMatZ5K";
+    public static final String app_secret = "KrtYzn2YSDhxGvrEj9H3QjkJ4sMatZ5K";
+    public static boolean hasVenmo = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,9 @@ public class FragmentPagerSupport extends FragmentActivity {
         mPager.setAdapter(mAdapter);
 
         // Check if Venmo is installed on user's device
-        VenmoLibrary.isVenmoInstalled(getApplicationContext());
+        hasVenmo = VenmoLibrary.isVenmoInstalled(getApplicationContext());
+        if (!hasVenmo)
+            Toast.makeText(getApplicationContext(), "Need Venmo Application to Pay Tutors or Charge Students", Toast.LENGTH_LONG).show();
     }
 
     public static class MyAdapter extends FragmentPagerAdapter {

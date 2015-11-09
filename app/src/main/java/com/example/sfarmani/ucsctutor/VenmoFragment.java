@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,11 +41,11 @@ public class VenmoFragment extends Fragment {
     String appId = "3120";
     String appName = "UCSC Tutor";
     // NEED TO CHANGE THIS, IT'S ONLY FOR TESTING
-    String recipient = "sfarmani";
-    String amount = "0.00";
-    String note = "This is a note";
+    String recipient = "";
+    String amount = "";
+    String note = "";
     // NEED TO CHANGE THIS, IT'S JUST SO I DON'T ACCIDENTALLY PAY SOMEONE
-    String txn = "charge";
+    String txn = "";
 
     // Inflate the view for the fragment based on layout XML
     @Nullable
@@ -65,8 +66,18 @@ public class VenmoFragment extends Fragment {
         venmoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
-                startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
+                // if the user has Venmo installed, open the VenmoWebView
+                // if the user does NOT have it installed, send them to Google Play store
+                if (FragmentPagerSupport.hasVenmo){
+                    Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
+                    startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
+                }
+                else{
+                    // missing 'https://' will cause crashed
+                    Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.venmo&hl=en");
+                    Intent installVenmoIntent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(installVenmoIntent);
+                }
             }
         });
     }
