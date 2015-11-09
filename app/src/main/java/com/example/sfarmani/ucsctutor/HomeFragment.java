@@ -1,20 +1,18 @@
 package com.example.sfarmani.ucsctutor;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.parse.ParseUser;
 
 public class HomeFragment extends android.support.v4.app.Fragment {
 
+    Button editbiobutton;
     // Store instance variables
     private String title;
     private int page;
@@ -34,7 +32,14 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
         Button editSchedule = (Button) getView().findViewById(R.id.editSchedule);
         Button logout = (Button) getView().findViewById(R.id.logout);
-
+        editbiobutton = (Button) getView().findViewById(R.id.editBio);
+        editbiobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editbioIntent = new Intent(getActivity(), EditBioActivity.class);
+                startActivity(editbioIntent);
+            }
+        });
         search_button = (Button) getView().findViewById(R.id.search_button);
         // when search button is pressed, go to the search activity.
         search_button.setOnClickListener(new View.OnClickListener() {
