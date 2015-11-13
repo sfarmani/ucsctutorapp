@@ -50,6 +50,14 @@
         </activity>
 
         <activity
+            android:name=".EditProfile"
+            android:label="edit profile"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:name=".TutorSignUp"
             android:label="tutor sign up"
             android:theme="@style/AppTheme.NoActionBar"

@@ -10,112 +10,130 @@
     tools:showIn="@layout/activity_home"
     tools:context="com.example.sfarmani.ucsctutor.HomeFragment">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        android:id="@+id/search_button"
-        android:layout_alignBottom="@+id/imageView2"
-        android:layout_centerHorizontal="true" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <com.parse.ParseImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/userprofilepic"
+                android:src="@drawable/temppic"
+                android:visibility="visible"
+                android:layout_below="@+id/home"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit Schedule"
-        android:id="@+id/editSchedule"
-        android:layout_weight="1"
-        android:onClick="editSchedule"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignTop="@+id/editCreds"
-        android:layout_alignRight="@+id/editBio"
-        android:layout_alignEnd="@+id/editBio"
-        android:layout_alignLeft="@+id/editBio"
-        android:layout_alignStart="@+id/editBio"
-        android:layout_alignBottom="@+id/editCreds" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="First Last"
+                android:textSize="12pt"
+                android:textColor="#1f6099"
+                android:id="@+id/fnamelname"
+                android:visibility="visible"
+                android:layout_below="@+id/home"
+                android:layout_toRightOf="@+id/userprofilepic"
+                android:layout_toEndOf="@+id/userprofilepic" />
 
-    <TextView
-        android:textSize="25sp"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="Home"
-        android:ems="10"
-        android:id="@+id/home"
-        android:textAlignment="center"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Username"
+                android:textSize="8pt"
+                android:textColor="@color/blue_normal"
+                android:id="@+id/profileusername"
+                android:layout_below="@+id/fnamelname"
+                android:layout_toRightOf="@+id/userprofilepic"
+                android:layout_toEndOf="@+id/userprofilepic"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:visibility="visible" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit Credentials"
-        android:id="@+id/editCreds"
-        android:layout_below="@+id/msgBtn"
-        android:layout_alignLeft="@+id/msgBtn"
-        android:layout_alignStart="@+id/msgBtn"
-        android:layout_toLeftOf="@+id/progressBar3"
-        android:layout_toStartOf="@+id/progressBar3" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:id="@+id/biolabel"
+                android:textSize="11pt"
+                android:textColor="#1f6099"
+                android:layout_below="@+id/userprofilepic"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="28dp"
+                android:visibility="visible" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit Bio"
-        android:id="@+id/editBio"
-        android:layout_below="@+id/imageView2"
-        android:layout_alignRight="@+id/welcome"
-        android:layout_alignEnd="@+id/welcome"
-        android:layout_toEndOf="@+id/editCreds"
-        android:layout_toRightOf="@+id/editCreds"
-        android:layout_alignLeft="@+id/progressBar3"
-        android:layout_alignStart="@+id/progressBar3" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="No Description"
+                android:id="@+id/biofield"
+                android:textSize="7.5pt"
+                android:textColor="@color/blue_normal"
+                android:layout_below="@+id/biolabel"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:visibility="visible" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="125dp"
-        android:id="@+id/imageView2"
-        android:layout_below="@+id/welcome"
-        android:layout_alignRight="@+id/prevProfBtn"
-        android:layout_alignEnd="@+id/prevProfBtn"
-        android:layout_alignLeft="@+id/prevProfBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_alignStart="@+id/prevProfBtn" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Courses"
+                android:textSize="11pt"
+                android:textColor="#1f6099"
+                android:id="@+id/courselabel"
+                android:layout_below="@+id/biofield"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:visibility="visible" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Messages"
-        android:id="@+id/msgBtn"
-        android:layout_alignLeft="@+id/welcome"
-        android:layout_alignStart="@+id/welcome"
-        android:layout_alignBottom="@+id/editBio"
-        android:layout_below="@+id/imageView2"
-        android:layout_toStartOf="@+id/progressBar3"
-        android:layout_toLeftOf="@+id/progressBar3" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="No Courses"
+                android:textSize="7.5pt"
+                android:textColor="@color/blue_normal"
+                android:id="@+id/coursefield"
+                android:layout_below="@+id/courselabel"
+                android:layout_alignLeft="@+id/biofield"
+                android:layout_alignStart="@+id/biofield"
+                android:visibility="visible" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log Out"
-        android:id="@+id/logout"
-        android:onClick="logout"
-        android:layout_marginTop="67dp"
-        android:layout_below="@+id/prevProfBtn"
-        android:layout_centerHorizontal="true" />
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/editbtn"
+                android:visibility="visible"
+                android:background="#fafafa"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/home"
+                android:layout_toEndOf="@+id/home"
+                android:src="@drawable/pen" />
 
-    <Button
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:text="Preview Profile"
-        android:id="@+id/prevProfBtn"
-        android:layout_below="@+id/editSchedule"
-        android:layout_centerHorizontal="true" />
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/logbtn"
+                android:background="#fafafa"
+                android:src="@drawable/logout"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:visibility="visible" />
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar3"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home"
+                android:id="@+id/home"
+                android:textColor="#1f6099"
+                android:textSize="20pt"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

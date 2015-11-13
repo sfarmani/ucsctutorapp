@@ -1,16 +1,18 @@
 package com.example.sfarmani.ucsctutor;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
 import com.parse.ParseUser;
 
 public class HomeFragment extends android.support.v4.app.Fragment {
@@ -18,6 +20,15 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     // Store instance variables
     private String title;
     private int page;
+    ParseUser currUser = ParseUser.getCurrentUser();
+    String fname;
+    String lname;
+    String username;
+    String fullname;
+    String bio;
+    String courses;
+    String label;
+
 
     // Inflate the view for the fragment based on layout XML
     @Nullable
@@ -29,29 +40,63 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //setContentView(R.layout.activity_home);
-        Button search_button;
+        ImageButton logout = (ImageButton) getView().findViewById(R.id.logbtn);
+        final ImageButton edit = (ImageButton) getView().findViewById(R.id.editbtn);
+        ParseImageView userprofilepic = (ParseImageView) getView().findViewById(R.id.userprofilepic);
+        TextView fnamelname = (TextView) getView().findViewById(R.id.fnamelname);
+        TextView profileusername = (TextView) getView().findViewById(R.id.profileusername);
+        TextView biofield = (TextView) getView().findViewById(R.id.biofield);
+        TextView coursefield = (TextView) getView().findViewById(R.id.coursefield);
+        TextView courselabel = (TextView) getView().findViewById(R.id.courselabel);
 
-        Button editSchedule = (Button) getView().findViewById(R.id.editSchedule);
-        Button logout = (Button) getView().findViewById(R.id.logout);
+        if(currUser.getBoolean("isTutor")){
+            courselabel.setText(getString(R.string.tutorcourses));
+        }
+        else{
+            courselabel.setText(getString(R.string.studentcourses));
+        }
+        // Can't set courses to anything really, only because I don't know how they're stored.
+        coursefield.setText(getString(R.string.nocourses));
+        bio = currUser.getString("bio");
+        if(bio == null || bio.equals("")){
+            biofield.setText(getString(R.string.nobio));
+        }
+        else{
+            biofield.setText(bio);
+        }
 
-        search_button = (Button) getView().findViewById(R.id.search_button);
-        // when search button is pressed, go to the search activity.
-        search_button.setOnClickListener(new View.OnClickListener() {
+        username = currUser.get("username").toString();
+        profileusername.setText(username);
+
+        fname = currUser.get("FirstName").toString();
+        lname = currUser.get("LastName").toString();
+        fullname = fname +" "+ lname;
+        fnamelname.setText(fullname);
+
+        ParseFile image = currUser.getParseFile("ProfilePic");
+        if(image != null){
+            userprofilepic.setParseFile(image);
+            userprofilepic.loadInBackground(new GetDataCallback() {
+                public void done(byte[] data, ParseException e) {
+                }
+            });
+        }
+        else{
+            userprofilepic.setImageDrawable(getResources().getDrawable(R.drawable.temppic));
+        }
+
+
+        edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent searchIntent = new Intent(getActivity(), Search.class);
-                startActivity(searchIntent);
+                Intent editIntent = new Intent(getActivity(), EditProfile.class);
+                startActivity(editIntent);
             }
         });
 
-        // Logout Button Click Listener
         logout.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View arg0) {
-                // stop SinchService
-                getActivity().stopService(new Intent(getActivity(), SinchService.class));
-                // Logout current user
+            @Override
+            public void onClick(View v) {
                 ParseUser.logOut();
                 getActivity().finish();
             }
@@ -75,10 +120,4 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         page = getArguments().getInt("someInt", 0);
         title = getArguments().getString("someTitle");
     }
-
-    public void editSchedule(View view) {
-        Intent intent = new Intent(getActivity(), ScheduleActivity.class);
-        startActivity(intent);
-    }
-
 }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout">
+
+            <com.parse.ParseImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/editprofilepic"
+                android:src="@drawable/temppic"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:id="@+id/textView2"
+                android:textSize="11pt"
+                android:textColor="#1f6099"
+                android:layout_below="@+id/editprofilepic"
+                android:layout_centerHorizontal="true" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editbio"
+                android:layout_below="@+id/textView2"
+                android:ems="10"
+                android:layout_centerHorizontal="true"
+                android:visibility="visible" />
+
+            <com.dd.processbutton.iml.ActionProcessButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:id="@+id/saveprofile"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                custom:pb_colorComplete="@color/green_complete"
+                custom:pb_colorNormal="@color/blue_normal"
+                custom:pb_colorPressed="@color/blue_pressed"
+                custom:pb_colorProgress="@color/purple_progress"
+                custom:pb_textComplete="Success"
+                custom:pb_textProgress="Loading..."
+                custom:pb_textError="Error"
+                custom:pb_colorError="@color/red_error"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="231dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
