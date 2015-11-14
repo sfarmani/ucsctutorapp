@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -103,8 +104,11 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
         });
 
         gettxt = currUser.getString("bio");
-        if (gettxt.equals("")) editbiofield.setHint("Enter bio here");
-        editbiofield.setText(gettxt);
+        if (!TextUtils.isEmpty(gettxt)) {
+            editbiofield.setHint("Enter bio here");
+            editbiofield.setText(gettxt);
+        }
+
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override

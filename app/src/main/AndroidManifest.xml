@@ -82,14 +82,6 @@
         </activity>
 
         <activity
-            android:name=".HomeFragment"
-            android:label="Fragment Pager Support"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait" >
-        </activity>
-
-        <activity
             android:name=".ScheduleActivity"
             android:label="Set Schedule"
             android:theme="@style/AppTheme.NoActionBar" >
@@ -114,10 +106,9 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" >
         </activity>
-
         <activity
-            android:name=".Search"
-            android:label="@string/title_activity_search_users"
+            android:name=".VenmoActivity"
+            android:label="Venmo Activity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>
         <activity

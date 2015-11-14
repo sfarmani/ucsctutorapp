@@ -1,17 +1,24 @@
 package com.example.sfarmani.ucsctutor;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,10 +42,11 @@ public class FragmentPagerSupport extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_pager);
 
-        mAdapter = new MyAdapter(getSupportFragmentManager());
+        mAdapter = new MyAdapter(getSupportFragmentManager(), getApplicationContext());
 
         mPager = (ViewPager)findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
+        mPager.setCurrentItem(1);
 
         // Check if Venmo is installed on user's device
         hasVenmo = VenmoLibrary.isVenmoInstalled(getApplicationContext());
@@ -47,8 +55,10 @@ public class FragmentPagerSupport extends FragmentActivity {
     }
 
     public static class MyAdapter extends FragmentPagerAdapter {
-        public MyAdapter(FragmentManager fm) {
+        private Context context;
+        public MyAdapter(FragmentManager fm, Context context) {
             super(fm);
+            this.context = context;
         }
 
         @Override
@@ -61,113 +71,41 @@ public class FragmentPagerSupport extends FragmentActivity {
             Fragment fragment = null;
             switch (position){
                 case 0:
-                    fragment = HomeFragment.newInstance(position, getPageTitle(position).toString());
+                    fragment = SearchFragment.newInstance(position, getPageTitle(position).toString());
                     break;
                 case 1:
-                    fragment = ListUsersFragment.newInstance(position, getPageTitle(position).toString());
+                    fragment = HomeFragment.newInstance(position, getPageTitle(position).toString());
                     break;
                 case 2:
-                    fragment = VenmoFragment.newInstance(position, getPageTitle(position).toString());
+                    fragment = ListUsersFragment.newInstance(position, getPageTitle(position).toString());
                     break;
             }
             return fragment;
         }
 
+        private int[] imageResId = {
+                R.drawable.ic_search_white_24dp_1x,
+                R.drawable.ic_home_white_24dp_1x,
+                R.drawable.ic_message_white_24dp_1x
+        };
+
+        //Allows app to have tabs with icons
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Home";
-                case 1:
-                    return "Messaging";
-                case 2:
-                    return "Payments";
-            }
-            return null;
+            // Generate title based on item position
+            // return tabTitles[position];
+
+            // getDrawable(int i) is deprecated, use getDrawable(int i, Theme theme) for min SDK >=21
+            // or ContextCompat.getDrawable(Context context, int id) if you want support for older versions.
+            // Drawable image = context.getResources().getDrawable(iconIds[position], context.getTheme());
+            // Drawable image = context.getResources().getDrawable(imageResId[position]);
+
+            Drawable image = ContextCompat.getDrawable(context, imageResId[position]);
+            image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+            SpannableString sb = new SpannableString(" ");
+            ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+            sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return sb;
         }
     }
-
-    public static class ArrayListFragment extends ListFragment {
-        int mNum;
-
-        /**
-         * Create a new instance of CountingFragment, providing "num"
-         * as an argument.
-         */
-        static ArrayListFragment newInstance(int num) {
-            ArrayListFragment f = new ArrayListFragment();
-
-            // Supply num input as an argument.
-            Bundle args = new Bundle();
-            args.putInt("num", num);
-            f.setArguments(args);
-
-            return f;
-        }
-
-        /**
-         * When creating, retrieve this instance's number from its arguments.
-         */
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            mNum = getArguments() != null ? getArguments().getInt("num") : 1;
-        }
-
-        /**
-         * The Fragment's UI is just a simple text view showing its
-         * instance number.
-         */
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View v = inflater.inflate(R.layout.fragment_pager_list, container, false);
-            View tv = v.findViewById(R.id.text);
-            ((TextView)tv).setText("Fragment #" + mNum);
-            return v;
-        }
-
-        /*
-        @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-            setListAdapter(new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_1, Cheeses.sCheeseStrings));
-        }
-        */
-
-        @Override
-        public void onListItemClick(ListView l, View v, int position, long id) {
-            Log.i("FragmentList", "Item clicked: " + id);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        switch(requestCode) {
-            case VenmoFragment.REQUEST_CODE_VENMO_APP_SWITCH: {
-                if(resultCode == RESULT_OK) {
-                    String signedrequest = data.getStringExtra("signedrequest");
-                    if(signedrequest != null) {
-                        VenmoLibrary.VenmoResponse response = (new VenmoLibrary()).validateVenmoPaymentResponse(signedrequest, app_secret);
-                        if(response.getSuccess().equals("1")) {
-                            //Payment successful.  Use data from response object to display a success message
-                            String note = response.getNote();
-                            String amount = response.getAmount();
-                        }
-                    }
-                    else {
-                        String error_message = data.getStringExtra("error_message");
-                        //An error ocurred.  Make sure to display the error_message to the user
-                    }
-                }
-                else if(resultCode == RESULT_CANCELED) {
-                    //The user cancelled the payment
-                }
-                break;
-            }
-        }
-    }
-
 }

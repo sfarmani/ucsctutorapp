@@ -1,11 +1,13 @@
 package com.example.sfarmani.ucsctutor;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -40,6 +42,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         ImageButton logout = (ImageButton) getView().findViewById(R.id.logbtn);
         final ImageButton edit = (ImageButton) getView().findViewById(R.id.editbtn);
         ParseImageView userprofilepic = (ParseImageView) getView().findViewById(R.id.userprofilepic);
