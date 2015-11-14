@@ -66,7 +66,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // keeps keyboard from pooping up every time
+        // keeps keyboard from popping up every time
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         mCurrentUser = ParseUser.getCurrentUser();
