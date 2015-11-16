@@ -82,12 +82,14 @@
         </activity>
 
         <activity
-            android:name=".ScheduleActivity"
-            android:label="Set Schedule"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:name=".AvailabilityActivity"
+            android:label="Availability Activity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="landscape" >
         </activity>
-        
-        <service 
+
+        <service
             android:name=".SinchService" >
         </service>
 

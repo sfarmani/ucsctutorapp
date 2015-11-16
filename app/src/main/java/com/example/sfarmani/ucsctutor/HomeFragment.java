@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -45,6 +46,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
         ImageButton logout = (ImageButton) getView().findViewById(R.id.logbtn);
         final ImageButton edit = (ImageButton) getView().findViewById(R.id.editbtn);
+        final Button schedule = (Button) getView().findViewById(R.id.schedule);
         ParseImageView userprofilepic = (ParseImageView) getView().findViewById(R.id.userprofilepic);
         TextView fnamelname = (TextView) getView().findViewById(R.id.fnamelname);
         TextView profileusername = (TextView) getView().findViewById(R.id.profileusername);
@@ -94,6 +96,14 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 Intent editIntent = new Intent(getActivity(), EditProfile.class);
                 startActivity(editIntent);
+            }
+        });
+
+        schedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent schedule = new Intent(getActivity(), AvailabilityActivity.class);
+                startActivity(schedule);
             }
         });
 

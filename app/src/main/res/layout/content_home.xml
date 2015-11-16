@@ -134,6 +134,19 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:text="My Schedule"
+                android:id="@+id/schedule"
+                android:textColor="#1f6099"
+                android:layout_centerVertical="true"
+                android:layout_alignLeft="@+id/home"
+                android:layout_alignStart="@+id/home"
+                android:layout_alignRight="@+id/logbtn"
+                android:layout_alignEnd="@+id/logbtn" />
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
