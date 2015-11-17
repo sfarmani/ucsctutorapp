@@ -25,6 +25,7 @@ import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.sfarmani.ucsctutor.utils.ProgressGenerator;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
@@ -202,6 +203,16 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                                         }
                                         // if user is okay to be made
                                         else {
+
+                                            ParseUser currentUser = ParseUser.getCurrentUser();
+                                            ParseObject ReviewData = new ParseObject("ReviewMetaData");
+                                            ReviewData.put("ownerID", currentUser.getObjectId());
+                                            ReviewData.put("rel_avg", 0.0);
+                                            ReviewData.put("friend_avg", 0.0);
+                                            ReviewData.put("know_avg", 0.0);
+                                            ReviewData.put("review_count", 0);
+                                            ReviewData.saveInBackground();
+
                                             // start the animation for the submit button and disable the fields and submit button
                                             progressGenerator.start(submit);
                                             //delay the code so that the animation can play out.
@@ -239,6 +250,7 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                     // finally signs them up.
                     user.signUpInBackground(new SignUpCallback() {
                         public void done(ParseException e) {
+
                             // if there's an error
                             if (e != null) {
                                 // change the submit button to red and the text to error and give them an error message.
@@ -259,6 +271,15 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                             }
                             // if user is okay to be made
                             else {
+                                ParseUser currentUser = ParseUser.getCurrentUser();
+                                ParseObject ReviewData = new ParseObject("ReviewMetaData");
+                                ReviewData.put("ownerID", currentUser.getObjectId());
+                                ReviewData.put("rel_avg", 0.0);
+                                ReviewData.put("friend_avg", 0.0);
+                                ReviewData.put("know_avg", 0.0);
+                                ReviewData.put("review_count", 0);
+                                ReviewData.saveInBackground();
+
                                 // start the animation for the submit button and disable the fields and submit button
                                 progressGenerator.start(submit);
                                 //delay the code so that the animation can play out.
@@ -276,6 +297,7 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                             }
                         }
                     });
+
                 }
             }
         });

@@ -1,7 +1,14 @@
 package com.example.sfarmani.ucsctutor;
 
 import com.example.sfarmani.ucsctutor.utils.Args;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.List;
 
 /**
  * Created by george on 10/30/15.
@@ -10,12 +17,17 @@ public class Review {
     private String content;
     private String reviewerID;
     private String ownerID;
+    private ParseObject reviewMetaData;
     private int reliability;
     private int friendliness;
     private int knowledge;
+    private boolean isTutorReview = true;
 
     Review(int inRatings, String inContent, String inReviewerID, String inOwnerID){
             Args.checkForContent(inOwnerID, "inOwnerID");
+            Args.checkForContent(inReviewerID, "inReviewerID");
+            verifyTutorStudent(inReviewerID, inOwnerID);
+            getReviewMetaData(inOwnerID);
             ownerID = inOwnerID;
             setRatings(inRatings);
             setReviewContent(inContent, inReviewerID);
@@ -23,10 +35,47 @@ public class Review {
 
     Review(int rel, int friend, int know, String inContent, String inReviewerID, String inOwnerID){
         Args.checkForContent(inOwnerID, "inOwnerID");
+        Args.checkForContent(inReviewerID, "inReviewID");
+        verifyTutorStudent(inReviewerID, inOwnerID);
+        getReviewMetaData(inOwnerID);
         ownerID = inOwnerID;
         setRatings(rel, friend, know);
         setReviewContent(inContent, inReviewerID);
     }
+    private void getReviewMetaData(String ownerID){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("ReviewMetaData");
+        query.whereEqualTo("ownerId", ownerID);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if(e == null){
+                    reviewMetaData = object;
+                }
+            }
+        });
+    }
+    private void verifyTutorStudent(final String inReviewerID, String inOwnerID){
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("objectId", inReviewerID);
+        query.whereEqualTo("objectId", inOwnerID);
+        
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+                if (e == null && objects.size() == 2) {
+                    if (objects.get(0).getBoolean("isTutor") == objects.get(1).getBoolean("isTutor")) {
+                        if (objects.get(0).getBoolean("isTutor"))
+                            throw new IllegalArgumentException("Error: Tutor reviewing Tutor.");
+                        else
+                            throw new IllegalArgumentException("Error: Student reviewing student.");
+                    }
+                } else if (objects.size() != 2) {
+                    throw new IllegalArgumentException("Could not find both reviewer or reviewee");
+                }
+            }
+        });
+    }
+
 
     //parses collated ratings and inputs the values into local ints
     private void setRatings(int inRatings){
@@ -68,7 +117,7 @@ public class Review {
         return collatedRatings;
     }
 
-    private static int collateRatings(int rel, int friend, int know){
+    private int collateRatings(int rel, int friend, int know){
         int collatedRatings = 0;
         int i = 0;
 
@@ -78,31 +127,68 @@ public class Review {
 
         return collatedRatings;
     }
-
+    private double addAvg(double curAvg, double addVal, int avgCount){
+        return curAvg + ((curAvg - addVal)/(avgCount + 1));
+    }
+    private double subAvg(double curAvg, double subVal, int avgCount){
+        return ((curAvg * avgCount) - subVal)/ (avgCount - 1);
+    }
     public void sendToParse(){
-        ParseObject parseReview = new ParseObject("Review");
-        parseReview.put("owner", ownerID);
-        parseReview.put("ratings", collateRatings());
-        parseReview.put("reviewer", reviewerID);
-        parseReview.put("content", content);
-        parseReview.saveInBackground();
-    }
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
+        query.whereEqualTo("reviewer", reviewerID);
+        query.whereEqualTo("owner", ownerID);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject review, ParseException e) {
+                if(e == null && review != null){
+                    //store the new values for the ratings
+                    int tmpRel = reliability;
+                    int tmpFrn = friendliness;
+                    int tmpKnw = knowledge;
+                    //pull the old values, parse and store them
+                    setRatings(review.getInt("ratings"));
+                    //remove the old values from the averages
+                    double tempRelAvg = subAvg(reviewMetaData.getDouble("rel_avg"), reliability, reviewMetaData.getInt("review_count"));
+                    double tempFrnAvg = subAvg(reviewMetaData.getDouble("friend_avg"), reliability, reviewMetaData.getInt("review_count"));
+                    double tempKnwAvg = subAvg(reviewMetaData.getDouble("know_avg"), reliability, reviewMetaData.getInt("review_count"));
+                    //recalculate the new averages
+                    tempRelAvg = addAvg(tempRelAvg, tmpRel, reviewMetaData.getInt("review_count"));
+                    tempFrnAvg = addAvg(tempFrnAvg, tmpFrn, reviewMetaData.getInt("review_count"));
+                    tempKnwAvg = addAvg(tempKnwAvg, tmpKnw, reviewMetaData.getInt("review_count"));
+                    //update the Parseobjects with the new values
+                    review.put("ratings", collateRatings(tmpRel, tmpFrn, tmpKnw));
+                    review.put("content", content);
+                    reviewMetaData.put("rel_avg", tempRelAvg);
+                    reviewMetaData.put("friend_avg", tempFrnAvg);
+                    reviewMetaData.put("know_avg", tempKnwAvg);
 
-    public  static  void sendToParse(int rel, int friend, int know, String inContent, String inReviewerID, String inOwnerID){
-        Args.checkForRange(rel, 1, 5, "rel");
-        Args.checkForRange(friend, 1, 5, "friend");
-        Args.checkForRange(know, 1, 5, "know");
-        Args.checkForContent(inContent, "inContent");
-        Args.checkForContent(inReviewerID, "inReviewerID");
-        Args.checkForContent(inOwnerID, "inOwnerID");
-        
-        ParseObject parseReview = new ParseObject("Review");
-        parseReview.put("owner", inOwnerID);
-        parseReview.put("ratings", collateRatings(rel, friend, know));
-        parseReview.put("reviewer", inReviewerID);
-        parseReview.put("content", inContent);
-        parseReview.saveInBackground();
+                    reviewMetaData.saveInBackground();
+                    review.saveInBackground();
+
+                }else if(e.getCode() == ParseException.OBJECT_NOT_FOUND){
+                    ParseObject parseReview = new ParseObject("Review");
+                    double tempRelAvg = addAvg(reviewMetaData.getDouble("rel_avg"), reliability, reviewMetaData.getInt("review_count"));
+                    double tempFrnAvg = addAvg(reviewMetaData.getDouble("friend_avg"), friendliness, reviewMetaData.getInt("review_count"));
+                    double tempKnwAvg = addAvg(reviewMetaData.getDouble("know_avg"), knowledge, reviewMetaData.getInt("review_count"));
+
+                    parseReview.put("owner", ownerID);
+                    parseReview.put("ratings", collateRatings());
+                    parseReview.put("reviewer", reviewerID);
+                    parseReview.put("content", content);
+
+                    reviewMetaData.put("rel_avg", tempRelAvg);
+                    reviewMetaData.put("friend_avg", tempFrnAvg);
+                    reviewMetaData.put("know_avg", tempKnwAvg);
+                    reviewMetaData.increment("review_count");
+
+                    reviewMetaData.saveInBackground();
+                    parseReview.saveInBackground();
+                }
+            }
+        });
+
     }
+    
     public String getContent() {
         return content;
     }
