@@ -3,6 +3,7 @@ package com.example.sfarmani.ucsctutor;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -23,15 +24,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 /**
  * Created by Brad Cardello on 11/7/2015.
  */
 public class FragmentPagerSupport extends FragmentActivity {
-    static final int NUM_ITEMS = 3;
+    // Retrieve current user from Parse.com
+    static ParseUser currentUser = ParseUser.getCurrentUser();
+    static String currentUserId = currentUser.getObjectId();
+    static boolean isTutor = currentUser.getBoolean("isTutor");
+    static int NUM_ITEMS;
 
     MyAdapter mAdapter;
 
-    ViewPager mPager;
+    ViewPager mPager; // allows you to swipe through fragments
 
     // Store variables needed by Venmo
     public static final String app_secret = "KrtYzn2YSDhxGvrEj9H3QjkJ4sMatZ5K";
@@ -44,14 +52,31 @@ public class FragmentPagerSupport extends FragmentActivity {
 
         mAdapter = new MyAdapter(getSupportFragmentManager(), getApplicationContext());
 
+
+        NUM_ITEMS = isTutor ? 2 : 3; // tutors only have two tabs
+        Toast.makeText(getApplicationContext(), "NUM_ITEMS = " + NUM_ITEMS, Toast.LENGTH_LONG);
+        
         mPager = (ViewPager)findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
-        mPager.setCurrentItem(1);
+
+
+        // tutors start on first tab, students start in middle tab
+        if (isTutor){
+            mPager.setCurrentItem(0);
+        }
+        else{
+            mPager.setCurrentItem(1);
+        }
 
         // Check if Venmo is installed on user's device
         hasVenmo = VenmoLibrary.isVenmoInstalled(getApplicationContext());
-        if (!hasVenmo)
-            Toast.makeText(getApplicationContext(), "Need Venmo Application to Pay Tutors or Charge Students", Toast.LENGTH_LONG).show();
+        if (!hasVenmo) {
+            Toast.makeText(getApplicationContext(), "Need Venmo Application Installed", Toast.LENGTH_LONG).show();
+            // missing 'https://' will cause crash
+            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.venmo&hl=en");
+            Intent installVenmoIntent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(installVenmoIntent);
+        }
     }
 
     public static class MyAdapter extends FragmentPagerAdapter {
@@ -69,27 +94,33 @@ public class FragmentPagerSupport extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             Fragment fragment = null;
-            switch (position){
-                case 0:
-                    fragment = SearchFragment.newInstance(position, getPageTitle(position).toString());
-                    break;
-                case 1:
-                    fragment = HomeFragment.newInstance(position, getPageTitle(position).toString());
-                    break;
-                case 2:
-                    fragment = ListUsersFragment.newInstance(position, getPageTitle(position).toString());
-                    break;
+            if (isTutor) {
+                switch (position) {
+                    case 0:
+                        fragment = HomeFragment.newInstance(position, getPageTitle(position).toString());
+                        break;
+                    case 1:
+                        fragment = ListUsersFragment.newInstance(position, getPageTitle(position).toString());
+                        break;
+                }
+            }
+            else{
+                switch (position) {
+                    case 0:
+                        fragment = SearchFragment.newInstance(position, getPageTitle(position).toString());
+                        break;
+                    case 1:
+                        fragment = HomeFragment.newInstance(position, getPageTitle(position).toString());
+                        break;
+                    case 2:
+                        fragment = ListUsersFragment.newInstance(position, getPageTitle(position).toString());
+                        break;
+                }
             }
             return fragment;
         }
 
-        private int[] imageResId = {
-                R.drawable.ic_search_white_24dp_1x,
-                R.drawable.ic_home_white_24dp_1x,
-                R.drawable.ic_message_white_24dp_1x
-        };
-
-        //Allows app to have tabs with icons
+        // Allows app to have tabs with icons
         @Override
         public CharSequence getPageTitle(int position) {
             // Generate title based on item position
@@ -99,6 +130,21 @@ public class FragmentPagerSupport extends FragmentActivity {
             // or ContextCompat.getDrawable(Context context, int id) if you want support for older versions.
             // Drawable image = context.getResources().getDrawable(iconIds[position], context.getTheme());
             // Drawable image = context.getResources().getDrawable(imageResId[position]);
+
+            int[] imageResId;
+            if (isTutor){
+                imageResId  = new int[]{
+                        R.drawable.ic_home_white_24dp_1x,
+                        R.drawable.ic_message_white_24dp_1x
+                };
+            }
+            else{
+                imageResId = new int[]{
+                        R.drawable.ic_search_white_24dp_1x,
+                        R.drawable.ic_home_white_24dp_1x,
+                        R.drawable.ic_message_white_24dp_1x
+                };
+            }
 
             Drawable image = ContextCompat.getDrawable(context, imageResId[position]);
             image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());

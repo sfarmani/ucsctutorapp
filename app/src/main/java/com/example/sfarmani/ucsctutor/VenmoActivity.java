@@ -1,14 +1,19 @@
 package com.example.sfarmani.ucsctutor;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.Toast;
+
 import com.parse.ParseUser;
 
 import java.math.BigDecimal;
@@ -21,9 +26,7 @@ public class VenmoActivity extends Activity {
 
     ParseUser currentUser;
 
-    // Store instance variables
-    private String title;
-    private int page;
+    NfcAdapter nfcAdapter;
 
     // Store variables needed to open VenmoWebViewActivity
     public static final int REQUEST_CODE_VENMO_APP_SWITCH = 3120;
@@ -34,9 +37,8 @@ public class VenmoActivity extends Activity {
     String note = "";
     String txn = "";
 
-    // Variables for Chronometer
+    // Variables for Chronometer and Venmo
     Button btnStart,btnPause, btnStop, btnReset, venmoButton;
-    boolean click;
     long timeWhenStopped = 0;
     BigDecimal amountDue = new BigDecimal(0.0);
     
@@ -48,10 +50,50 @@ public class VenmoActivity extends Activity {
         // Retrieve current user from Parse.com
         currentUser = ParseUser.getCurrentUser();
 
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
+        if(nfcAdapter != null && nfcAdapter.isEnabled()){
+            Toast.makeText(VenmoActivity.this, "NFC enabled!", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(VenmoActivity.this, "Please enable NFC in Networking Settings", Toast.LENGTH_LONG).show();
+            finish();
+        }
+
+        // creates chronometer (i.e.: timer)
+        createChronometer();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Toast.makeText(VenmoActivity.this, "NFC intent received", Toast.LENGTH_LONG).show();
+        super.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        Intent intent = new Intent(this, VenmoActivity.class);
+        intent.addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        IntentFilter[] intentFilter = new IntentFilter[]{};
+
+        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilter, null);
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        nfcAdapter.disableForegroundDispatch(this);
+
+        super.onPause();
+    }
+
+    // creates all buttons, as well as the view for the chronometer
+    // only shows "open venmo" once a tutoring session is over
+    private void createChronometer(){
         final Chronometer chronometer = (Chronometer)findViewById(R.id.chronometer1);
-
-        click = true;
-
         btnStart = (Button) findViewById(R.id.btnStart);
         btnPause = (Button) findViewById(R.id.btnPause);
         btnStop = (Button) findViewById(R.id.btnStop);
@@ -93,11 +135,6 @@ public class VenmoActivity extends Activity {
                 BigDecimal payPerMinute = new BigDecimal(0.00416666666);
                 amountDue = payPerMinute.multiply(timeWorkedBigDecimal);
                 amountDue = amountDue.abs();
-                Log.i("timeWhenStopped", Long.toString(timeWhenStopped));
-                Log.i("timeWorkedStr", timeWorkedStr);
-                Log.i("timeWorkedBigDecimal", timeWorkedBigDecimal.toString());
-                Log.i("payPerMinute", payPerMinute.toString());
-                Log.i("Amount due", "" + amountDue.toString());
                 amount = Double.toString(amountDue.round(new MathContext(2, RoundingMode.HALF_UP)).doubleValue());
                 Log.i("amount", amount);
                 chronometer.stop();

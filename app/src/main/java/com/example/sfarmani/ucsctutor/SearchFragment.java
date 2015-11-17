@@ -1,7 +1,10 @@
 package com.example.sfarmani.ucsctutor;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +44,7 @@ public class SearchFragment extends Fragment {
     private ArrayAdapter<String> namesArrayAdapter;
     private ArrayList<String> names;
     private ListView usersListView;
+    private Button venmoButton;
 
     private String currentUserId;
 
@@ -144,6 +148,20 @@ public class SearchFragment extends Fragment {
                         }
                     });
 
+//                    venmoButton = (Button) v.findViewById(R.id.userListVenmoBtn);
+//                    try {
+//                        Drawable d = getActivity().getPackageManager().getApplicationIcon("com.venmo");
+//                        venmoButton.setBackground(d);
+//                        venmoButton.setOnClickListener(new View.OnClickListener() {
+//
+//                            public void onClick(View arg0) {
+//                                // open venmo
+//                            }
+//                        });
+//                    }
+//                    catch (PackageManager.NameNotFoundException e1) {
+//                        Toast.makeText(getActivity(), "Must have Venmo installed", Toast.LENGTH_LONG).show();
+//                    }
                 } else {
                     Toast.makeText(getContext(),
                             "Error loading user list",
