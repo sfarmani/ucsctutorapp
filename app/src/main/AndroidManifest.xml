@@ -5,16 +5,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!-- Might not need these, using them for Sinch SDK -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.NFC"/>
+    <uses-feature android:name="android.hardware.nfc" android:required="false"/>
 
     <application
         android:name=".App"
@@ -50,6 +48,14 @@
         </activity>
 
         <activity
+            android:name=".EditProfile"
+            android:label="edit profile"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:name=".TutorSignUp"
             android:label="tutor sign up"
             android:theme="@style/AppTheme.NoActionBar"
@@ -74,20 +80,14 @@
         </activity>
 
         <activity
-            android:name=".HomeFragment"
-            android:label="Fragment Pager Support"
+            android:name=".AvailabilityActivity"
+            android:label="Availability Activity"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
         </activity>
 
-        <activity
-            android:name=".ScheduleActivity"
-            android:label="Set Schedule"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        
-        <service 
+        <service
             android:name=".SinchService" >
         </service>
 
@@ -108,10 +108,11 @@
         </activity>
 
         <activity
-            android:name=".Search"
-            android:label="@string/title_activity_search_users"
+            android:name=".VenmoActivity"
+            android:label="Venmo Activity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>
+
         <activity
             android:name=".VenmoWebViewActivity"
             android:label="Venmo"

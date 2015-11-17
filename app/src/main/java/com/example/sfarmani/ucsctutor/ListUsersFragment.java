@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ListUsersFragment extends Fragment {
 
@@ -53,9 +55,6 @@ public class ListUsersFragment extends Fragment {
     public void onStart() {
         super.onStart();
         setConversationsList();
-        // setContentView(R.layout.fragment_list_users);
-        // showSpinner();
-
 
         // Convert currentUser into String
         currentUserId = currentUser.getUsername();
@@ -137,26 +136,5 @@ public class ListUsersFragment extends Fragment {
         super.onCreate(savedInstanceState);
         page = getArguments().getInt("someInt", 0);
         title = getArguments().getString("someTitle");
-    }
-
-    //show a loading spinner while the sinch client starts
-    private void showSpinner() {
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
-
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Boolean success = intent.getBooleanExtra("success", false);
-                progressDialog.dismiss();
-                if (!success) {
-                    Toast.makeText(getActivity(), "Messaging service failed to start", Toast.LENGTH_LONG).show();
-                }
-            }
-        };
-
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter("com.example.sfarmani.ucsctutor.app.StudentActivity"));
     }
 }

@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.sfarmani.ucsctutor.VenmoActivity">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:textColor="#FF0000"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Static Chronometer" />
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:layout_above="@+id/btnPause"
+        android:layout_centerHorizontal="true" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pause"
+        android:id="@+id/btnPause"
+        android:layout_above="@+id/btnStop"
+        android:layout_alignLeft="@+id/btnStop"
+        android:layout_alignStart="@+id/btnStop" />
+
+    <Button
+        android:id="@+id/btnStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:layout_above="@+id/btnRestart"
+        android:layout_alignLeft="@+id/btnStart"
+        android:layout_alignStart="@+id/btnStart" />
+
+    <Button
+        android:id="@+id/btnRestart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restart"
+        android:layout_above="@+id/chronometer1"
+        android:layout_alignLeft="@+id/btnStop"
+        android:layout_alignStart="@+id/btnStop"
+        android:layout_marginBottom="51dp" />
+
+    <Chronometer
+        android:id="@+id/chronometer1"
+        android:textColor="#4169E1"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chronometer"
+        android:layout_above="@+id/venmo_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="67dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/venmo_button"
+        android:text="Open Venmo"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="95dp" />
+
+</RelativeLayout>

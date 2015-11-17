@@ -73,6 +73,8 @@ public class MessagingActivity extends Activity {
                 sendMessage();
             }
         });
+
+        super.onCreate(savedInstanceBundle);
     }
 
     //get previous messages from parse & display
