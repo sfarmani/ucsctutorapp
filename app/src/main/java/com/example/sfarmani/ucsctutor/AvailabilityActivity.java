@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.sfarmani.ucsctutor.utils.Args;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -19,9 +22,24 @@ public class AvailabilityActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         ParseUser currUser = ParseUser.getCurrentUser(); // gets current user
         ArrayList<Boolean> red = new ArrayList<Boolean>(); //create an array list
-        red = (ArrayList<Boolean>) currUser.get("Availability"); // link to availability column in parse
+        // link to availability column in parse
+        Toast.makeText(this, getIntent().getStringExtra("EXTRA_PROFILE_ID"), Toast.LENGTH_SHORT).show();
+        if(Args.hasContent(getIntent().getStringExtra("EXTRA_PROFILE_ID"))){
+            ParseQuery<ParseUser> query = ParseUser.getQuery();
+            query.include("Availability");
+            try {
+                Toast.makeText(this, "We are getting the profile schedule.", Toast.LENGTH_SHORT).show();
+                red = (ArrayList<Boolean>) query.get(getIntent().getStringExtra("EXTRA_PROFILE_ID")).get("Availability");
+                if (red == null) Toast.makeText(this, "goddamn it!", Toast.LENGTH_SHORT).show();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }else {
+            red = (ArrayList<Boolean>) currUser.get("Availability");
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_availability);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

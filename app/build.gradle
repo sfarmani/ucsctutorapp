@@ -16,10 +16,19 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug{
+            debuggable true
+        }
     }
 }
-
 dependencies {
+    // Module dependency on ParseUI libraries sources
+    compile 'com.parse:parseui-login-android:0.0.1'
+    compile 'com.parse:parseui-widget-android:0.0.1'
+
+// Uncomment if using Facebook Login (optional Maven dependency)
+// compile 'com.facebook.android:facebook-android-sdk:4.6.0'
+// compile 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.0'

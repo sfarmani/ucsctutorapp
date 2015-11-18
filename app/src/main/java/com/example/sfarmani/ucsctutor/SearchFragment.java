@@ -178,10 +178,15 @@ public class SearchFragment extends Fragment {
         query.findInBackground(new FindCallback<ParseUser>() {
             public void done(List<ParseUser> user, com.parse.ParseException e) {
                 if (e == null) {
-                    Intent intent = new Intent(getContext(), MessagingActivity.class);
+                    Intent intent = new Intent(getContext(), ViewProfileActivity.class);
                     Log.i(TAG, user.get(0).getObjectId());
-                    intent.putExtra("RECIPIENT_ID", user.get(0).getObjectId());
+                    intent.putExtra("EXTRA_PROFILE_ID", user.get(0).getObjectId());
                     startActivity(intent);
+
+//                    Intent intent = new Intent(getContext(), MessagingActivity.class);
+//                    Log.i(TAG, user.get(0).getObjectId());
+//                    intent.putExtra("RECIPIENT_ID", user.get(0).getObjectId());
+//                    startActivity(intent);
                 } else {
                     Toast.makeText(getContext(),
                             "Error finding that user",
