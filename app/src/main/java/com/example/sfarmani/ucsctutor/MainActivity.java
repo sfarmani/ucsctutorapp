@@ -11,16 +11,15 @@ import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Intent serviceIntent;
-    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Determine whether the current user is an anonymous user
+        Intent serviceIntent;
+        Intent intent;
         if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
             // If user is anonymous, send the user to LoginSignupActivity.class
-            enablePushNotifications();
             intent = new Intent(MainActivity.this, LoginSignupActivity.class);
             startActivity(intent);
 
@@ -33,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
             // Get current user data from Parse.com
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
-                enablePushNotifications();
                 intent = new Intent(MainActivity.this, FragmentPagerSupport.class);
                 startActivity(intent);
 
@@ -43,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             } else {
                 // Send user to LoginSignupActivity.class
-                enablePushNotifications();
                 intent = new Intent(MainActivity.this, LoginSignupActivity.class);
                 startActivity(intent);
 
@@ -75,10 +72,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    protected void enablePushNotifications(){
-
     }
 }
