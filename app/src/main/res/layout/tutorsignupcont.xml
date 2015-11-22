@@ -5,7 +5,9 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    android:background="@drawable/bgtwo"
+    android:fillViewport="false">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -21,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/profile_picture"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:id="@+id/profilepicture" />
 
         <ImageView
@@ -41,9 +43,9 @@
             android:text="@string/submit"
             android:textColor="@android:color/white"
             custom:pb_colorComplete="@color/green_complete"
-            custom:pb_colorNormal="@color/blue_normal"
-            custom:pb_colorPressed="@color/blue_pressed"
-            custom:pb_colorProgress="@color/purple_progress"
+            custom:pb_colorNormal="#A96200"
+            custom:pb_colorPressed="#804A00"
+            custom:pb_colorProgress="@color/green_complete"
             custom:pb_textComplete="Success"
             custom:pb_textProgress="Loading..."
             custom:pb_textError="Error"

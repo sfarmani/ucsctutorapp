@@ -85,40 +85,12 @@ public class SearchFragment extends Fragment {
         );
         spinner1.setItems(daysOfWeek);
 
-        // For now, we have two buttons, but really all we need is the search button
-        // The search button will execute what's in both onClick() methods, but that's for later
-//        Button bt = (Button) v.findViewById(R.id.getSelected1);
-//        bt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                selectedDays = spinner1.getSelectedItemsAsBoolean();
-//                for (int i = 0; i < selectedDays.size(); i++){
-//                    //Log.d("" + i, "" + selectedDays.get(i));
-//                    //Toast.makeText(getContext(), i + ": " + selectedDays.get(i), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
         // Have dropdown list that lets the student select the times of day they're available
         spinner2 = (MultiSelectionSpinner) v.findViewById(R.id.mySpinner2);
         List<String> timesOfDay = Arrays.asList(
                 "Morning", "Afternoon", "Evening"
         );
         spinner2.setItems(timesOfDay);
-
-        // For now, we have two buttons, but really all we need is the search button
-        // The search button will execute what's in both onClick() methods, but that's for later
-//        Button bt2 = (Button) v.findViewById(R.id.getSelected2);
-//        bt2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                selectedTimes = spinner2.getSelectedItemsAsBoolean();
-//                for (int i = 0; i < selectedTimes.size(); i++){
-//                    //Log.d("" + i, "" + selectedTimes.get(i));
-//                    //Toast.makeText(getContext(), i + ": " + selectedTimes.get(i), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
 
         mCurrentUser = ParseUser.getCurrentUser();
         sUsername = (EditText) v.findViewById(R.id.searchUser);
@@ -245,11 +217,6 @@ public class SearchFragment extends Fragment {
                     Log.i(TAG, user.get(0).getObjectId());
                     intent.putExtra("EXTRA_PROFILE_ID", user.get(0).getObjectId());
                     startActivity(intent);
-
-//                    Intent intent = new Intent(getContext(), MessagingActivity.class);
-//                    Log.i(TAG, user.get(0).getObjectId());
-//                    intent.putExtra("RECIPIENT_ID", user.get(0).getObjectId());
-//                    startActivity(intent);
                 } else {
                     Toast.makeText(getContext(),
                             "Error finding that user",

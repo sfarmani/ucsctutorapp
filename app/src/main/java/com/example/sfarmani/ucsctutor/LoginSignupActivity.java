@@ -53,6 +53,7 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
     }
 
     /** Called when the activity is first created. */
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loginsignup);
@@ -87,7 +88,7 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
             passwordtxt = password.getText().toString();
 
             ParseUser.logInInBackground(usernametxt, passwordtxt, new LogInCallback() {
-                public void done(ParseUser user, ParseException e) {
+                public void done(final ParseUser user, ParseException e) {
                 // if everything went well
                     if (user != null) {
                         // start the animation for the button and disable the buttons and fields
@@ -102,13 +103,22 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                // If user exist and authenticated, send user to HomeActivity.class
-                                Intent intent = new Intent(LoginSignupActivity.this, FragmentPagerSupport.class);
-                                startActivity(intent);
-                                Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
-                                btnSignIn.setProgress(0);
-                                username.setText("");
-                                password.setText("");
+                                // If user exist and authenticated, send user to FragmentPagerSupport.class
+                                if (!user.getBoolean("emailVerified")) {
+                                    Intent homeIntent = new Intent(LoginSignupActivity.this, EmailNotVerified.class);
+                                    startActivity(homeIntent);
+                                    finish();
+                                }
+                                else{
+                                    Intent homeIntent = new Intent(LoginSignupActivity.this, FragmentPagerSupport.class);
+                                    startActivity(homeIntent);
+                                    finish();
+                                    Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
+                                    btnSignIn.setProgress(0);
+                                    username.setText("");
+                                    password.setText("");
+                                }
+
                             }
                         }, 6000);
                     }

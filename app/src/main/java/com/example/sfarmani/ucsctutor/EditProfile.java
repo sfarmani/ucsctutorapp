@@ -104,10 +104,14 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
         });
 
         gettxt = currUser.getString("bio");
-        if (!TextUtils.isEmpty(gettxt)) {
+        if (TextUtils.isEmpty(gettxt)) {
             editbiofield.setHint("Enter bio here");
+        }
+        else{
             editbiofield.setText(gettxt);
         }
+
+
 
 
         save.setOnClickListener(new View.OnClickListener() {

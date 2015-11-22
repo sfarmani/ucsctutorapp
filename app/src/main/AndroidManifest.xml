@@ -4,8 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.NFC" />
@@ -38,6 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".LoginSignupActivity"
             android:configChanges="orientation"
@@ -46,60 +49,91 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EditProfile"
-            android:configChanges="orientation"
             android:label="edit profile"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
         <activity
             android:name=".TutorSignUp"
-            android:configChanges="orientation"
             android:label="tutor sign up"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity
             android:name=".StudentSignUp"
-            android:configChanges="orientation"
             android:label="student sign up"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity
             android:name=".FragmentPagerSupport"
-            android:configChanges="orientation"
             android:label="Fragment Pager Support"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <activity
             android:name=".AvailabilityActivity"
-            android:configChanges="orientation"
             android:label="Availability Activity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="landscape" >
+        </activity>
+
+        <activity
+            android:name=".EmailNotVerified"
+            android:label="Email Hasn't been Veriffied"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <service
+            android:name=".SinchService" >
+        </service>
+
         <activity
             android:name=".TutorSignUpCont"
-            android:configChanges="orientation"
             android:label="UCSC Tutor"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity
             android:name=".MessagingActivity"
-            android:configChanges="orientation"
             android:label="Messaging"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <activity
             android:name=".VenmoActivity"
             android:label="Venmo Activity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        </activity>
+
         <activity
             android:name=".VenmoWebViewActivity"
             android:label="Venmo"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        </activity>
+
         <activity
             android:name=".ViewProfileActivity"
-            android:configChanges="orientation"
             android:label="View Profile Activity"
-            android:screenOrientation="portrait" />
-
-        <service android:name=".SinchService" />
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
+
 </manifest>
