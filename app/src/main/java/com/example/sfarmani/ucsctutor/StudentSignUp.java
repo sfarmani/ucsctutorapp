@@ -286,6 +286,7 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
 
                                     // user.put manually puts any specific field you want to put in parse
                                     user.put("isTutor", false);
+                                    user.put("bio", "");
                                     user.put("FirstName", fNameTxt);
                                     user.put("LastName", lNameTxt);
                                     // finally signs them up.
@@ -312,6 +313,7 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                             // if user is okay to be made
                                             else {
                                                 // start the animation for the submit button and disable the fields and submit button
+                                                final ParseUser currentUser = ParseUser.getCurrentUser();
                                                 progressGenerator.start(submit);
                                                 submit.setEnabled(false);
                                                 username.setEnabled(false);
@@ -327,9 +329,16 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                                     public void run() {
                                                         // give a message saying it succeeded and change the screen to the welcome page.
                                                         Toast.makeText(StudentSignUp.this, "User Saved", Toast.LENGTH_SHORT).show();
-                                                        Intent intent = new Intent(StudentSignUp.this, FragmentPagerSupport.class);
-                                                        startActivity(intent);
-                                                        finish();
+                                                        if (!currentUser.getBoolean("emailVerified")) {
+                                                            Intent intent = new Intent(StudentSignUp.this, EmailNotVerified.class);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        }
+                                                        else{
+                                                            Intent homeIntent = new Intent(StudentSignUp.this, FragmentPagerSupport.class);
+                                                            startActivity(homeIntent);
+                                                            finish();
+                                                        }
                                                     }
                                                 }, 6000);
                                             }
@@ -441,6 +450,8 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                 // if user is okay to be made
                                 else {
                                     // start the animation for the submit button and disable the fields and submit button
+                                    final ParseUser currentUser = ParseUser.getCurrentUser();
+
                                     progressGenerator.start(submit);
                                     submit.setEnabled(false);
                                     username.setEnabled(false);
@@ -456,9 +467,16 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                         public void run() {
                                             // give a message saying it succeeded and change the screen to the welcome page.
                                             Toast.makeText(StudentSignUp.this, "User Saved", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(StudentSignUp.this, FragmentPagerSupport.class);
-                                            startActivity(intent);
-                                            finish();
+                                            if (!currentUser.getBoolean("emailVerified")) {
+                                                Intent intent = new Intent(StudentSignUp.this, EmailNotVerified.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                            else{
+                                                Intent homeIntent = new Intent(StudentSignUp.this, FragmentPagerSupport.class);
+                                                startActivity(homeIntent);
+                                                finish();
+                                            }
                                         }
                                     }, 6000);
                                 }

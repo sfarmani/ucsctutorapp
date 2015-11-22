@@ -1,11 +1,8 @@
 package com.example.sfarmani.ucsctutor;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
-import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -25,8 +22,6 @@ import java.util.concurrent.TimeUnit;
 public class VenmoActivity extends Activity {
 
     ParseUser currentUser;
-
-    NfcAdapter nfcAdapter;
 
     // Store variables needed to open VenmoWebViewActivity
     public static final int REQUEST_CODE_VENMO_APP_SWITCH = 3120;
@@ -50,16 +45,6 @@ public class VenmoActivity extends Activity {
         // Retrieve current user from Parse.com
         currentUser = ParseUser.getCurrentUser();
 
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
-        if(nfcAdapter != null && nfcAdapter.isEnabled()){
-            Toast.makeText(VenmoActivity.this, "NFC enabled!", Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(VenmoActivity.this, "Please enable NFC in Networking Settings", Toast.LENGTH_LONG).show();
-            finish();
-        }
-
         // creates chronometer (i.e.: timer)
         createChronometer();
     }
@@ -75,18 +60,11 @@ public class VenmoActivity extends Activity {
         Intent intent = new Intent(this, VenmoActivity.class);
         intent.addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        IntentFilter[] intentFilter = new IntentFilter[]{};
-
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilter, null);
-
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        nfcAdapter.disableForegroundDispatch(this);
-
         super.onPause();
     }
 

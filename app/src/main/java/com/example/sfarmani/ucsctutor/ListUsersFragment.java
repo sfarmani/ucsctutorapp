@@ -1,7 +1,5 @@
 package com.example.sfarmani.ucsctutor;
 
-import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,9 +27,6 @@ public class ListUsersFragment extends Fragment {
     private ArrayAdapter<String> namesArrayAdapter;
     private ArrayList<String> names;
     private ListView studentListView;
-    private BroadcastReceiver receiver = null;
-
-    private ProgressDialog progressDialog;
 
     // Store instance variables
     private String title;
@@ -64,7 +59,7 @@ public class ListUsersFragment extends Fragment {
     //display clickable a list of all users
     private void setConversationsList() {
         currentUserId = ParseUser.getCurrentUser().getObjectId();
-        names = new ArrayList<String>();
+        names = new ArrayList<>();
 
         boolean isTutor = currentUser.getBoolean("isTutor");
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -79,7 +74,7 @@ public class ListUsersFragment extends Fragment {
 
                     studentListView = (ListView) v.findViewById(R.id.studentListView);
                     namesArrayAdapter =
-                            new ArrayAdapter<String>(getActivity().getApplicationContext(),
+                            new ArrayAdapter<>(getActivity().getApplicationContext(),
                                     R.layout.user_list_item, names);
                     studentListView.setAdapter(namesArrayAdapter);
 

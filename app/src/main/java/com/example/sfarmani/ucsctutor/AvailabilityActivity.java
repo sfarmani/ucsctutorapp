@@ -1,12 +1,12 @@
 package com.example.sfarmani.ucsctutor;
 
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.dd.processbutton.FlatButton;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -15,6 +15,7 @@ public class AvailabilityActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         ParseUser currUser = ParseUser.getCurrentUser(); // gets current user
         ArrayList<Boolean> arrayList = new ArrayList<Boolean>(); //create an array list
         arrayList = (ArrayList<Boolean>) currUser.get("Availability"); // link to availability column in parse
@@ -24,19 +25,18 @@ public class AvailabilityActivity extends AppCompatActivity {
         //setSupportActionBar(toolbar);
 
         if(currUser.getBoolean("isTutor")) {
-            ImageButton save = configSave();    // set up save button in helper function
+            FlatButton save = configSave();    // set up save button in helper function
             configureBtns(arrayList, currUser, save); // configure button states and depictions with red[], user, and save button
         }
 
 
     }
 
-    public void configureBtns(ArrayList<Boolean> arrayList, ParseUser currUser, ImageButton save) {
+    public void configureBtns(ArrayList<Boolean> arrayList, ParseUser currUser, FlatButton save) {
         if (arrayList == null) { //do this if the server has no stored data yet
             arrayList = new ArrayList<Boolean>(21);
             for (int i = 1; i <= 21; i++) { // loop iterates through the all buttons at their given ids
-                ImageButton btn = (ImageButton) findViewById  // and sets the buttons to false and displays them as red
-                        (getResources().getIdentifier("imageButton" + i, "id", getPackageName()));
+                ImageButton btn = (ImageButton) findViewById(getResources().getIdentifier("imageButton" + i, "id", getPackageName()));
                 btn.setImageResource(R.drawable.red_rect_btn);
                 arrayList.add(false);
 
@@ -63,6 +63,7 @@ public class AvailabilityActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         saveBool(availabilityList, localUser); // call function to save to parse
                         Toast.makeText(getBaseContext(), "Schedule Saved!", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
 
@@ -100,15 +101,15 @@ public class AvailabilityActivity extends AppCompatActivity {
                         //ImageButton save = (ImageButton) findViewById (R.id.save);
                         saveBool(availabilityList, localUser);
                         Toast.makeText(getBaseContext(), "Schedule Saved!", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
             }
         }
     }
 
-    public ImageButton configSave() {
-        ImageButton save = (ImageButton) findViewById(R.id.save);
-        save.setImageResource(R.drawable.save_button);
+    public FlatButton configSave() {
+        FlatButton save = (FlatButton) findViewById(R.id.save);
         return save;
     }
 

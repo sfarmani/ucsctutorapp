@@ -5,7 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    android:background="@drawable/bgtwo">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -21,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="@string/profile_picture"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:id="@+id/studentprofilepicture" />
 
         <ImageView
@@ -36,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:text="@string/fname"
             android:id="@+id/studentfname" />
 
@@ -46,13 +47,14 @@
             android:maxLength="25"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/studentfnamefield" />
+            android:id="@+id/studentfnamefield"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:text="@string/lname"
             android:id="@+id/studentlname" />
 
@@ -62,13 +64,14 @@
             android:maxLength="25"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/studentlnamefield" />
+            android:id="@+id/studentlnamefield"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:text="@string/Username"
             android:id="@+id/studentusername" />
 
@@ -78,13 +81,14 @@
             android:maxLength="25"
             android:inputType="text"
             android:ems="10"
-            android:id="@+id/studentusernamefield" />
+            android:id="@+id/studentusernamefield"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:text="@string/email"
             android:id="@+id/studenttutoremail" />
 
@@ -94,14 +98,15 @@
             android:maxLength="25"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/studentemailfield" />
+            android:id="@+id/studentemailfield"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Password"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:id="@+id/studentpasswordtext" />
 
         <EditText
@@ -110,13 +115,14 @@
             android:maxLength="25"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/studentpasswordtextfield" />
+            android:id="@+id/studentpasswordtextfield"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:text="@string/passwordconfirm"
             android:id="@+id/studentpasswordconfirm" />
 
@@ -126,7 +132,8 @@
             android:maxLength="25"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/studentpasswordconfirmfield" />
+            android:id="@+id/studentpasswordconfirmfield"
+            android:textColor="#ffffff" />
 
         <com.dd.processbutton.iml.ActionProcessButton
             android:layout_width="fill_parent"
@@ -135,9 +142,9 @@
             android:text="@string/submit"
             android:textColor="@android:color/white"
             custom:pb_colorComplete="@color/green_complete"
-            custom:pb_colorNormal="@color/blue_normal"
-            custom:pb_colorPressed="@color/blue_pressed"
-            custom:pb_colorProgress="@color/purple_progress"
+            custom:pb_colorNormal="#A96200"
+            custom:pb_colorPressed="#804A00"
+            custom:pb_colorProgress="@color/green_complete"
             custom:pb_textComplete="Success"
             custom:pb_textProgress="Loading..."
             custom:pb_textError="Error"

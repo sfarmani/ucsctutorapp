@@ -11,13 +11,13 @@ import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Intent serviceIntent;
+    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Determine whether the current user is an anonymous user
-        Intent serviceIntent;
-        Intent intent;
         if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
             // If user is anonymous, send the user to LoginSignupActivity.class
             intent = new Intent(MainActivity.this, LoginSignupActivity.class);
@@ -27,21 +27,28 @@ public class MainActivity extends AppCompatActivity {
             startService(serviceIntent);
 
             finish();
-        } else {
+        }
+        else{
             // If current user is NOT anonymous user
             // Get current user data from Parse.com
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
-                intent = new Intent(MainActivity.this, FragmentPagerSupport.class);
-                startActivity(intent);
+                if (!currentUser.getBoolean("emailVerified")) {
+                    Intent homeIntent = new Intent(MainActivity.this, EmailNotVerified.class);
+                    startActivity(homeIntent);
+                    finish();
+                }
+                else{
+                    Intent intent = new Intent(MainActivity.this, FragmentPagerSupport.class);
+                    startActivity(intent);
+                    serviceIntent = new Intent(MainActivity.this, SinchService.class);
+                    startService(serviceIntent);
+                    finish();
+                }
 
-                serviceIntent = new Intent(MainActivity.this, SinchService.class);
-                startService(serviceIntent);
-
-                finish();
             } else {
                 // Send user to LoginSignupActivity.class
-                intent = new Intent(MainActivity.this, LoginSignupActivity.class);
+                Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);
                 startActivity(intent);
 
                 serviceIntent = new Intent(MainActivity.this, SinchService.class);
@@ -50,6 +57,17 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(ParseUser.getCurrentUser().getBoolean("emailVerified")){
+            Intent homeIntent = new Intent(MainActivity.this, FragmentPagerSupport.class);
+            startActivity(homeIntent);
+            finish();
+        }
+
     }
 
     @Override

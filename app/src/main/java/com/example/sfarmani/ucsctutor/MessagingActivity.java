@@ -1,11 +1,11 @@
 package com.example.sfarmani.ucsctutor;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -38,7 +38,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 

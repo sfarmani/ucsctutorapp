@@ -3,13 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:drawable/gallery_thumb">
+    android:background="@drawable/bgtwo">
 
     <TextView android:id="@+id/text"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:gravity="center_vertical|center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="TextView in fragment_pager_list"/>
+        android:text="TextView in fragment_pager_list"
+        android:textColor="#ffffff" />
 
     <!-- The frame layout is here since we will be showing either
     the empty view or the list view.  -->
@@ -23,6 +24,7 @@
         <ListView android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textColor="#ffffff"
             android:drawSelectorOnTop="false"/>
 
         <!-- Here is the view to show if the list is emtpy -->
@@ -30,7 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="No items."/>
+            android:text="No items."
+            android:textColor="#ffffff" />
 
     </FrameLayout>
 

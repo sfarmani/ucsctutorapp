@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="10dip"
-    android:background="#ffffff"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:background="@drawable/bgone">
 
     <TextView
         android:id="@+id/txtusername"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/Username"
-        android:textSize="8pt"
-        android:textColor="@color/blue_normal"
+        android:textSize="11pt"
+        android:textColor="#ffffff"
         android:layout_marginTop="140dp"
         android:layout_below="@+id/progressBar"
         android:layout_alignParentLeft="true"
@@ -27,14 +28,15 @@
         android:layout_height="wrap_content"
         android:maxLength="25"
         android:layout_below="@+id/txtusername"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/txtpassword"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="8pt"
-        android:textColor="@color/blue_normal"
+        android:textSize="11pt"
+        android:textColor="#ffffff"
         android:layout_below="@+id/username"
         android:text="@string/Password" />
 
@@ -44,7 +46,8 @@
         android:layout_height="wrap_content"
         android:maxLength="25"
         android:layout_below="@+id/txtpassword"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColor="#ffffff" />
 
     <com.dd.processbutton.iml.ActionProcessButton
         android:id="@+id/login"
@@ -54,9 +57,9 @@
         android:textColor="@android:color/white"
         android:text="@string/LoginBtn"
         custom:pb_colorComplete="@color/green_complete"
-        custom:pb_colorNormal="@color/blue_normal"
-        custom:pb_colorPressed="@color/blue_pressed"
-        custom:pb_colorProgress="@color/purple_progress"
+        custom:pb_colorNormal="#A96200"
+        custom:pb_colorPressed="#804A00"
+        custom:pb_colorProgress="@color/green_complete"
         custom:pb_textComplete="Success"
         custom:pb_textProgress="Loading..."
         custom:pb_textError="Error"
@@ -69,13 +72,13 @@
 
     <com.dd.processbutton.FlatButton
         android:id="@+id/signuptutor"
-        android:textSize="15sp"
+        android:textSize="6pt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:text="@string/SignupBtnTutor"
-        custom:pb_colorNormal="@color/blue_normal"
-        custom:pb_colorPressed="@color/blue_pressed"
+        custom:pb_colorNormal="#A96200"
+        custom:pb_colorPressed="#804A00"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -87,11 +90,11 @@
     <com.dd.processbutton.FlatButton
         android:textColor="@android:color/white"
         android:text="@string/SignupBtnStudent"
-        android:textSize="15sp"
+        android:textSize="6pt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        custom:pb_colorNormal="@color/blue_normal"
-        custom:pb_colorPressed="@color/blue_pressed"
+        custom:pb_colorNormal="#A96200"
+        custom:pb_colorPressed="#804A00"
         android:id="@+id/signupstudent"
         android:layout_alignBaseline="@+id/signuptutor"
         android:layout_alignBottom="@+id/signuptutor"

@@ -2,6 +2,7 @@ package com.example.sfarmani.ucsctutor;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,10 @@ import android.support.v4.view.ViewPager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.ParseUser;
@@ -32,8 +37,24 @@ public class FragmentPagerSupport extends FragmentActivity {
     ViewPager mPager; // allows you to swipe through fragments
 
     // Store variables needed by Venmo
-    public static final String app_secret = "KrtYzn2YSDhxGvrEj9H3QjkJ4sMatZ5K";
     public static boolean hasVenmo = false;
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

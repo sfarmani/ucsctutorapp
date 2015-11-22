@@ -5,7 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    android:background="@drawable/bgtwo">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -20,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:text="@string/fname"
             android:id="@+id/fname" />
 
@@ -30,13 +31,14 @@
             android:maxLength="25"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/fnamefield" />
+            android:id="@+id/fnamefield"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:text="@string/lname"
             android:id="@+id/lname" />
 
@@ -46,13 +48,14 @@
             android:maxLength="25"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/lnamefield" />
+            android:id="@+id/lnamefield"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:text="@string/Username"
             android:id="@+id/username" />
 
@@ -62,13 +65,14 @@
             android:maxLength="25"
             android:inputType="text"
             android:ems="10"
-            android:id="@+id/usernamefield" />
+            android:id="@+id/usernamefield"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:text="@string/email"
             android:id="@+id/tutoremail" />
 
@@ -78,14 +82,15 @@
             android:maxLength="25"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/emailfield" />
+            android:id="@+id/emailfield"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Password"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:id="@+id/passwordtext" />
 
         <EditText
@@ -94,13 +99,14 @@
             android:maxLength="25"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/passwordtextfield" />
+            android:id="@+id/passwordtextfield"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:textColor="@color/blue_normal"
+            android:textColor="#ffffff"
             android:text="@string/passwordconfirm"
             android:id="@+id/passwordconfirm" />
 
@@ -110,7 +116,8 @@
             android:maxLength="25"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/passwordconfirmfield" />
+            android:id="@+id/passwordconfirmfield"
+            android:textColor="#ffffff" />
 
         <com.dd.processbutton.iml.ActionProcessButton
             android:layout_width="fill_parent"
@@ -118,14 +125,8 @@
             android:textSize="20sp"
             android:text="@string/next"
             android:textColor="@android:color/white"
-            custom:pb_colorComplete="@color/green_complete"
-            custom:pb_colorNormal="@color/blue_normal"
-            custom:pb_colorPressed="@color/blue_pressed"
-            custom:pb_colorProgress="@color/purple_progress"
-            custom:pb_textComplete="Success"
-            custom:pb_textProgress="Loading..."
-            custom:pb_textError="Error"
-            custom:pb_colorError="@color/red_error"
+            custom:pb_colorNormal="#A96200"
+            custom:pb_colorPressed="#804A00"
             android:id="@+id/nexttutor"
             android:layout_marginBottom="67dp" />
 

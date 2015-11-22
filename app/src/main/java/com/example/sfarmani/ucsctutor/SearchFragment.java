@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+* Created by Brad Cardello
+* */
 public class SearchFragment extends Fragment {
 
     public static final String TAG = SearchFragment.class.getSimpleName();
@@ -36,13 +39,12 @@ public class SearchFragment extends Fragment {
     String username;
     protected List<ParseUser> mUsers;
     protected ParseUser mCurrentUser;
-    protected EditText sUsername;
+    protected EditText classToSearchFor;
     protected Button mSearchButton;
 
     private ArrayAdapter<String> namesArrayAdapter;
     private ArrayList<String> names;
     private ListView usersListView;
-    private Button venmoButton;
 
     private String currentUserId;
 
@@ -52,8 +54,8 @@ public class SearchFragment extends Fragment {
     private String title;
     private int page;
 
-    MultiSelectionSpinner spinner1;
-    MultiSelectionSpinner spinner2;
+    MultiSelectionSpinner spinnerDays;
+    MultiSelectionSpinner spinnerTimes;
 
     ArrayList<Boolean> selectedDays = new ArrayList<>(7);
     ArrayList<Boolean> selectedTimes = new ArrayList<>(3);
@@ -78,70 +80,22 @@ public class SearchFragment extends Fragment {
         // keeps keyboard from popping up every time
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        // Have dropdown list that lets the student select the days of week they're available
-        spinner1 = (MultiSelectionSpinner) v.findViewById(R.id.mySpinner1);
-        List<String> daysOfWeek = Arrays.asList(
-                "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-        );
-        spinner1.setItems(daysOfWeek);
-
-        // For now, we have two buttons, but really all we need is the search button
-        // The search button will execute what's in both onClick() methods, but that's for later
-//        Button bt = (Button) v.findViewById(R.id.getSelected1);
-//        bt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                selectedDays = spinner1.getSelectedItemsAsBoolean();
-//                for (int i = 0; i < selectedDays.size(); i++){
-//                    //Log.d("" + i, "" + selectedDays.get(i));
-//                    //Toast.makeText(getContext(), i + ": " + selectedDays.get(i), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
-        // Have dropdown list that lets the student select the times of day they're available
-        spinner2 = (MultiSelectionSpinner) v.findViewById(R.id.mySpinner2);
-        List<String> timesOfDay = Arrays.asList(
-                "Morning", "Afternoon", "Evening"
-        );
-        spinner2.setItems(timesOfDay);
-
-        // For now, we have two buttons, but really all we need is the search button
-        // The search button will execute what's in both onClick() methods, but that's for later
-//        Button bt2 = (Button) v.findViewById(R.id.getSelected2);
-//        bt2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                selectedTimes = spinner2.getSelectedItemsAsBoolean();
-//                for (int i = 0; i < selectedTimes.size(); i++){
-//                    //Log.d("" + i, "" + selectedTimes.get(i));
-//                    //Toast.makeText(getContext(), i + ": " + selectedTimes.get(i), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+        // creates spinners for days of week, and time of day
+        setupSpinners();
 
         mCurrentUser = ParseUser.getCurrentUser();
-        sUsername = (EditText) v.findViewById(R.id.searchUser);
+        classToSearchFor = (EditText) v.findViewById(R.id.searchUser);
         mSearchButton = (Button) v.findViewById(R.id.searchButton);
-
-        sUsername.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        classToSearchFor.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     //Get text from each field in register
-                    String username = sUsername.getText().toString();
+                    String className = classToSearchFor.getText().toString();
 
                     /// Remove white spaces from any field
                     /// and make sure they are not empty
-                    username = username.trim();
-
-                    currentUserId = ParseUser.getCurrentUser().getObjectId();
-                    ParseQuery<ParseUser> query = ParseUser.getQuery();
-                    query.whereEqualTo("isTutor", true);
-                    query.whereEqualTo("username", username);
-                    query.whereNotEqualTo("objectId", currentUserId);
-                    Log.i(TAG, "Searching for " + username);
-                    //doSearch(query);
+                    className = className.trim();
                     return true;
                 }
                 return false;
@@ -151,52 +105,79 @@ public class SearchFragment extends Fragment {
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedDays = spinner1.getSelectedItemsAsBoolean();
-                selectedTimes = spinner2.getSelectedItemsAsBoolean();
+                setSelectedDaysAndTimes(); // grabs the days and times the user is searching for
 
-                // want to replace desiredAvailability with HashMap for efficiency,
-                // but this will do for now so that the ArrayList is initially populated
-                for (int i = 0; i < 21; i++) desiredAvailability.add(i, false);
-
-                // loop through morning, afternoon, evening sequentially for each day of the week
-                // i.e.: Sunday morning(0), Sunday afternoon(7), Sunday evening(14)
-                // next would be Monday morning(1), Monday afternoon(8), Monday evening(15), etc.
-                for (int i = 0; i < selectedDays.size(); i++) {
-                    //Log.e("i", "" + i + " " + selectedDays.get(i));
-                    for (int j = 0; j < selectedTimes.size(); j++){
-                        //Log.e("j", "      " + j + " " + selectedTimes.get(j));
-                        if (selectedDays.get(i) && selectedTimes.get(j)){
-                            desiredAvailability.set(i + (j * 7), true);
-                            Log.e("Adding to index " + (i + (j * 7)) + " the value", "true");
-                        }
-                        else{
-                            desiredAvailability.set(i + (j * 7), false);
-                            Log.e("Adding to index " + (i + (j * 7)) + " the value", "false");
-                        }
-                    }
-                }
-
-                Boolean isTutor = mCurrentUser.getBoolean("isTutor");
-                currentUserId = ParseUser.getCurrentUser().getObjectId();
-                ParseQuery<ParseUser> query = ParseUser.getQuery();
-                //query.include("Availability");
-                query.whereNotEqualTo("isTutor", isTutor);
-                query.whereNotEqualTo("objectId", currentUserId);
-                doSearch(query, desiredAvailability);
+                doSearch(desiredAvailability); // performs search based off of desired availability
             }
         });
     }
 
+    private void setupSpinners(){
+
+        // Create dropdown list that lets the student select the days of week they're available
+        spinnerDays = (MultiSelectionSpinner) v.findViewById(R.id.mySpinner1);
+        List<String> daysOfWeek = Arrays.asList(
+                "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        );
+
+        // Initialize dropdown menu for days to have all items checked
+        spinnerDays.setItems(daysOfWeek);
+        spinnerDays.setSelection(daysOfWeek);
+
+        // Have dropdown list that lets the student select the times of day they're available
+        spinnerTimes = (MultiSelectionSpinner) v.findViewById(R.id.mySpinner2);
+        List<String> timesOfDay = Arrays.asList(
+                "Morning", "Afternoon", "Evening"
+        );
+
+        // Initialize dropdown menu for times to have all items checked
+        spinnerTimes.setItems(timesOfDay);
+        spinnerTimes.setSelection(timesOfDay);
+    }
+
+    /*
+    * Takes care of storing user input data from multi-select spinners
+    * */
+    private void setSelectedDaysAndTimes() {
+        selectedDays = spinnerDays.getSelectedItemsAsBoolean();
+        selectedTimes = spinnerTimes.getSelectedItemsAsBoolean();
+
+        // want to replace desiredAvailability with HashMap for efficiency,
+        // but this will do for now so that the ArrayList is initially populated
+        for (int i = 0; i < 21; i++) desiredAvailability.add(i, false);
+
+        // loop through morning, afternoon, evening sequentially for each day of the week
+        // i.e.: Sunday morning(0), Sunday afternoon(7), Sunday evening(14)
+        // next would be Monday morning(1), Monday afternoon(8), Monday evening(15), etc.
+        for (int i = 0; i < selectedDays.size(); i++) {
+            //Log.e("i", "" + i + " " + selectedDays.get(i));
+            for (int j = 0; j < selectedTimes.size(); j++) {
+                if (selectedDays.get(i) && selectedTimes.get(j)) {
+                    desiredAvailability.set(i + (j * 7), true);
+                    Log.e("Adding to index " + (i + (j * 7)) + " the value", "true");
+                } else {
+                    desiredAvailability.set(i + (j * 7), false);
+                    Log.e("Adding to index " + (i + (j * 7)) + " the value", "false");
+                }
+            }
+        }
+    }
+
     // display clickable a list of all users
-    private void doSearch(final ParseQuery<ParseUser> stringQuery, final ArrayList<Boolean> desiredAvailability) {
+    private void doSearch(final ArrayList<Boolean> desiredAvailability) {
+        Boolean isTutor = mCurrentUser.getBoolean("isTutor");
+        currentUserId = ParseUser.getCurrentUser().getObjectId();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereNotEqualTo("isTutor", isTutor);
+        query.whereNotEqualTo("objectId", currentUserId);
         Log.e("Size", "" + desiredAvailability.size());
-        names = new ArrayList<String>();
+        names = new ArrayList<>();
 
         // arbitrarily set userList to have capacity 100
         // most likely won't be 100 tutors for any given class
         List<ParseUser> userList = new ArrayList<ParseUser>(100);
         try {
-            userList = stringQuery.find();
+            userList = query.find();
             for (ParseUser tutor : userList){
                 // check each user to see if they're available at the times specified
                 ArrayList<Boolean> tutorAvailability = (ArrayList<Boolean>)tutor.get("Availability");
@@ -215,7 +196,7 @@ public class SearchFragment extends Fragment {
             }
 
             usersListView = (ListView) v.findViewById(R.id.usersListView);
-            namesArrayAdapter = new ArrayAdapter<String>(
+            namesArrayAdapter = new ArrayAdapter<>(
                     getContext(),
                     R.layout.user_list_item, names
             );
@@ -245,11 +226,6 @@ public class SearchFragment extends Fragment {
                     Log.i(TAG, user.get(0).getObjectId());
                     intent.putExtra("EXTRA_PROFILE_ID", user.get(0).getObjectId());
                     startActivity(intent);
-
-//                    Intent intent = new Intent(getContext(), MessagingActivity.class);
-//                    Log.i(TAG, user.get(0).getObjectId());
-//                    intent.putExtra("RECIPIENT_ID", user.get(0).getObjectId());
-//                    startActivity(intent);
                 } else {
                     Toast.makeText(getContext(),
                             "Error finding that user",

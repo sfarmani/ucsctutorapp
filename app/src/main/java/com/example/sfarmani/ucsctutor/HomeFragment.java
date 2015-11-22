@@ -6,10 +6,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dd.processbutton.FlatButton;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -27,9 +27,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     String username;
     String fullname;
     String bio;
-    String courses;
-    String label;
-
 
     // Inflate the view for the fragment based on layout XML
     @Nullable
@@ -42,9 +39,9 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     public void onStart() {
         super.onStart();
 
-        ImageButton logout = (ImageButton) getView().findViewById(R.id.logbtn);
-        final ImageButton edit = (ImageButton) getView().findViewById(R.id.editbtn);
-        final Button schedule = (Button) getView().findViewById(R.id.schedule);
+        ImageView logout = (ImageView) getView().findViewById(R.id.logbtn);
+        final ImageView edit = (ImageView) getView().findViewById(R.id.editbtn);
+        final FlatButton schedule = (FlatButton) getView().findViewById(R.id.schedule);
         ParseImageView userprofilepic = (ParseImageView) getView().findViewById(R.id.userprofilepic);
         TextView fnamelname = (TextView) getView().findViewById(R.id.fnamelname);
         TextView profileusername = (TextView) getView().findViewById(R.id.profileusername);
@@ -109,6 +106,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 ParseUser.logOut();
+                Intent logoutIntent = new Intent(getActivity(), LoginSignupActivity.class);
+                startActivity(logoutIntent);
                 getActivity().finish();
             }
         });

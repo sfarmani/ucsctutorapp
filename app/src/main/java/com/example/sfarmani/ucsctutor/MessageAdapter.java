@@ -1,19 +1,17 @@
 package com.example.sfarmani.ucsctutor;
 
 import android.app.Activity;
-
 import android.util.Pair;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sinch.android.rtc.messaging.WritableMessage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageAdapter extends BaseAdapter {
 

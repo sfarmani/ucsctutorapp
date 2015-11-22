@@ -21,6 +21,7 @@ import com.example.sfarmani.ucsctutor.utils.ProgressGenerator;
 public class TutorSignUp extends Activity implements ProgressGenerator.OnCompleteListener{
 
     public static final String EXTRAS_ENDLESS_MODE = "EXTRAS_ENDLESS_MODE";
+    public static Activity tutorSignUp;
 
     String passwordtxt;
     String passwordtxtconfirm;

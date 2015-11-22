@@ -22,6 +22,9 @@ import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.sfarmani.ucsctutor.utils.ProgressGenerator;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
@@ -38,7 +41,7 @@ import java.io.InputStream;
 /**
  * Created by Shayan Farmani on 11/11/2015.
  */
-public class EditProfile extends Activity implements ProgressGenerator.OnCompleteListener{
+public class EditProfile extends Activity implements ProgressGenerator.OnCompleteListener {
 
     public static final String EXTRAS_ENDLESS_MODE = "EXTRAS_ENDLESS_MODE";
 
@@ -52,6 +55,11 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
     private ParseImageView editprofilepic;
     private File cameraImageFile;
     ParseUser currUser = ParseUser.getCurrentUser();
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @Override
@@ -62,17 +70,17 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
@@ -80,8 +88,8 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editprofile);
 
-        editbiofield = (EditText)findViewById(R.id.editbio);
-        editprofilepic = (ParseImageView)findViewById(R.id.editprofilepic);
+        editbiofield = (EditText) findViewById(R.id.editbio);
+        editprofilepic = (ParseImageView) findViewById(R.id.editprofilepic);
         final ProgressGenerator progressGenerator = new ProgressGenerator(this);
         final ActionProcessButton save = (ActionProcessButton) findViewById(R.id.saveprofile);
 
@@ -89,10 +97,9 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
 
         Bundle extras = getIntent().getExtras();
 
-        if(extras != null && extras.getBoolean(EXTRAS_ENDLESS_MODE)) {
+        if (extras != null && extras.getBoolean(EXTRAS_ENDLESS_MODE)) {
             save.setMode(ActionProcessButton.Mode.ENDLESS);
-        }
-        else {
+        } else {
             save.setMode(ActionProcessButton.Mode.PROGRESS);
         }
 
@@ -104,10 +111,14 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
         });
 
         gettxt = currUser.getString("bio");
-        if (!TextUtils.isEmpty(gettxt)) {
+        if (TextUtils.isEmpty(gettxt)) {
             editbiofield.setHint("Enter bio here");
+        }
+        else{
             editbiofield.setText(gettxt);
         }
+
+
 
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -120,12 +131,11 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
 
                 try {
                     image = readInFile(mCurrentPhotoPath);
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                if(image != null){
+                if (image != null) {
                     // Create the ParseFile
                     final ParseFile file = new ParseFile("ProfilePic", image);
 
@@ -136,8 +146,7 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
 
                             if (e != null) {
                                 Toast.makeText(getBaseContext(), "Image Could Not Be Uploaded", Toast.LENGTH_LONG).show();
-                            }
-                            else {
+                            } else {
                                 currUser.put("bio", editbio);
                                 currUser.put("ProfilePic", file);
                                 currUser.saveInBackground(new SaveCallback() {
@@ -174,8 +183,7 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
                             }
                         }
                     });
-                }
-                else{
+                } else {
                     currUser.put("bio", editbio);
                     currUser.saveInBackground(new SaveCallback() {
                         public void done(ParseException e) {
@@ -211,12 +219,15 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
                 }
             }
         });
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
     // loads an image into a file.
     @Override
-    public void onActivityResult (int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
@@ -226,7 +237,8 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-                Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                assert cursor != null;
                 cursor.moveToFirst();
 
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
@@ -244,16 +256,16 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
         }
     }
 
-    private void dialogChooseFrom(){
+    private void dialogChooseFrom() {
 
-        final CharSequence[] items={"Gallery"};
+        final CharSequence[] items = {"Gallery"};
 
-        AlertDialog.Builder chooseDialog =new AlertDialog.Builder(this);
+        AlertDialog.Builder chooseDialog = new AlertDialog.Builder(this);
         chooseDialog.setTitle("Choose Picture From...").setItems(items, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(galleryIntent, RESULT_LOAD_GALLERY_IMAGE);
             }
         });
@@ -276,5 +288,45 @@ public class EditProfile extends Activity implements ProgressGenerator.OnComplet
 
         input_stream.close();
         return buffer.toByteArray();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "EditProfile Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.sfarmani.ucsctutor/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "EditProfile Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.sfarmani.ucsctutor/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 }

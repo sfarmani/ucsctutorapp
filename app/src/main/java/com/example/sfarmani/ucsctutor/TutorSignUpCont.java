@@ -204,7 +204,7 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                                         // if user is okay to be made
                                         else {
 
-                                            ParseUser currentUser = ParseUser.getCurrentUser();
+                                            final ParseUser currentUser = ParseUser.getCurrentUser();
                                             ParseObject ReviewData = new ParseObject("ReviewMetaData");
                                             ReviewData.put("ownerID", currentUser.getObjectId());
                                             ReviewData.put("rel_avg", 0.0);
@@ -222,9 +222,17 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                                                 public void run() {
                                                     // give a message saying it succeeded and change the screen to the welcome page.
                                                     Toast.makeText(TutorSignUpCont.this, "User Saved", Toast.LENGTH_SHORT).show();
-                                                    Intent intent = new Intent(TutorSignUpCont.this, FragmentPagerSupport.class);
-                                                    startActivity(intent);
-                                                    finish();
+                                                    if (!currentUser.getBoolean("emailVerified")) {
+                                                        Intent intent = new Intent(TutorSignUpCont.this, EmailNotVerified.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                    else{
+                                                        Intent homeIntent = new Intent(TutorSignUpCont.this, FragmentPagerSupport.class);
+                                                        startActivity(homeIntent);
+                                                        TutorSignUp.tutorSignUp.finish();
+                                                        finish();
+                                                    }
                                                 }
                                             }, 6000);
                                         }
@@ -244,6 +252,7 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
 
                     // user.put manually puts any specific field you want to put in parse
                     user.put("isTutor", true);
+                    user.put("bio", "");
                     user.put("FirstName", fNameTxt);
                     user.put("LastName", lNameTxt);
 
@@ -271,7 +280,7 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                             }
                             // if user is okay to be made
                             else {
-                                ParseUser currentUser = ParseUser.getCurrentUser();
+                                final ParseUser currentUser = ParseUser.getCurrentUser();
                                 ParseObject ReviewData = new ParseObject("ReviewMetaData");
                                 ReviewData.put("ownerID", currentUser.getObjectId());
                                 ReviewData.put("rel_avg", 0.0);
@@ -289,9 +298,18 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                                     public void run() {
                                         // give a message saying it succeeded and change the screen to the welcome page.
                                         Toast.makeText(TutorSignUpCont.this, "User Saved", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(TutorSignUpCont.this, FragmentPagerSupport.class);
-                                        startActivity(intent);
-                                        finish();
+                                        if (!currentUser.getBoolean("emailVerified")) {
+                                            Intent intent = new Intent(TutorSignUpCont.this, EmailNotVerified.class);
+                                            startActivity(intent);
+                                            TutorSignUp.tutorSignUp.finish();
+                                            finish();
+                                        }
+                                        else{
+                                            Intent homeIntent = new Intent(TutorSignUpCont.this, FragmentPagerSupport.class);
+                                            startActivity(homeIntent);
+                                            TutorSignUp.tutorSignUp.finish();
+                                            finish();
+                                        }
                                     }
                                 }, 6000);
                             }
