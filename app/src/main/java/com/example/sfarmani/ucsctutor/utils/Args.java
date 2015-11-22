@@ -42,9 +42,7 @@ public final class Args {
     }
 
     public static boolean hasContent(String aText){
-        if( (aText == null) || (aText.trim().length() <= 0 ) ){
-            return false;
-        }else return true;
+        return !((aText == null) || (aText.trim().length() <= 0));
     }
 
     public static void checkForRange(int aNumber, int aLow, int aHigh, String argName) {

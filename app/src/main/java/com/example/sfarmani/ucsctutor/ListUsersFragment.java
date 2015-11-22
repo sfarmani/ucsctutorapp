@@ -2,14 +2,10 @@ package com.example.sfarmani.ucsctutor;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +21,6 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ListUsersFragment extends Fragment {
 
@@ -42,13 +37,16 @@ public class ListUsersFragment extends Fragment {
     private String title;
     private int page;
 
+    private View v;
+
     // Inflate the view for the fragment based on layout XML
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Retrieve current user from Parse.com
         currentUser = ParseUser.getCurrentUser();
-        return inflater.inflate(R.layout.activity_list_users, container, false);
+        v = inflater.inflate(R.layout.activity_list_users, container, false);
+        return v;
     }
 
     @Override
@@ -79,7 +77,7 @@ public class ListUsersFragment extends Fragment {
                         names.add(userList.get(i).getUsername());
                     }
 
-                    studentListView = (ListView) getView().findViewById(R.id.studentListView);
+                    studentListView = (ListView) v.findViewById(R.id.studentListView);
                     namesArrayAdapter =
                             new ArrayAdapter<String>(getActivity().getApplicationContext(),
                                     R.layout.user_list_item, names);

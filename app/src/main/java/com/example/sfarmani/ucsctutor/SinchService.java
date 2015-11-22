@@ -22,13 +22,21 @@ public class SinchService extends Service implements SinchClientListener {
     private static final String APP_KEY = "1b7c0216-aef0-471a-be50-610f39534f4b";
     private static final String APP_SECRET = "UGdrzqQytEWlho1d1tMdzg==";
     private static final String ENVIRONMENT = "sandbox.sinch.com";
+
     private final MessageServiceInterface serviceInterface = new MessageServiceInterface();
-    private SinchClient sinchClient = null;
+    protected SinchClient sinchClient = null;
     private MessageClient messageClient = null;
+
     ParseUser currentUser = ParseUser.getCurrentUser();
     private String currentUserId;
+
     private LocalBroadcastManager broadcaster;
     private Intent broadcastIntent = new Intent("com.example.sfarmani.ucsctutor.ListUsersFragment");
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -70,7 +78,6 @@ public class SinchService extends Service implements SinchClientListener {
         broadcastIntent.putExtra("success", false);
         broadcaster.sendBroadcast(broadcastIntent);
 
-
         sinchClient = null;
     }
 
@@ -106,6 +113,7 @@ public class SinchService extends Service implements SinchClientListener {
         Log.i("onRegCredentialsReq", "");
     }
 
+
     public void sendMessage(String recipientUserId, String textBody) {
         Log.i("sendMessage", "");
         if (messageClient != null) {
@@ -135,7 +143,7 @@ public class SinchService extends Service implements SinchClientListener {
         // without check, giving me nullpointer exception
         // is this because sinchclient is never started?
         // is it because there are no other users?
-        if (sinchClient != null){
+        if (sinchClient != null) {
             sinchClient.stopListeningOnActiveConnection();
             sinchClient.terminate();
         }

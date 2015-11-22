@@ -1,15 +1,12 @@
 package com.example.sfarmani.ucsctutor;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -147,7 +144,7 @@ public class ViewProfileActivity extends FragmentActivity {
                     knowledge_prog.setProgress((int) (know_avg_val * 20));
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Thus is the parse error code" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Thus is the parse error code" + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

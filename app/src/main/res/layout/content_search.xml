@@ -31,18 +31,54 @@
         android:layout_height="wrap_content"
         android:background="@mipmap/ic_search_black_24dp"
         android:width="5dp"
-        android:layout_above="@+id/usersListView"
         android:layout_toRightOf="@+id/searchUser"
         android:layout_toEndOf="@+id/searchUser" />
 
+
+    <com.example.sfarmani.ucsctutor.utils.MultiSelectionSpinner
+        android:id="@+id/mySpinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/searchButton" />
+
+    <Button
+        android:id="@+id/getSelected1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter by day"
+        android:layout_below="@+id/mySpinner1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+    <com.example.sfarmani.ucsctutor.utils.MultiSelectionSpinner
+        android:id="@+id/mySpinner2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/getSelected1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/getSelected2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter by time of day"
+        android:layout_below="@+id/mySpinner2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="350dp"
         android:padding="16dp"
         android:id="@+id/usersListView"
-        android:layout_below="@+id/searchUser"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
     </ListView>
 
 </RelativeLayout>

@@ -1,0 +1,44 @@
+
+********************** PULLING AND MERGING *****************************
+
+git fetch
+git status
+git stash
+git pull
+
+Open Android Studio
+VCS -> git -> Unstash Changes
+Apply Stash
+Click on a file, click the revert button, then mark each checkbox
+Apply
+DON'T RELOAD PROJECT
+VCS -> git -> Unstash Changes
+Apply Stash
+
+If there's the option of accepting your changes/their changes, review
+them and see which ones are most up to date, and if there's any
+conflicts. You can choose what to merge into the new file by clicking
+"X" or ">>" or "<<" to ignore or move certain changes.
+
+RELOAD PROJECT
+
+************************************************************************
+
+
+
+********************* COMMITTING AND PUSHING ***************************
+
+git fetch
+git status
+
+If you have files you created, they may not have been added to git, so
+you have to do this:
+
+git add --all
+
+Now, we commit:
+
+git commit -a -m "Description of what you've added/changed/removed"
+git push
+
+************************************************************************

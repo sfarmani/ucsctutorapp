@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
@@ -74,20 +73,20 @@ public class VenmoWebViewActivity extends Activity {
         public void paymentSuccessful(String signed_request) {
             Intent i = new Intent();
             i.putExtra("signedrequest", signed_request);
-            mActivity.setResult(mActivity.RESULT_OK, i);
+            mActivity.setResult(RESULT_OK, i);
             mActivity.finish();
         }
 
         public void error(String error_message) {
             Intent i = new Intent();
             i.putExtra("error_message", error_message);
-            mActivity.setResult(mActivity.RESULT_OK, i);
+            mActivity.setResult(RESULT_OK, i);
             mActivity.finish();
         }
 
         public void cancel() {
             Intent i = new Intent();
-            mActivity.setResult(mActivity.RESULT_CANCELED);
+            mActivity.setResult(RESULT_CANCELED);
             mActivity.finish();
         }
     }

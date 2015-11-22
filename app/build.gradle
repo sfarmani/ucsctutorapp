@@ -1,8 +1,15 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
+    useLibrary 'org.apache.http.legacy'
+
+    dexOptions{
+        preDexLibraries = false
+    }
 
     defaultConfig {
         applicationId "com.example.sfarmani.ucsctutor"
@@ -10,6 +17,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -20,22 +28,25 @@ android {
             debuggable true
         }
     }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
 }
 dependencies {
+    compile 'com.android.support:multidex:1.0.0'
+    // Change as per the latest dependency
     // Module dependency on ParseUI libraries sources
     compile 'com.parse:parseui-login-android:0.0.1'
     compile 'com.parse:parseui-widget-android:0.0.1'
 
-// Uncomment if using Facebook Login (optional Maven dependency)
-// compile 'com.facebook.android:facebook-android-sdk:4.6.0'
-// compile 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
     compile 'com.parse:parse-android:1.10.3'
     compile 'com.parse.bolts:bolts-android:1.2.1'
     compile 'com.parse:parseui-widget-android:0.0.1'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile files('libs/sinch-android-rtc-3.7.1.jar')
     compile files('libs/json-simple-1.1.1.jar')
 

@@ -1,26 +1,21 @@
 package com.example.sfarmani.ucsctutor;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+import android.os.AsyncTask;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.ParseACL;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -32,7 +27,19 @@ import com.sinch.android.rtc.messaging.MessageDeliveryInfo;
 import com.sinch.android.rtc.messaging.MessageFailureInfo;
 import com.sinch.android.rtc.messaging.WritableMessage;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MessagingActivity extends Activity {
@@ -91,6 +98,7 @@ public class MessagingActivity extends Activity {
                 if (e == null) {
                     for (int i = 0; i < messageList.size(); i++) {
                         WritableMessage message = new WritableMessage(messageList.get(i).get("recipientId").toString(), messageList.get(i).get("messageText").toString());
+                        message.addHeader("Sent", messageList.get(i).getString("timestamp"));
                         Log.i("senderId = ", "" + currentUserId);
                         Log.i("recipientId = ", "" + recipientId);
                         if (messageList.get(i).get("senderId").toString().equals(currentUserId)) {
@@ -160,14 +168,11 @@ public class MessagingActivity extends Activity {
                     public void done(List<ParseObject> messageList, com.parse.ParseException e) {
                         if (e == null) {
                             if (messageList.size() == 0) {
-                                /*ParseObject parseMessage = new ParseObject("ParseMessage");
-                                parseMessage.put("senderId", currentUserId);
-                                parseMessage.put("recipientId", writableMessage.getRecipientIds().get(0));
-                                parseMessage.put("messageText", writableMessage.getTextBody());
-                                parseMessage.put("messageId", message.getMessageId());
-                                parseMessage.saveInBackground();
-                                */
-
+                                long start = System.currentTimeMillis();
+                                Date timeDiff = new Date(start); // compensate for 1h in millis
+                                SimpleDateFormat timeFormat = new SimpleDateFormat("MMM d, h:mma");
+                                String timestamp = timeFormat.format(timeDiff);
+                                writableMessage.addHeader("Sent", timestamp);
                                 messageAdapter.addMessage(writableMessage, MessageAdapter.DIRECTION_INCOMING);
                             }
                         }
@@ -181,7 +186,6 @@ public class MessagingActivity extends Activity {
             final WritableMessage writableMessage = new WritableMessage(message.getRecipientIds().get(0), message.getTextBody());
             //messageAdapter.addMessage(writableMessage, MessageAdapter.DIRECTION_OUTGOING);
 
-
             //only add message to parse database if it doesn't already exist there
             ParseQuery<ParseObject> query = ParseQuery.getQuery("ParseMessage");
             query.whereEqualTo("messageId", message.getMessageId());
@@ -190,6 +194,12 @@ public class MessagingActivity extends Activity {
                 public void done(List<ParseObject> messageList, com.parse.ParseException e) {
                     if (e == null) {
                         if (messageList.size() == 0) {
+                            long start = System.currentTimeMillis();
+                            Date timeDiff = new Date(start); // compensate for 1h in millis
+                            SimpleDateFormat timeFormat = new SimpleDateFormat("MMM d, h:mma");
+                            String timestamp = timeFormat.format(timeDiff);
+                            writableMessage.addHeader("Sent", timestamp);
+
                             // allows user to see messages they've received
                             ParseACL acl = new ParseACL();
                             acl.setPublicReadAccess(true);
@@ -202,6 +212,7 @@ public class MessagingActivity extends Activity {
                             parseMessage.put("recipientId", writableMessage.getRecipientIds().get(0));
                             parseMessage.put("messageText", writableMessage.getTextBody());
                             parseMessage.put("messageId", writableMessage.getMessageId());
+                            parseMessage.put("timestamp", timestamp);
                             parseMessage.setACL(acl);
                             parseMessage.saveInBackground();
                             messageAdapter.addMessage(writableMessage, MessageAdapter.DIRECTION_OUTGOING);
@@ -215,6 +226,34 @@ public class MessagingActivity extends Activity {
         public void onMessageDelivered(MessageClient client, MessageDeliveryInfo deliveryInfo) {}
 
         @Override
-        public void onShouldSendPushData(MessageClient client, Message message, List<PushPair> pushPairs) {}
+        public void onShouldSendPushData(MessageClient client, Message message, List<PushPair> pushPairs) {
+            //get the id that is registered with Sinch
+            final String regId = new String(pushPairs.get(0).getPushData());
+            //use an async task to make the http request
+            class SendPushTask extends AsyncTask<Void, Void, Void> {
+
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    HttpClient httpclient = new DefaultHttpClient();
+                    //url of where your backend is hosted, can't be local!
+                    HttpPost httppost = new HttpPost("http://your-domain.com?reg_id=" + regId);
+
+                    try {
+                        HttpResponse response = httpclient.execute(httppost);
+                        ResponseHandler<String> handler = new BasicResponseHandler();
+                        Log.d("HttpResponse", handler.handleResponse(response));
+                    } catch (ClientProtocolException e) {
+                        Log.d("ClientProtocolException", e.toString());
+                    } catch (IOException e) {
+                        Log.d("IOException", e.toString());
+                    }
+
+                    return null;
+                }
+            }
+
+            (new SendPushTask()).execute();
+
+        }
     }
 }

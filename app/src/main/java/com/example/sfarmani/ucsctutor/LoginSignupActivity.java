@@ -29,7 +29,6 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
     String passwordtxt;
     EditText password;
     EditText username;
-    private Intent serviceIntent;
 
     @Override
     public void onComplete() {
@@ -87,9 +86,6 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
             usernametxt = username.getText().toString();
             passwordtxt = password.getText().toString();
 
-            // prepare to start the service
-            serviceIntent = new Intent(getApplicationContext(), SinchService.class);
-
             ParseUser.logInInBackground(usernametxt, passwordtxt, new LogInCallback() {
                 public void done(ParseUser user, ParseException e) {
                 // if everything went well
@@ -115,7 +111,6 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
                                 password.setText("");
                             }
                         }, 6000);
-                        startService(serviceIntent);
                     }
                     else {
                             username.setText("");
@@ -153,4 +148,5 @@ public class LoginSignupActivity extends Activity implements ProgressGenerator.O
             }
         });
     }
+
 }

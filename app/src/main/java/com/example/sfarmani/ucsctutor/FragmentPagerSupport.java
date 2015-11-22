@@ -9,22 +9,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 /**
@@ -33,8 +24,7 @@ import com.parse.ParseUser;
 public class FragmentPagerSupport extends FragmentActivity {
     // Retrieve current user from Parse.com
     static ParseUser currentUser = ParseUser.getCurrentUser();
-    static String currentUserId = currentUser.getObjectId();
-    static boolean isTutor = currentUser.getBoolean("isTutor");
+    private static boolean isTutor;
     static int NUM_ITEMS;
 
     MyAdapter mAdapter;
@@ -52,10 +42,10 @@ public class FragmentPagerSupport extends FragmentActivity {
 
         mAdapter = new MyAdapter(getSupportFragmentManager(), getApplicationContext());
 
-
+        isTutor = currentUser.getBoolean("isTutor");
         NUM_ITEMS = isTutor ? 2 : 3; // tutors only have two tabs
-        Toast.makeText(getApplicationContext(), "NUM_ITEMS = " + NUM_ITEMS, Toast.LENGTH_LONG);
-        
+        Toast.makeText(getBaseContext(), "NUM_ITEMS = " + NUM_ITEMS, Toast.LENGTH_LONG);
+
         mPager = (ViewPager)findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
 
