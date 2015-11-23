@@ -36,23 +36,15 @@ public class SearchFragment extends Fragment {
 
     public static final String TAG = SearchFragment.class.getSimpleName();
 
-    String username;
-    protected List<ParseUser> mUsers;
     protected ParseUser mCurrentUser;
+    List<ParseUser> userList;
+
     protected EditText classToSearchFor;
     protected Button mSearchButton;
 
-    private ArrayAdapter<String> namesArrayAdapter;
     private ArrayList<String> names;
-    private ListView usersListView;
+    View v; // because this is a fragment, it helps to store the View as a global variable
 
-    private String currentUserId;
-
-    View v;
-
-    // Store instance variables
-    private String title;
-    private int page;
 
     MultiSelectionSpinner spinnerDays;
     MultiSelectionSpinner spinnerTimes;
@@ -77,6 +69,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         // keeps keyboard from popping up every time
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -112,8 +105,10 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    /*
+    * Creates and initializes dropdown multiselection spinners
+    */
     private void setupSpinners(){
-
         // Create dropdown list that lets the student select the days of week they're available
         spinnerDays = (MultiSelectionSpinner) v.findViewById(R.id.mySpinner1);
         List<String> daysOfWeek = Arrays.asList(
@@ -137,7 +132,7 @@ public class SearchFragment extends Fragment {
 
     /*
     * Takes care of storing user input data from multi-select spinners
-    * */
+    */
     private void setSelectedDaysAndTimes() {
         selectedDays = spinnerDays.getSelectedItemsAsBoolean();
         selectedTimes = spinnerTimes.getSelectedItemsAsBoolean();
@@ -163,26 +158,31 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    // display clickable a list of all users
+    /*
+    * Perform search based off of desired availability/class name
+    * Display clickable a list of all users
+    */
     private void doSearch(final ArrayList<Boolean> desiredAvailability) {
         Boolean isTutor = mCurrentUser.getBoolean("isTutor");
-        currentUserId = ParseUser.getCurrentUser().getObjectId();
+        String currentUserId = ParseUser.getCurrentUser().getObjectId();
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereNotEqualTo("isTutor", isTutor);
         query.whereNotEqualTo("objectId", currentUserId);
-        Log.e("Size", "" + desiredAvailability.size());
-        names = new ArrayList<>();
 
-        // arbitrarily set userList to have capacity 100
-        // most likely won't be 100 tutors for any given class
-        List<ParseUser> userList = new ArrayList<ParseUser>(100);
+        userList = new ArrayList<>(100);
+        names = new ArrayList<>();
+        storeListItems(query); // sets up, and then displays ListView of users
+
+        userList.clear();
+        desiredAvailability.clear();
+    }
+
+    private void storeListItems(ParseQuery<ParseUser> query){
         try {
             userList = query.find();
             for (ParseUser tutor : userList){
                 // check each user to see if they're available at the times specified
                 ArrayList<Boolean> tutorAvailability = (ArrayList<Boolean>)tutor.get("Availability");
-
-                //
                 if (tutorAvailability != null){
                     Log.e("Size", "" + tutorAvailability.size());
                     for(int j = 0; j < tutorAvailability.size(); j++){
@@ -195,27 +195,35 @@ public class SearchFragment extends Fragment {
                 }
             }
 
-            usersListView = (ListView) v.findViewById(R.id.usersListView);
-            namesArrayAdapter = new ArrayAdapter<>(
-                    getContext(),
-                    R.layout.user_list_item, names
-            );
-            usersListView.setAdapter(namesArrayAdapter);
-
-            usersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> a, View v, int i, long l) {
-                    openConversation(names, i);
-                }
-            });
+            // display the results of the search in a pleasant way
+            displayListItems();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        userList.clear();
-        desiredAvailability.clear();
     }
 
-    // open a conversation with one person
+    /*
+    * Display the results of the search in a ListView
+    * */
+    private void displayListItems(){
+        ListView usersListView = (ListView) v.findViewById(R.id.usersListView);
+        ArrayAdapter<String> namesArrayAdapter = new ArrayAdapter<>(
+                getContext(),
+                R.layout.user_list_item, names
+        );
+        usersListView.setAdapter(namesArrayAdapter);
+
+        usersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int i, long l) {
+                openConversation(names, i);
+            }
+        });
+    }
+
+    /*
+    * Open a conversation with one person
+    */
     public void openConversation(ArrayList<String> names, int pos) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username", names.get(pos));
@@ -235,7 +243,9 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    // newInstance constructor for creating fragment with arguments
+    /*
+    * newInstance constructor for creating fragment with arguments
+    */
     public static SearchFragment newInstance(int page, String title) {
         SearchFragment searchFragment = new SearchFragment();
         Bundle args = new Bundle();
@@ -245,11 +255,13 @@ public class SearchFragment extends Fragment {
         return searchFragment;
     }
 
-    // Store instance variables based on arguments passed
+    /*
+    * Store instance variables based on arguments passed
+    */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        page = getArguments().getInt("someInt", 0);
-        title = getArguments().getString("someTitle");
+        int page = getArguments().getInt("someInt", 0);
+        String title = getArguments().getString("someTitle");
     }
 }

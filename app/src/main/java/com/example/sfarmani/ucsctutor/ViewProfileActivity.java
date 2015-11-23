@@ -46,10 +46,6 @@ public class ViewProfileActivity extends FragmentActivity {
     public void onCreate(Bundle SavedInstanceState){
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.view_profile);
-
-
-
-
     }
 
     @Override

@@ -18,36 +18,36 @@ import com.parse.ParseUser;
 
 public class HomeFragment extends android.support.v4.app.Fragment {
 
-    // Store instance variables
-    private String title;
-    private int page;
     ParseUser currUser = ParseUser.getCurrentUser();
     String fname;
     String lname;
     String username;
     String fullname;
     String bio;
+    
+    View v; // because this is a fragment, it helps to store the View as a global variable
 
     // Inflate the view for the fragment based on layout XML
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_home, container, false);
+        v = inflater.inflate(R.layout.activity_home, container, false);
+        return v;
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        ImageView logout = (ImageView) getView().findViewById(R.id.logbtn);
-        final ImageView edit = (ImageView) getView().findViewById(R.id.editbtn);
-        final FlatButton schedule = (FlatButton) getView().findViewById(R.id.schedule);
-        ParseImageView userprofilepic = (ParseImageView) getView().findViewById(R.id.userprofilepic);
-        TextView fnamelname = (TextView) getView().findViewById(R.id.fnamelname);
-        TextView profileusername = (TextView) getView().findViewById(R.id.profileusername);
-        TextView biofield = (TextView) getView().findViewById(R.id.biofield);
-        TextView coursefield = (TextView) getView().findViewById(R.id.coursefield);
-        TextView courselabel = (TextView) getView().findViewById(R.id.courselabel);
+        ImageView logout = (ImageView) v.findViewById(R.id.logbtn);
+        final ImageView edit = (ImageView) v.findViewById(R.id.editbtn);
+        final FlatButton schedule = (FlatButton) v.findViewById(R.id.schedule);
+        ParseImageView userprofilepic = (ParseImageView) v.findViewById(R.id.userprofilepic);
+        TextView fnamelname = (TextView) v.findViewById(R.id.fnamelname);
+        TextView profileusername = (TextView) v.findViewById(R.id.profileusername);
+        TextView biofield = (TextView) v.findViewById(R.id.biofield);
+        TextView coursefield = (TextView) v.findViewById(R.id.coursefield);
+        TextView courselabel = (TextView) v.findViewById(R.id.courselabel);
 
         if(currUser.getBoolean("isTutor")){
             courselabel.setText(getString(R.string.tutorcourses));
@@ -70,7 +70,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
         fname = currUser.get("FirstName").toString();
         lname = currUser.get("LastName").toString();
-        fullname = fname +" "+ lname;
+        fullname = fname + " " + lname;
         fnamelname.setText(fullname);
 
         ParseFile image = currUser.getParseFile("ProfilePic");
@@ -84,7 +84,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         else{
             userprofilepic.setImageDrawable(getResources().getDrawable(R.drawable.temppic));
         }
-
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +126,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        page = getArguments().getInt("someInt", 0);
-        title = getArguments().getString("someTitle");
+        int page = getArguments().getInt("someInt", 0);
+        String title = getArguments().getString("someTitle");
     }
 }

@@ -159,6 +159,14 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
         email = (EditText)findViewById(R.id.studentemailfield);
         fName = (EditText)findViewById(R.id.studentfnamefield);
         lName = (EditText)findViewById(R.id.studentlnamefield);
+        submitFromInputFields();
+
+    }
+
+    /*
+    The (very) lengthy sign up process in one very ugly function
+     */
+    private void submitFromInputFields(){
 
         // make a progress generator for the animation of the submit button.
         imgPhoto = (ImageView)findViewById(R.id.studentprofilepictureview);
@@ -181,7 +189,6 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                 dialogChooseFrom();
             }
         });
-
         // when the submit button is pressed do the following...
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
