@@ -53,17 +53,25 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Message"
-                    android:id="@+id/message_btn"
-                    android:layout_marginRight="5dp" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="View Schedule"
                     android:id="@+id/schedule_button"
                     android:layout_marginLeft="5dp" />
             </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Venmo"
+                android:id="@+id/venmo_button"
+                android:layout_gravity="right|center_vertical" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Message"
+                android:id="@+id/message_btn"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="left|center_vertical" />
         </FrameLayout>
 
         <TextView

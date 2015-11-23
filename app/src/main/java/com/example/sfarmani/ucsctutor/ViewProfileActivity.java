@@ -41,6 +41,7 @@ public class ViewProfileActivity extends FragmentActivity {
     private TextView reviewIntro;
     private Button msg_button;
     private Button view_schedule_btn;
+    private Button venmo_btn;
 
     @Override
     public void onCreate(Bundle SavedInstanceState){
@@ -71,6 +72,7 @@ public class ViewProfileActivity extends FragmentActivity {
         parent = (LinearLayout) findViewById(R.id.parent_linear_layout);
         msg_button = (Button) findViewById(R.id.message_btn);
         view_schedule_btn = (Button) findViewById(R.id.schedule_button);
+        venmo_btn = (Button) findViewById(R.id.venmo_button);
 
         view_schedule_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +88,14 @@ public class ViewProfileActivity extends FragmentActivity {
                 Intent message = new Intent(ViewProfileActivity.this, MessagingActivity.class);
                 message.putExtra("RECIPIENT_ID", profileID);
                 startActivity(message);
+            }
+        });
+        venmo_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent schedule = new Intent(ViewProfileActivity.this, VenmoActivity.class);
+                schedule.putExtra("EXTRA_PROFILE_ID", profileID);
+                startActivity(schedule);
             }
         });
         ParseQuery<ParseUser> query = ParseUser.getQuery();
