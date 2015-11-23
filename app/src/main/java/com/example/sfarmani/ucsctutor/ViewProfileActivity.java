@@ -93,9 +93,9 @@ public class ViewProfileActivity extends FragmentActivity {
         venmo_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent schedule = new Intent(ViewProfileActivity.this, VenmoActivity.class);
-                schedule.putExtra("EXTRA_PROFILE_ID", profileID);
-                startActivity(schedule);
+                Intent venmo = new Intent(ViewProfileActivity.this, VenmoActivity.class);
+                venmo.putExtra("EXTRA_PROFILE_ID", profileID);
+                startActivity(venmo);
             }
         });
         ParseQuery<ParseUser> query = ParseUser.getQuery();
