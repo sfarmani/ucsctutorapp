@@ -21,11 +21,7 @@
     <bookmark url="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" line="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4128e8f-ad32-4903-ae41-aa46daf29fca" name="Default" comment="Searching is getting closer to working. Still can't get results from Parse">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="b4128e8f-ad32-4903-ae41-aa46daf29fca" name="Default" comment="Searching is getting closer to working. Still can't get results from Parse" />
     <ignored path="UCSC Tutor.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
