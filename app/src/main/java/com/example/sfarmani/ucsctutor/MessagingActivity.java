@@ -10,12 +10,16 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseACL;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -52,6 +56,8 @@ public class MessagingActivity extends Activity {
     private String currentUserId;
     private ServiceConnection serviceConnection = new MyServiceConnection();
     private MessageClientListener messageClientListener = new MyMessageClientListener();
+    private Button viewprofile_button;
+    private TextView profile_namee;
 
     @Override
     public void onCreate(Bundle savedInstanceBundle) {
@@ -77,6 +83,26 @@ public class MessagingActivity extends Activity {
             @Override
             public void onClick(View view) {
                 sendMessage();
+            }
+        });
+
+        profile_namee = (TextView) findViewById(R.id.prof_namee);
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("objectID", recipientId);
+        query.getInBackground(recipientId, new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser user_profile, ParseException e) {
+                if (e == null && user_profile != null) {
+                    profile_namee.setText(user_profile.getString("FirstName") + " " + user_profile.getString("LastName"));
+                }}});
+
+        viewprofile_button = (Button) findViewById(R.id.viewprofile_button);
+        viewprofile_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewprofile = new Intent(MessagingActivity.this, ViewProfileActivity.class);
+                viewprofile.putExtra("EXTRA_PROFILE_ID", recipientId);
+                startActivity(viewprofile);
             }
         });
 
