@@ -210,6 +210,7 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                                             ReviewData.put("rel_avg", 0.0);
                                             ReviewData.put("friend_avg", 0.0);
                                             ReviewData.put("know_avg", 0.0);
+                                            ReviewData.put("total_avg", 0.0);
                                             ReviewData.put("review_count", 0);
                                             ReviewData.saveInBackground();
 

@@ -25,6 +25,7 @@ import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.sfarmani.ucsctutor.utils.ProgressGenerator;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
@@ -222,6 +223,7 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                 Toast.makeText(getBaseContext(), "Image Could Not Be Uploaded", Toast.LENGTH_LONG).show();
                             } else {
 
+
                                 // if any of the fields are left empty then show them a Toast saying they need to finish
                                 if (usernametxt.equals("") || passwordtxt.equals("") || passwordtxtconfirm.equals("") || emailTxt.equals("") || fNameTxt.equals("") || lNameTxt.equals("")) {
                                     submit.setProgress(-1);
@@ -321,6 +323,16 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                             else {
                                                 // start the animation for the submit button and disable the fields and submit button
                                                 final ParseUser currentUser = ParseUser.getCurrentUser();
+
+                                                ParseObject ReviewData = new ParseObject("ReviewMetaData");
+                                                ReviewData.put("ownerID", currentUser.getObjectId());
+                                                ReviewData.put("rel_avg", 0.0);
+                                                ReviewData.put("friend_avg", 0.0);
+                                                ReviewData.put("know_avg", 0.0);
+                                                ReviewData.put("total_avg", 0.0);
+                                                ReviewData.put("review_count", 0);
+                                                ReviewData.saveInBackground();
+
                                                 progressGenerator.start(submit);
                                                 submit.setEnabled(false);
                                                 username.setEnabled(false);
