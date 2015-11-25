@@ -2,75 +2,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.sfarmani.ucsctutor.VenmoActivity"
-    android:background="@drawable/bgtwo">
+    android:background="#0277BD">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:textColor="#FF0000"
-        android:textSize="20dp"
+
+    <Chronometer
+        android:id="@+id/chronometer1"
+        android:textColor="#fff"
+        android:textSize="125sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Chronometer"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Static Chronometer" />
+        android:layout_marginTop="125dp" />
 
-    <Button
+    <com.dd.processbutton.FlatButton
+        custom:pb_colorNormal="#2E7D32"
+        custom:pb_colorPressed="#1B5E20"
+        android:textColor="@android:color/white"
+        android:textSize="7pt"
         android:id="@+id/btnStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start"
-        android:layout_above="@+id/btnPause"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/chronometer1"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible" />
 
-
-    <Button
+    <com.dd.processbutton.FlatButton
+        custom:pb_colorNormal="#FBC02D"
+        custom:pb_colorPressed="#F9A825"
+        android:textColor="@android:color/white"
+        android:textSize="7pt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pause"
         android:id="@+id/btnPause"
-        android:layout_above="@+id/btnStop"
-        android:layout_alignLeft="@+id/btnStop"
-        android:layout_alignStart="@+id/btnStop" />
+        android:layout_below="@+id/chronometer1"
+        android:layout_alignRight="@+id/chronometer1"
+        android:layout_alignEnd="@+id/chronometer1"
+        android:layout_marginRight="76dp"
+        android:layout_marginEnd="76dp"
+        android:visibility="visible" />
 
-    <Button
+    <com.dd.processbutton.FlatButton
+        custom:pb_colorNormal="#c62828"
+        custom:pb_colorPressed="#b71c1c"
+        android:textColor="@android:color/white"
+        android:textSize="7pt"
         android:id="@+id/btnStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stop"
-        android:layout_above="@+id/btnRestart"
-        android:layout_alignLeft="@+id/btnStart"
-        android:layout_alignStart="@+id/btnStart" />
+        android:layout_alignTop="@+id/btnPause"
+        android:layout_alignLeft="@+id/chronometer1"
+        android:layout_alignStart="@+id/chronometer1"
+        android:layout_marginLeft="78dp"
+        android:layout_marginStart="78dp"
+        android:visibility="visible" />
 
-    <Button
+    <com.dd.processbutton.FlatButton
+        custom:pb_colorNormal="#054A7F"
+        custom:pb_colorPressed="#033963"
+        android:textColor="@android:color/white"
+        android:textSize="7pt"
         android:id="@+id/btnRestart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Restart"
-        android:layout_above="@+id/chronometer1"
-        android:layout_alignLeft="@+id/btnStop"
-        android:layout_alignStart="@+id/btnStop"
-        android:layout_marginBottom="51dp" />
-
-    <Chronometer
-        android:id="@+id/chronometer1"
-        android:textColor="#4169E1"
-        android:textSize="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chronometer"
-        android:layout_above="@+id/venmo_button"
+        android:layout_below="@+id/chronometer1"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="67dp" />
+        android:visibility="visible" />
 
-    <Button
+    <com.dd.processbutton.FlatButton
+        custom:pb_colorNormal="#A96200"
+        custom:pb_colorPressed="#804A00"
+        android:textColor="@android:color/white"
+        android:textSize="7pt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/venmo_button"
         android:text="Open Venmo"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/btnRestart"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="95dp" />
+        android:layout_marginTop="50dp"
+        android:visibility="visible" />
 
 </RelativeLayout>

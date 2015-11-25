@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dd.processbutton.FlatButton;
 import com.example.sfarmani.ucsctutor.utils.Args;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -39,9 +39,9 @@ public class ViewProfileActivity extends FragmentActivity {
     private ProgressBar knowledge_prog;
     private LinearLayout parent;
     private TextView reviewIntro;
-    private Button msg_button;
-    private Button view_schedule_btn;
-    private Button venmo_btn;
+    private FlatButton msg_button;
+    private FlatButton view_schedule_btn;
+    private FlatButton venbtn;
 
     @Override
     public void onCreate(Bundle SavedInstanceState){
@@ -70,9 +70,18 @@ public class ViewProfileActivity extends FragmentActivity {
         friendliness_prog = (ProgressBar) findViewById(R.id.friendliness_prog);
         knowledge_prog = (ProgressBar) findViewById(R.id.knowledge_prog);
         parent = (LinearLayout) findViewById(R.id.parent_linear_layout);
-        msg_button = (Button) findViewById(R.id.message_btn);
-        view_schedule_btn = (Button) findViewById(R.id.schedule_button);
-        venmo_btn = (Button) findViewById(R.id.venmo_button);
+        msg_button = (FlatButton) findViewById(R.id.message_btn);
+        view_schedule_btn = (FlatButton) findViewById(R.id.schedule_button);
+        venbtn = (FlatButton)findViewById(R.id.venbtn);
+
+        venbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ven = new Intent(ViewProfileActivity.this, VenmoActivity.class);
+                ven.putExtra("RECIPIENT_ID", profileID);
+                startActivity(ven);
+            }
+        });
 
         view_schedule_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,14 +97,6 @@ public class ViewProfileActivity extends FragmentActivity {
                 Intent message = new Intent(ViewProfileActivity.this, MessagingActivity.class);
                 message.putExtra("RECIPIENT_ID", profileID);
                 startActivity(message);
-            }
-        });
-        venmo_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent venmo = new Intent(ViewProfileActivity.this, VenmoActivity.class);
-                venmo.putExtra("EXTRA_PROFILE_ID", profileID);
-                startActivity(venmo);
             }
         });
         ParseQuery<ParseUser> query = ParseUser.getQuery();

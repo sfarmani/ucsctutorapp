@@ -11,7 +11,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_home"
     tools:context="com.example.sfarmani.ucsctutor.HomeFragment"
-    android:background="@drawable/bgtwo">
+    android:background="#0277BD">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -23,29 +23,29 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <com.parse.ParseImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:id="@+id/userprofilepic"
                 android:src="@drawable/temppic"
                 android:visibility="visible"
-                android:layout_below="@+id/home"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="First Last"
                 android:textSize="12pt"
                 android:textColor="#ffffff"
                 android:id="@+id/fnamelname"
                 android:visibility="visible"
-                android:layout_below="@+id/home"
+                android:layout_below="@+id/editbtn"
                 android:layout_toRightOf="@+id/userprofilepic"
                 android:layout_toEndOf="@+id/userprofilepic" />
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Username"
                 android:textSize="8pt"
@@ -127,16 +127,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:visibility="visible" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/home"
-                android:id="@+id/home"
-                android:textColor="#ffffff"
-                android:textSize="20pt"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
 
             <com.dd.processbutton.FlatButton
                 android:layout_width="wrap_content"

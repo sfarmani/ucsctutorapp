@@ -10,7 +10,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_availability"
     tools:context="com.example.sfarmani.ucsctutor.AvailabilityActivity"
-    android:background="@drawable/bgtwo">
+    android:background="#0277BD">
 
     <ImageButton
         android:layout_width="67dp"
@@ -96,7 +96,8 @@
         android:layout_alignStart="@+id/imageButton1"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/imageButton2"
-        android:layout_toStartOf="@+id/imageButton2" />
+        android:layout_toStartOf="@+id/imageButton2"
+        android:textColor="#ffffff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -109,7 +110,8 @@
         android:layout_alignStart="@+id/imageButton2"
         android:layout_above="@+id/imageButton2"
         android:layout_toLeftOf="@+id/imageButton3"
-        android:layout_toStartOf="@+id/imageButton3" />
+        android:layout_toStartOf="@+id/imageButton3"
+        android:textColor="#ffffff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -122,7 +124,8 @@
         android:layout_alignStart="@+id/imageButton3"
         android:layout_above="@+id/imageButton3"
         android:layout_toLeftOf="@+id/imageButton4"
-        android:layout_toStartOf="@+id/imageButton4" />
+        android:layout_toStartOf="@+id/imageButton4"
+        android:textColor="#ffffff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -135,7 +138,8 @@
         android:layout_alignStart="@+id/imageButton4"
         android:layout_above="@+id/imageButton4"
         android:layout_toLeftOf="@+id/imageButton5"
-        android:layout_toStartOf="@+id/imageButton5" />
+        android:layout_toStartOf="@+id/imageButton5"
+        android:textColor="#ffffff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -148,7 +152,8 @@
         android:layout_alignStart="@+id/imageButton5"
         android:layout_above="@+id/imageButton5"
         android:layout_toLeftOf="@+id/imageButton6"
-        android:layout_toStartOf="@+id/imageButton6" />
+        android:layout_toStartOf="@+id/imageButton6"
+        android:textColor="#fff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -161,7 +166,8 @@
         android:layout_alignStart="@+id/imageButton6"
         android:layout_above="@+id/imageButton6"
         android:layout_toLeftOf="@+id/imageButton7"
-        android:layout_toStartOf="@+id/imageButton7" />
+        android:layout_toStartOf="@+id/imageButton7"
+        android:textColor="#fff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -174,7 +180,8 @@
         android:layout_alignStart="@+id/imageButton7"
         android:layout_above="@+id/imageButton7"
         android:layout_alignRight="@+id/imageButton7"
-        android:layout_alignEnd="@+id/imageButton7" />
+        android:layout_alignEnd="@+id/imageButton7"
+        android:textColor="#fff" />
 
     <ImageButton
         android:layout_width="67dp"
@@ -327,7 +334,8 @@
         android:layout_alignParentStart="true"
         android:layout_above="@+id/imageButton8"
         android:layout_toLeftOf="@+id/textView3"
-        android:layout_toStartOf="@+id/textView3" />
+        android:layout_toStartOf="@+id/textView3"
+        android:textColor="#ffffff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -340,7 +348,8 @@
         android:layout_alignParentStart="true"
         android:layout_above="@+id/imageButton15"
         android:layout_alignRight="@+id/textView10"
-        android:layout_alignEnd="@+id/textView10" />
+        android:layout_alignEnd="@+id/textView10"
+        android:textColor="#ffffff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -352,7 +361,8 @@
         android:layout_toLeftOf="@+id/imageButton8"
         android:layout_alignBottom="@+id/imageButton15"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="#ffffff" />
 
     <com.dd.processbutton.FlatButton
         android:layout_width="wrap_content"

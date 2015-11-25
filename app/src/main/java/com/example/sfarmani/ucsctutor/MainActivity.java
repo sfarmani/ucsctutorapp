@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
             // If user is anonymous, send the user to LoginSignupActivity.class
             intent = new Intent(MainActivity.this, LoginSignupActivity.class);
             startActivity(intent);
-
             serviceIntent = new Intent(MainActivity.this, SinchService.class);
             startService(serviceIntent);
 
@@ -45,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                     startService(serviceIntent);
                     finish();
                 }
-
             } else {
                 // Send user to LoginSignupActivity.class
                 Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);

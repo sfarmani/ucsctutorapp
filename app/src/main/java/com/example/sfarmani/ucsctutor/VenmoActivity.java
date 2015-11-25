@@ -7,10 +7,9 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.Toast;
 
+import com.dd.processbutton.FlatButton;
 import com.parse.ParseUser;
 
 import java.math.BigDecimal;
@@ -33,7 +32,7 @@ public class VenmoActivity extends Activity {
     String txn = "";
 
     // Variables for Chronometer and Venmo
-    Button btnStart,btnPause, btnStop, btnReset, venmoButton;
+    FlatButton btnStart,btnPause, btnStop, btnReset, venmoButton;
     long timeWhenStopped = 0;
     BigDecimal amountDue = new BigDecimal(0.0);
     
@@ -45,44 +44,34 @@ public class VenmoActivity extends Activity {
         // Retrieve current user from Parse.com
         currentUser = ParseUser.getCurrentUser();
 
+
         // creates chronometer (i.e.: timer)
         createChronometer();
     }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        Toast.makeText(VenmoActivity.this, "NFC intent received", Toast.LENGTH_LONG).show();
-        super.onNewIntent(intent);
-    }
-
-    @Override
-    protected void onResume() {
-        Intent intent = new Intent(this, VenmoActivity.class);
-        intent.addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
-
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
     // creates all buttons, as well as the view for the chronometer
     // only shows "open venmo" once a tutoring session is over
     private void createChronometer(){
         final Chronometer chronometer = (Chronometer)findViewById(R.id.chronometer1);
-        btnStart = (Button) findViewById(R.id.btnStart);
-        btnPause = (Button) findViewById(R.id.btnPause);
-        btnStop = (Button) findViewById(R.id.btnStop);
-        btnReset = (Button) findViewById(R.id.btnRestart);
-        venmoButton = (Button) findViewById(R.id.venmo_button);
+        btnStart = (FlatButton) findViewById(R.id.btnStart);
+        btnPause = (FlatButton) findViewById(R.id.btnPause);
+        btnStop = (FlatButton) findViewById(R.id.btnStop);
+        btnReset = (FlatButton) findViewById(R.id.btnRestart);
+        venmoButton = (FlatButton) findViewById(R.id.venmo_button);
 
-        venmoButton.setVisibility(View.INVISIBLE);
+        btnStart.setVisibility(View.VISIBLE);
+        btnPause.setVisibility(View.GONE);
+        btnStop.setVisibility(View.GONE);
+        venmoButton.setVisibility(View.GONE);
+        btnReset.setVisibility(View.GONE);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
+                btnStart.setVisibility(View.GONE);
+                btnPause.setVisibility(View.VISIBLE);
+                btnStop.setVisibility(View.VISIBLE);
+                venmoButton.setVisibility(View.GONE);
+                btnReset.setVisibility(View.GONE);
                 chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
                 chronometer.start();
             }
@@ -91,6 +80,11 @@ public class VenmoActivity extends Activity {
         btnPause.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
+                btnStart.setVisibility(View.VISIBLE);
+                btnPause.setVisibility(View.GONE);
+                btnStop.setVisibility(View.GONE);
+                venmoButton.setVisibility(View.GONE);
+                btnReset.setVisibility(View.GONE);
                 timeWhenStopped = chronometer.getBase() - SystemClock.elapsedRealtime();
                 chronometer.stop();
             }
@@ -101,10 +95,11 @@ public class VenmoActivity extends Activity {
             // Calculate how much the student owes the tutor
             // Eventually implement it based off of that tutor's individual asking rate
             public void onClick(View arg0) {
-                btnStart.setVisibility(View.INVISIBLE);
-                btnPause.setVisibility(View.INVISIBLE);
-                btnStop.setVisibility(View.INVISIBLE);
+                btnStart.setVisibility(View.GONE);
+                btnPause.setVisibility(View.GONE);
+                btnStop.setVisibility(View.GONE);
                 venmoButton.setVisibility(View.VISIBLE);
+                btnReset.setVisibility(View.VISIBLE);
 
                 timeWhenStopped = +(chronometer.getBase() - SystemClock.elapsedRealtime());
                 long timeWorkedInSeconds = TimeUnit.MILLISECONDS.toSeconds(timeWhenStopped);
@@ -123,9 +118,10 @@ public class VenmoActivity extends Activity {
 
             public void onClick(View arg0) {
                 btnStart.setVisibility(View.VISIBLE);
-                btnPause.setVisibility(View.VISIBLE);
-                btnStop.setVisibility(View.VISIBLE);
-                venmoButton.setVisibility(View.INVISIBLE);
+                btnPause.setVisibility(View.GONE);
+                btnStop.setVisibility(View.GONE);
+                venmoButton.setVisibility(View.GONE);
+                btnReset.setVisibility(View.GONE);
                 chronometer.setBase(SystemClock.elapsedRealtime());
                 timeWhenStopped = 0;
                 amountDue = amountDue.multiply(new BigDecimal(0));

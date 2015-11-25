@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:background="#0277BD">
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bgtwo">
+        android:layout_alignParentBottom="true">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -47,7 +47,8 @@
                 android:layout_marginTop="25dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:singleLine="false" />
+                android:singleLine="false"
+                android:textColorHint="#fff" />
 
             <com.dd.processbutton.iml.ActionProcessButton
                 android:layout_width="fill_parent"

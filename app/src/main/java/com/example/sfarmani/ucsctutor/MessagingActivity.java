@@ -10,16 +10,17 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
-import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -54,10 +55,11 @@ public class MessagingActivity extends Activity {
     private MessageAdapter messageAdapter;
     private ListView messagesList;
     private String currentUserId;
+    private TextView ChatName;
+    private TextView ChatUsername;
+    private ParseImageView ChatProfPic;
     private ServiceConnection serviceConnection = new MyServiceConnection();
     private MessageClientListener messageClientListener = new MyMessageClientListener();
-    private Button viewprofile_button;
-    private TextView profile_namee;
 
     @Override
     public void onCreate(Bundle savedInstanceBundle) {
@@ -71,6 +73,10 @@ public class MessagingActivity extends Activity {
         //
         //Log.i("THE RECIPIENT IS", recipientId);
         currentUserId = ParseUser.getCurrentUser().getObjectId();
+
+        ChatProfPic = (ParseImageView)findViewById(R.id.ChatProfPic);
+        ChatName = (TextView)findViewById(R.id.ChatName);
+        ChatUsername = (TextView)findViewById(R.id.ChatUsername);
 
         messagesList = (ListView) findViewById(R.id.listMessages);
         messageAdapter = new MessageAdapter(this);
@@ -86,25 +92,56 @@ public class MessagingActivity extends Activity {
             }
         });
 
-        profile_namee = (TextView) findViewById(R.id.prof_namee);
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("objectID", recipientId);
-        query.getInBackground(recipientId, new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser user_profile, ParseException e) {
-                if (e == null && user_profile != null) {
-                    profile_namee.setText(user_profile.getString("FirstName") + " " + user_profile.getString("LastName"));
-                }}});
+        final ParseQuery<ParseUser> recipientUser = ParseUser.getQuery();
+        recipientUser.whereEqualTo("objectId", recipientId);
+        recipientUser.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> user, ParseException e) {
 
-        viewprofile_button = (Button) findViewById(R.id.viewprofile_button);
-        viewprofile_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent viewprofile = new Intent(MessagingActivity.this, ViewProfileActivity.class);
-                viewprofile.putExtra("EXTRA_PROFILE_ID", recipientId);
-                startActivity(viewprofile);
+                ChatUsername.setText(user.get(0).getUsername());
+                String fname = user.get(0).getString("FirstName");
+                String lname = user.get(0).getString("LastName");
+                ChatName.setText(fname + " " + lname);
+
+                ParseFile image = user.get(0).getParseFile("ProfilePic");
+                if (image != null) {
+                    ChatProfPic.setParseFile(image);
+                    ChatProfPic.loadInBackground(new GetDataCallback() {
+                        public void done(byte[] data, ParseException e) {
+                        }
+                    });
+                } else {
+                    ChatProfPic.setImageDrawable(getResources().getDrawable(R.drawable.temppic));
+                }
             }
         });
+
+        ChatProfPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Profile = new Intent(MessagingActivity.this, ViewProfileActivity.class);
+                Profile.putExtra("EXTRA_PROFILE_ID", recipientId);
+                startActivity(Profile);
+            }
+        });
+
+        ChatUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Profile = new Intent(MessagingActivity.this, ViewProfileActivity.class);
+                Profile.putExtra("EXTRA_PROFILE_ID", recipientId);
+                startActivity(Profile);
+            }
+        });
+
+        ChatName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Profile = new Intent(MessagingActivity.this, ViewProfileActivity.class);
+                Profile.putExtra("EXTRA_PROFILE_ID", recipientId);
+                startActivity(Profile);
+            }
+        });
+
 
         super.onCreate(savedInstanceBundle);
     }

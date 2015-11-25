@@ -1,51 +1,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <FrameLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/linearLayout"
-        android:backgroundTint="#16a9df"
-        android:baselineAligned="false"
-        android:background="#16a9df">
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile"
-            android:id="@+id/viewprofile_button"
-            android:layout_gravity="right|center_vertical" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text=" "
-            android:id="@+id/prof_namee"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
-    </FrameLayout>
+    android:layout_height="match_parent"
+    android:background="#fff">
 
     <ListView
         android:id="@+id/listMessages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:transcriptMode="alwaysScroll"
+        android:layout_above="@+id/divider"
         android:padding="0dip"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:stackFromBottom="true"
         tools:listitem="@layout/message_left"
-        android:layout_below="@+id/linearLayout"
-        android:layout_above="@+id/relSendMessage" />
+        android:layout_below="@+id/progressBar4" />
 
     <RelativeLayout
         android:id="@+id/divider"
@@ -57,7 +27,7 @@
         android:id="@+id/relSendMessage"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:background="@android:color/white"
+        android:background="#e0e0e0"
         android:paddingLeft="10dp"
         android:layout_alignParentBottom="true">
 
@@ -83,5 +53,69 @@
             android:layout_margin="4dp"
             android:background="@drawable/button_send" />
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView4"
+        android:src="@drawable/line"
+        android:visibility="visible"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="-21dp"
+        android:layout_alignParentTop="true" />
+
+    <com.parse.ParseImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/ChatProfPic"
+        android:src="@drawable/temppic"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/ChatName"
+        android:textColor="#fff"
+        android:textSize="11pt"
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/ChatUsername"
+        android:layout_below="@+id/ChatName"
+        android:layout_alignLeft="@+id/ChatName"
+        android:layout_alignStart="@+id/ChatName"
+        android:textColor="#fff"
+        android:textSize="8pt" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar4"
+        android:layout_below="@+id/ChatProfPic"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:visibility="invisible" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar5"
+        android:visibility="invisible"
+        android:layout_below="@+id/progressBar4"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

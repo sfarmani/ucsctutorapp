@@ -158,6 +158,7 @@ public class TutorSignUp extends Activity implements ProgressGenerator.OnComplet
                     intent.putExtra("passwordtxt", passwordtxt);
                     intent.putExtra("emailTxt", emailTxt);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
