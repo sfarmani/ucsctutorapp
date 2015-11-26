@@ -16,7 +16,8 @@
         android:text="Chronometer"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="125dp" />
+        android:layout_marginTop="125dp"
+        android:visibility="visible" />
 
     <com.dd.processbutton.FlatButton
         custom:pb_colorNormal="#2E7D32"
@@ -40,12 +41,13 @@
         android:layout_height="wrap_content"
         android:text="Pause"
         android:id="@+id/btnPause"
+        android:visibility="visible"
         android:layout_below="@+id/chronometer1"
-        android:layout_alignRight="@+id/chronometer1"
-        android:layout_alignEnd="@+id/chronometer1"
-        android:layout_marginRight="76dp"
-        android:layout_marginEnd="76dp"
-        android:visibility="visible" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="110dp"
+        android:layout_marginEnd="110dp" />
 
     <com.dd.processbutton.FlatButton
         custom:pb_colorNormal="#c62828"
@@ -56,12 +58,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stop"
+        android:visibility="visible"
         android:layout_alignTop="@+id/btnPause"
-        android:layout_alignLeft="@+id/chronometer1"
-        android:layout_alignStart="@+id/chronometer1"
-        android:layout_marginLeft="78dp"
-        android:layout_marginStart="78dp"
-        android:visibility="visible" />
+        android:layout_toLeftOf="@+id/btnPause"
+        android:layout_toStartOf="@+id/btnPause" />
 
     <com.dd.processbutton.FlatButton
         custom:pb_colorNormal="#054A7F"
