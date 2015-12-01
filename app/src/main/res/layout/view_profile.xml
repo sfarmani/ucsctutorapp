@@ -35,8 +35,10 @@
             android:textColor="#ffffff" />
 
         <com.parse.ParseImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/temppic"
             android:id="@+id/prof_img"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"

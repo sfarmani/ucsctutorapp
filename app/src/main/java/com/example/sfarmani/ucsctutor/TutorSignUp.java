@@ -118,6 +118,18 @@ public class TutorSignUp extends Activity implements ProgressGenerator.OnComplet
                         }
                     }, 3000);
                 }
+                else if (!emailTxt.matches("[a-zA-Z]+@ucsc.edu")) {
+                    next.setProgress(-1);
+                    email.setText("");
+                    Toast.makeText(getApplicationContext(), "Please sign up with your UCSC email", Toast.LENGTH_LONG).show();
+                    Handler errorhandler = new Handler();
+                    errorhandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            next.setProgress(0);
+                        }
+                    }, 3000);
+                }
                 else if(!passwordtxtconfirm.equals(passwordtxt)){
                     next.setProgress(-1);
                     password.setText("");

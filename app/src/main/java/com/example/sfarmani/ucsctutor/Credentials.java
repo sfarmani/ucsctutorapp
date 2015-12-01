@@ -132,6 +132,6 @@ public class Credentials {
 
     public static Credentials getFromParse(){
         ParseUser currentUser = ParseUser.getCurrentUser();
-        return  new Credentials((TreeMap<String, Boolean>)currentUser.get("courses"), true);
+        return new Credentials((TreeMap<String, Boolean>)currentUser.get("courses"), true);
     }
 }

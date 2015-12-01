@@ -1,14 +1,15 @@
 package com.example.sfarmani.ucsctutor.utils;
 
-import android.widget.Spinner;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.util.AttributeSet;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+
+import com.example.sfarmani.ucsctutor.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +30,7 @@ public class MultiSelectionSpinner extends Spinner implements OnMultiChoiceClick
         super(context);
 
         simple_adapter = new ArrayAdapter<String>(context,
-                android.R.layout.simple_spinner_item);
+                R.layout.spinner_item);
         super.setAdapter(simple_adapter);
     }
 
@@ -37,7 +38,7 @@ public class MultiSelectionSpinner extends Spinner implements OnMultiChoiceClick
         super(context, attrs);
 
         simple_adapter = new ArrayAdapter<String>(context,
-                android.R.layout.simple_spinner_item);
+                R.layout.spinner_item);
         super.setAdapter(simple_adapter);
     }
 

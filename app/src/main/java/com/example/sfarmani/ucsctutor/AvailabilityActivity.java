@@ -23,13 +23,8 @@ public class AvailabilityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_availability);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-
-        if(currUser.getBoolean("isTutor")) {
-            FlatButton save = configSave();    // set up save button in helper function
-            configureBtns(arrayList, currUser, save); // configure button states and depictions with red[], user, and save button
-        }
-
-
+        FlatButton save = configSave();    // set up save button in helper function
+        configureBtns(arrayList, currUser, save); // configure button states and depictions with red[], user, and save button
     }
 
     public void configureBtns(ArrayList<Boolean> arrayList, ParseUser currUser, FlatButton save) {
@@ -73,9 +68,9 @@ public class AvailabilityActivity extends AppCompatActivity {
                 ImageButton btn = (ImageButton) findViewById
                         (getResources().getIdentifier("imageButton" + i, "id", getPackageName()));
                 if(arrayList.get(i-1))
-                    btn.setImageResource(R.drawable.red_rect_btn);
-                else
                     btn.setImageResource(R.drawable.grn_rect_btn);
+                else
+                    btn.setImageResource(R.drawable.red_rect_btn);
 
                 final int localI = i;
                 final ArrayList<Boolean> availabilityList = arrayList;

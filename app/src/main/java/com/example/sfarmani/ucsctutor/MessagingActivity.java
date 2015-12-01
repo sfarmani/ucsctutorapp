@@ -160,7 +160,12 @@ public class MessagingActivity extends Activity {
                 if (e == null) {
                     for (int i = 0; i < messageList.size(); i++) {
                         WritableMessage message = new WritableMessage(messageList.get(i).get("recipientId").toString(), messageList.get(i).get("messageText").toString());
-                        message.addHeader("Sent", messageList.get(i).getString("timestamp"));
+                        if (messageList.get(i).getString("timestamp") != null){
+                            message.addHeader("Sent", messageList.get(i).getString("timestamp"));
+                        }
+                        else{
+                            message.addHeader("Sent", "Sent from Website, time not available");
+                        }
                         Log.i("senderId = ", "" + currentUserId);
                         Log.i("recipientId = ", "" + recipientId);
                         if (messageList.get(i).get("senderId").toString().equals(currentUserId)) {
@@ -213,12 +218,8 @@ public class MessagingActivity extends Activity {
             Toast.makeText(MessagingActivity.this, "Message failed to send.", Toast.LENGTH_LONG).show();
         }
 
-
         @Override
         public void onIncomingMessage(MessageClient client, final Message message) {
-            //final WritableMessage writableMessage = new WritableMessage(message.getRecipientIds().get(0), message.getTextBody());
-            //messageAdapter.addMessage(writableMessage, MessageAdapter.DIRECTION_INCOMING);
-
             if (message.getSenderId().equals(recipientId)) {
                 final WritableMessage writableMessage = new WritableMessage(message.getRecipientIds().get(0), message.getTextBody());
 

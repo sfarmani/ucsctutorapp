@@ -1,14 +1,9 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'com.android.application';
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
     useLibrary 'org.apache.http.legacy'
-
-    dexOptions{
-        preDexLibraries = false
-    }
 
     defaultConfig {
         applicationId "com.example.sfarmani.ucsctutor"
@@ -16,7 +11,6 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -32,7 +26,6 @@ android {
     }
 }
 dependencies {
-    compile 'com.android.support:multidex:1.0.0'
     // Change as per the latest dependency
     // Module dependency on ParseUI libraries sources
     compile 'com.parse:parseui-login-android:0.0.1'

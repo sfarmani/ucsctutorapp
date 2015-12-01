@@ -177,9 +177,9 @@ public class ViewProfileActivity extends FragmentActivity {
                     if (user_profile.getBoolean("isTutor")) {
                         description.setText(user_profile.getString("bio"));
                         tutor_courses.setText(user_profile.getString("courses"));
-                        reviewIntro.setText("Here's what other students had to say about " + user_profile.getString("FirstName") + " :");
+                        reviewIntro.setText("Here's what students had to say about " + user_profile.getString("FirstName") + " :");
                     } else {
-                        reviewIntro.setText("Here's what other tutors had to say about " + user_profile.getString("FirstName") + " :");
+                        reviewIntro.setText("Here's what tutors had to say about " + user_profile.getString("FirstName") + " :");
                         parent.removeView(findViewById(R.id.description_label));
                         parent.removeView(description);
                         parent.removeView(tutor_courses);

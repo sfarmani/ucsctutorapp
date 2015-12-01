@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sfarmani.ucsctutor.utils.Args;
 import com.example.sfarmani.ucsctutor.utils.MultiSelectionSpinner;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -27,7 +28,9 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 /*
 * Created by Brad Cardello
@@ -41,10 +44,10 @@ public class SearchFragment extends Fragment {
 
     protected EditText classToSearchFor;
     protected Button mSearchButton;
+    String className;
 
     private ArrayList<String> names;
     View v; // because this is a fragment, it helps to store the View as a global variable
-
 
     MultiSelectionSpinner spinnerDays;
     MultiSelectionSpinner spinnerTimes;
@@ -83,12 +86,20 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    setSelectedDaysAndTimes(); // grabs the days and times the user is searching for
                     //Get text from each field in register
-                    String className = classToSearchFor.getText().toString();
+                    className = classToSearchFor.getText().toString().toUpperCase();
 
                     /// Remove white spaces from any field
                     /// and make sure they are not empty
                     className = className.trim();
+                    if (!Args.hasContent(className)) {
+                        Toast.makeText(getActivity(), "Please enter a valid course to search for", Toast.LENGTH_LONG).show();
+                    } else if (desiredAvailability == null){
+                        Toast.makeText(getActivity(), "Please enter valid times to search for", Toast.LENGTH_LONG).show();
+                    } else {
+                        doSearch(className, desiredAvailability);
+                    }
                     return true;
                 }
                 return false;
@@ -99,8 +110,21 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setSelectedDaysAndTimes(); // grabs the days and times the user is searching for
+                //Get text from each field in register
+                className = classToSearchFor.getText().toString().toUpperCase();
 
-                doSearch(desiredAvailability); // performs search based off of desired availability
+                /// Remove white spaces from any field
+                /// and make sure they are not empty
+                className = className.trim();
+
+                if (!Args.hasContent(className)) {
+                    Toast.makeText(getActivity(), "Please enter a valid course to search for", Toast.LENGTH_LONG).show();
+                } else if (desiredAvailability == null){
+                    Toast.makeText(getActivity(), "Please enter valid times to search for", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    doSearch(className, desiredAvailability); // performs search based off of desired availability
+                }
             }
         });
     }
@@ -139,7 +163,12 @@ public class SearchFragment extends Fragment {
 
         // want to replace desiredAvailability with HashMap for efficiency,
         // but this will do for now so that the ArrayList is initially populated
-        for (int i = 0; i < 21; i++) desiredAvailability.add(i, false);
+        if (desiredAvailability.size() == 0){
+            for (int i = 0; i < 21; i++) desiredAvailability.add(i, false);
+        }
+        else{
+            for (int i = 0; i < 21; i++) desiredAvailability.set(i, false);
+        }
 
         // loop through morning, afternoon, evening sequentially for each day of the week
         // i.e.: Sunday morning(0), Sunday afternoon(7), Sunday evening(14)
@@ -162,7 +191,7 @@ public class SearchFragment extends Fragment {
     * Perform search based off of desired availability/class name
     * Display clickable a list of all users
     */
-    private void doSearch(final ArrayList<Boolean> desiredAvailability) {
+    private void doSearch(final String courseTitle, final ArrayList<Boolean> desiredAvailability) {
         Boolean isTutor = mCurrentUser.getBoolean("isTutor");
         String currentUserId = ParseUser.getCurrentUser().getObjectId();
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -171,30 +200,58 @@ public class SearchFragment extends Fragment {
 
         userList = new ArrayList<>(100);
         names = new ArrayList<>();
-        storeListItems(query); // sets up, and then displays ListView of users
+        performQuery(courseTitle, query); // sets up, and then displays ListView of users
 
         userList.clear();
-        desiredAvailability.clear();
     }
 
-    private void storeListItems(ParseQuery<ParseUser> query){
+    /*
+    * Perform query based off search
+    * Inflates ListView with results
+     */
+    private void performQuery(String courseTitle, ParseQuery<ParseUser> query){
         try {
+            names.clear();
             userList = query.find();
             for (ParseUser tutor : userList){
                 // check each user to see if they're available at the times specified
                 ArrayList<Boolean> tutorAvailability = (ArrayList<Boolean>)tutor.get("Availability");
-                if (tutorAvailability != null){
-                    Log.e("Size", "" + tutorAvailability.size());
+                TreeMap<String, Boolean> credentialsMap = null;
+                Credentials tutorCredentials = null;
+                if ((HashMap<String, Boolean>)tutor.get("courses") != null){
+                    credentialsMap = new TreeMap<>((HashMap<String, Boolean>)tutor.get("courses"));
+                    tutorCredentials = new Credentials(credentialsMap);
+                }
+
+                // if user has searched for a specific class, time available,
+                // and the tutor has inputted their availability
+                if (tutorAvailability != null && courseTitle != null){
                     for(int j = 0; j < tutorAvailability.size(); j++){
                         Log.e(tutor.getUsername() + " index j = " + j, desiredAvailability.get(j) + " && " + tutorAvailability.get(j));
-                        if (desiredAvailability.get(j) && tutorAvailability.get(j)){
+                        if (desiredAvailability.get(j) &&
+                              tutorAvailability.get(j) &&
+                              tutorCredentials.canTutorCourse(courseTitle))
+                        {
+                            names.add(tutor.getUsername());
+                            j = tutorAvailability.size();
+                        }
+                    }
+                }
+                else if (tutorAvailability == null && courseTitle != null && tutorCredentials != null) {
+                    if (tutorCredentials.canTutorCourse(courseTitle)){
+                        names.add(tutor.getUsername());
+                    }
+                }
+                else if (tutorAvailability != null && courseTitle == null){
+                    for(int j = 0; j < tutorAvailability.size(); j++){
+                        Log.e(tutor.getUsername() + " index j = " + j, desiredAvailability.get(j) + " && " + tutorAvailability.get(j));
+                        if (desiredAvailability.get(j) && tutorAvailability.get(j)) {
                             names.add(tutor.getUsername());
                             j = tutorAvailability.size();
                         }
                     }
                 }
             }
-
             // display the results of the search in a pleasant way
             displayListItems();
         } catch (ParseException e) {
@@ -204,7 +261,7 @@ public class SearchFragment extends Fragment {
 
     /*
     * Display the results of the search in a ListView
-    * */
+    */
     private void displayListItems(){
         ListView usersListView = (ListView) v.findViewById(R.id.usersListView);
         ArrayAdapter<String> namesArrayAdapter = new ArrayAdapter<>(

@@ -26,7 +26,7 @@ public class VenmoActivity extends Activity {
     public static final int REQUEST_CODE_VENMO_APP_SWITCH = 3120;
     String appId = "3120";
     String appName = "UCSC Tutor";
-    String recipient = "sfarmani";
+    String recipient = "";
     String amount = "0.0";
     String note = "";
     String txn = "";
