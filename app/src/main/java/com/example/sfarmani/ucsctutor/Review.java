@@ -3,11 +3,13 @@ package com.example.sfarmani.ucsctutor;
 import com.example.sfarmani.ucsctutor.utils.Args;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +37,7 @@ public class Review {
 
     Review(int rel, int friend, int know, String inContent, String inReviewerID, String inOwnerID){
         Args.checkForContent(inOwnerID, "inOwnerID");
-        Args.checkForContent(inReviewerID, "inReviewID");
+        Args.checkForContent(inReviewerID, "inReviewerID");
         verifyTutorStudent(inReviewerID, inOwnerID);
         getReviewMetaData(inOwnerID);
         ownerID = inOwnerID;
@@ -44,21 +46,21 @@ public class Review {
     }
     private void getReviewMetaData(String ownerID){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("ReviewMetaData");
-        query.whereEqualTo("ownerId", ownerID);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if(e == null){
-                    reviewMetaData = object;
-                }
-            }
-        });
+        query.whereEqualTo("ownerID", ownerID);
+        try {
+            reviewMetaData = query.getFirst();
+        }catch (ParseException e){}
     }
     private void verifyTutorStudent(final String inReviewerID, String inOwnerID){
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("objectId", inReviewerID);
-        query.whereEqualTo("objectId", inOwnerID);
-        
+        ParseQuery<ParseUser> ownerQuery = ParseUser.getQuery();
+        ownerQuery.whereEqualTo("objectId", inOwnerID);
+        ParseQuery<ParseUser> reviewerQuery = ParseUser.getQuery();
+        reviewerQuery.whereEqualTo("objectId", inReviewerID);
+
+        List<ParseQuery<ParseUser>> queries = new ArrayList<ParseQuery<ParseUser>>();
+        queries.add(ownerQuery);
+        queries.add(reviewerQuery);
+        ParseQuery<ParseUser> query = ParseQuery.or(queries);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
@@ -128,9 +130,11 @@ public class Review {
         return collatedRatings;
     }
     private double addAvg(double curAvg, double addVal, int avgCount){
-        return curAvg + ((curAvg - addVal)/(avgCount + 1));
+        return curAvg + ((addVal - curAvg)/(avgCount + 1));
     }
     private double subAvg(double curAvg, double subVal, int avgCount){
+        if(avgCount == 1) return 0;
+        else
         return ((curAvg * avgCount) - subVal)/ (avgCount - 1);
     }
     public void sendToParse(){
@@ -141,6 +145,7 @@ public class Review {
             @Override
             public void done(ParseObject review, ParseException e) {
                 if(e == null && review != null){
+
                     //store the new values for the ratings
                     int tmpRel = reliability;
                     int tmpFrn = friendliness;
@@ -152,12 +157,15 @@ public class Review {
                     double tempFrnAvg = subAvg(reviewMetaData.getDouble("friend_avg"), reliability, reviewMetaData.getInt("review_count"));
                     double tempKnwAvg = subAvg(reviewMetaData.getDouble("know_avg"), reliability, reviewMetaData.getInt("review_count"));
                     //recalculate the new averages
-                    tempRelAvg = addAvg(tempRelAvg, tmpRel, reviewMetaData.getInt("review_count"));
-                    tempFrnAvg = addAvg(tempFrnAvg, tmpFrn, reviewMetaData.getInt("review_count"));
-                    tempKnwAvg = addAvg(tempKnwAvg, tmpKnw, reviewMetaData.getInt("review_count"));
+                    tempRelAvg = addAvg(tempRelAvg, tmpRel, reviewMetaData.getInt("review_count") - 1);
+                    tempFrnAvg = addAvg(tempFrnAvg, tmpFrn, reviewMetaData.getInt("review_count") - 1);
+                    tempKnwAvg = addAvg(tempKnwAvg, tmpKnw, reviewMetaData.getInt("review_count") - 1);
+
                     //update the Parseobjects with the new values
                     review.put("ratings", collateRatings(tmpRel, tmpFrn, tmpKnw));
                     review.put("content", content);
+
+                    reviewMetaData.put("total_avg", ((tempFrnAvg  + tempKnwAvg + tempRelAvg) / 3));
                     reviewMetaData.put("rel_avg", tempRelAvg);
                     reviewMetaData.put("friend_avg", tempFrnAvg);
                     reviewMetaData.put("know_avg", tempKnwAvg);
@@ -166,6 +174,11 @@ public class Review {
                     review.saveInBackground();
 
                 }else if(e.getCode() == ParseException.OBJECT_NOT_FOUND){
+                    ParseACL acl = new ParseACL();
+                    acl.setPublicReadAccess(true);
+                    acl.setPublicWriteAccess(false);
+                    acl.setWriteAccess(reviewerID, false);
+
                     ParseObject parseReview = new ParseObject("Review");
                     double tempRelAvg = addAvg(reviewMetaData.getDouble("rel_avg"), reliability, reviewMetaData.getInt("review_count"));
                     double tempFrnAvg = addAvg(reviewMetaData.getDouble("friend_avg"), friendliness, reviewMetaData.getInt("review_count"));
@@ -176,12 +189,14 @@ public class Review {
                     parseReview.put("reviewer", reviewerID);
                     parseReview.put("content", content);
 
+                    reviewMetaData.put("total_avg", ((tempFrnAvg  + tempKnwAvg + tempRelAvg) / 3));
                     reviewMetaData.put("rel_avg", tempRelAvg);
                     reviewMetaData.put("friend_avg", tempFrnAvg);
                     reviewMetaData.put("know_avg", tempKnwAvg);
                     reviewMetaData.increment("review_count");
 
                     reviewMetaData.saveInBackground();
+                    parseReview.setACL(acl);
                     parseReview.saveInBackground();
                 }
             }

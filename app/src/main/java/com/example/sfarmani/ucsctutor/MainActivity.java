@@ -31,11 +31,14 @@ public class MainActivity extends AppCompatActivity {
             // If current user is NOT anonymous user
             // Get current user data from Parse.com
             ParseUser currentUser = ParseUser.getCurrentUser();
+
+            /* Code to generate dummy course list for testing purposes
             Credentials test = new Credentials();
             test.addCourse("CMPS104", false);
             test.addCourse("CMPS115", false);
             test.addCourse("CMPE110", false);
             test.sendToParse();
+            */
             if (currentUser != null) {
                 if (!currentUser.getBoolean("emailVerified")) {
                     Intent homeIntent = new Intent(MainActivity.this, EmailNotVerified.class);

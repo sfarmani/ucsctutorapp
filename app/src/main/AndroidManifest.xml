@@ -86,7 +86,11 @@
             android:configChanges="orientation"
             android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name=".WriteReviewActivity"
+            android:label="Write Review Activity">
 
+        </activity>
         <activity
             android:name=".EmailNotVerified"
             android:label="Email Hasn't been Veriffied"

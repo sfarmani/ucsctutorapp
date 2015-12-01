@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.sfarmani.ucsctutor.utils.ProgressGenerator;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -205,6 +206,11 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                                         else {
 
                                             final ParseUser currentUser = ParseUser.getCurrentUser();
+
+                                            ParseACL acl = new ParseACL();
+                                            acl.setPublicReadAccess(true);
+                                            acl.setPublicWriteAccess(true);
+
                                             ParseObject ReviewData = new ParseObject("ReviewMetaData");
                                             ReviewData.put("ownerID", currentUser.getObjectId());
                                             ReviewData.put("rel_avg", 0.0);
@@ -212,6 +218,7 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                                             ReviewData.put("know_avg", 0.0);
                                             ReviewData.put("total_avg", 0.0);
                                             ReviewData.put("review_count", 0);
+                                            ReviewData.setACL(acl);
                                             ReviewData.saveInBackground();
 
                                             // start the animation for the submit button and disable the fields and submit button

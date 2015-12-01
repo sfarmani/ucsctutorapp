@@ -1,0 +1,118 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WriteReviewActivity">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/relRating"
+        android:focusable="false"
+        android:layout_below="@+id/textView15"
+        android:layout_centerHorizontal="true"
+        android:numStars="5"
+        android:rating="3"
+        android:stepSize="1"
+        android:progressTint="#ebd409" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="How reliable was your tutor?"
+        android:id="@+id/textView15"
+        android:layout_below="@+id/WrtReviewTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:text="Rate your tutor!"
+        android:id="@+id/WrtReviewTitle"
+        android:textColor="@android:color/black"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="How friendly was your tutor?"
+        android:id="@+id/textView16"
+        android:layout_below="@+id/relRating"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/friendRating"
+        android:focusable="false"
+        android:layout_below="@+id/textView16"
+        android:layout_centerHorizontal="true"
+        android:rating="3"
+        android:stepSize="1"
+        android:progressTint="#ebd409" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="How knowledgeable was your tutor?"
+        android:id="@+id/textView17"
+        android:layout_below="@+id/friendRating"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/knowRating"
+        android:focusable="false"
+        android:layout_below="@+id/textView17"
+        android:layout_centerHorizontal="true"
+        android:rating="3"
+        android:stepSize="1"
+        android:progressTint="#ebd409" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/WriteReviewContent"
+        android:minHeight="200dp"
+        android:layout_below="@+id/WrtReviewContentTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Tell us your thoughts on [TUTOR NAME]"
+        android:id="@+id/WrtReviewContentTitle"
+        android:layout_below="@+id/knowRating"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="15dp" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Submit!"
+        android:id="@+id/writeReviewSubmitBtn"
+        android:layout_below="@+id/WriteReviewContent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
+</ScrollView>

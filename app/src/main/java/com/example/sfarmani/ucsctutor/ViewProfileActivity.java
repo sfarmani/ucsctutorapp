@@ -3,14 +3,24 @@ package com.example.sfarmani.ucsctutor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.processbutton.FlatButton;
 import com.example.sfarmani.ucsctutor.utils.Args;
+import com.example.sfarmani.ucsctutor.utils.ReviewsAdapter;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -18,6 +28,9 @@ import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by george on 11/9/15.
@@ -42,20 +55,20 @@ public class ViewProfileActivity extends FragmentActivity {
     private FlatButton msg_button;
     private FlatButton view_schedule_btn;
     private FlatButton venbtn;
-
+    private LinearLayout reviewList;
+    private Button writeReview;
+    private Button viewAllReviews;
+    private ProgressBar totalAvgProg;
+    private TextView totalAvgText;
     @Override
     public void onCreate(Bundle SavedInstanceState){
+
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.view_profile);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
         Intent intent = getIntent();
         final String profileID = intent.getStringExtra("EXTRA_PROFILE_ID");
         Args.checkForContent(profileID, "profileID");
-
         profile_name = (TextView) findViewById(R.id.prof_name);
         profile_type = (TextView) findViewById(R.id.userType);
         profile_image = (ParseImageView) findViewById(R.id.prof_img);
@@ -73,7 +86,54 @@ public class ViewProfileActivity extends FragmentActivity {
         msg_button = (FlatButton) findViewById(R.id.message_btn);
         view_schedule_btn = (FlatButton) findViewById(R.id.schedule_button);
         venbtn = (FlatButton)findViewById(R.id.venbtn);
+        writeReview = (Button) findViewById(R.id.writeReviewBtn);
+        viewAllReviews = (Button) findViewById(R.id.viewAllRevsBtn);
+        reviewList = (LinearLayout) findViewById(R.id.reviewsList);
+        totalAvgProg = (ProgressBar) findViewById(R.id.totalAvgProg);
+        totalAvgText =  (TextView) findViewById(R.id.totalAvgText);
 
+        writeReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent writeReviewIntent = new Intent(ViewProfileActivity.this, WriteReviewActivity.class);
+                writeReviewIntent.putExtra("EXTRA_PROFILE_ID", profileID);
+                startActivity(writeReviewIntent);
+            }
+        });
+
+/*        viewAllReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewAllRevsIntent = new Intent(ViewProfileActivity.this, ViewAllReviews.class);
+                viewAllRevsIntent.putExtra("EXTRA_PROFILE_ID", profileID);
+                startActivity(viewAllRevsIntent);
+            }
+        });
+        */
+        ParseQuery<ParseObject> reviewsQuery = ParseQuery.getQuery("Review");
+        reviewsQuery.orderByDescending("updatedAt");
+        reviewsQuery.setLimit(5);
+        reviewsQuery.whereEqualTo("owner", profileID);
+        reviewsQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null && objects != null) {
+                    ArrayList<Review> reviews = new ArrayList<Review>();
+                    for (ParseObject obj : objects) {
+                        reviewList.addView(getReview(new  Review(obj.getInt("ratings"), obj.getString("content"), obj.getString("reviewer"), obj.getString("owner"))));
+                    }
+
+                }
+            }
+        });
+        reviewList.setOnTouchListener(new View.OnTouchListener() {
+            //Setting on Touch listener for handling the touch inside scrollview
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                reviewList.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
         venbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +198,7 @@ public class ViewProfileActivity extends FragmentActivity {
                     review_count.setText(object.get("review_count").toString());
 
                     Double rel_avg_val = object.getDouble("rel_avg");
-                    reliability_avg.setText("1.3");
+                    reliability_avg.setText(String.format("%.1f", rel_avg_val));
 
                     Double friend_avg_val = object.getDouble("friend_avg");
                     friendliness_avg.setText(String.format("%.1f", friend_avg_val));
@@ -146,6 +206,10 @@ public class ViewProfileActivity extends FragmentActivity {
                     Double know_avg_val = object.getDouble("know_avg");
                     knowledge_avg.setText(String.format("%.1f", know_avg_val));
 
+                    Double total_avg_val = object.getDouble("total_avg");
+                    totalAvgText.setText(String.format("%.1f", total_avg_val));
+
+                    totalAvgProg.setProgress((int) (total_avg_val * 20));
                     reliability_prog.setProgress((int) (rel_avg_val * 20));
                     friendliness_prog.setProgress((int) (friend_avg_val * 20));
                     knowledge_prog.setProgress((int) (know_avg_val * 20));
@@ -155,5 +219,36 @@ public class ViewProfileActivity extends FragmentActivity {
                 }
             }
         });
+    }
+
+    private View getReview(Review review) {
+        View convertView  = LayoutInflater.from(this).inflate(R.layout.review_list_item, parent, false);
+
+        TextView reviewerName = (TextView) convertView.findViewById(R.id.reviewerName);
+        ParseImageView reviewerImage = (ParseImageView) convertView.findViewById(R.id.reviewerImage);
+        RatingBar relRating = (RatingBar) convertView.findViewById(R.id.relRevBar);
+        RatingBar friendRating = (RatingBar) convertView.findViewById(R.id.friendRevBar);
+        RatingBar knowRating = (RatingBar) convertView.findViewById(R.id.knowRevBar);
+        TextView reviewContent = (TextView) convertView.findViewById(R.id.reviewContent);
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        ParseUser reviewer = null;
+        try {
+            reviewer = query.get(review.getReviewerID());
+        } catch (ParseException e) {
+
+        }
+        if (reviewer != null) {
+            reviewerName.setText(reviewer.getString("FirstName") + " " + reviewer.get("LastName"));
+            ParseFile profilePic = reviewer.getParseFile("ProfilePic");
+            reviewerImage.setParseFile(profilePic);
+            reviewerImage.loadInBackground();
+        }
+        reviewContent.setText(review.getContent());
+        relRating.setRating(review.getReliability());
+        friendRating.setRating(review.getFriendliness());
+        knowRating.setRating(review.getKnowledge());
+
+        return convertView;
     }
 }
