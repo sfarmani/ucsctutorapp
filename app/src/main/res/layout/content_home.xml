@@ -26,6 +26,7 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:id="@+id/userprofilepic"
+                android:scaleType="centerCrop"
                 android:src="@drawable/temppic"
                 android:visibility="visible"
                 android:layout_alignParentTop="true"
@@ -141,6 +142,230 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:layout_below="@+id/coursefield"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/parent_linear_layout">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Here is what X had to say about X:"
+                    android:id="@+id/reviewIntro"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="#ffffff" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Number of Reviews:"
+                        android:id="@+id/textView2"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="#ffffff" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="999"
+                        android:id="@+id/review_count"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="#ffffff" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reliability"
+                        android:id="@+id/reliabilityLabel"
+                        android:layout_gravity="left|top"
+                        android:layout_marginLeft="15dp"
+                        android:textSize="15sp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="15dp"
+                        android:textColor="#ffffff" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_below="@+id/reliabilityLabel"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp">
+
+                        <ProgressBar
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="11dp"
+                            android:id="@+id/reliability_prog"
+                            android:layout_gravity="center_vertical"
+                            android:progress="100"
+                            android:progressTint="#0d8602"
+                            android:progressBackgroundTint="@android:color/transparent"
+                            android:indeterminate="false"
+                            android:layout_weight="999" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/reliability_avg"
+                            android:text="5.0"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="5dp"
+                            android:layout_gravity="right"
+                            android:lines="1"
+                            android:minWidth="25dp"
+                            android:textColor="#ffffff" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Friendliness:"
+                        android:id="@+id/friendlinessLabel"
+                        android:layout_gravity="left|top"
+                        android:layout_marginLeft="15dp"
+                        android:textSize="15sp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="15dp"
+                        android:textColor="#ffffff" />
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_below="@+id/friendlinessLabel"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp">
+
+                        <ProgressBar
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="11dp"
+                            android:id="@+id/friendliness_prog"
+                            android:layout_gravity="center_vertical"
+                            android:progress="100"
+                            android:progressTint="#0d8602"
+                            android:progressBackgroundTint="@android:color/transparent"
+                            android:indeterminate="false"
+                            android:layout_weight="999" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/friendliness_avg"
+                            android:text="5.0"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="5dp"
+                            android:layout_gravity="right"
+                            android:lines="1"
+                            android:minWidth="25dp"
+                            android:textColor="#ffffff" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Knowledge:"
+                        android:id="@+id/knowledgeLabel"
+                        android:layout_gravity="left|top"
+                        android:layout_marginLeft="15dp"
+                        android:textSize="15sp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="15dp"
+                        android:textColor="#ffffff" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_below="@+id/knowledgeLabel"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp">
+
+                        <ProgressBar
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="11dp"
+                            android:id="@+id/knowledge_prog"
+                            android:layout_gravity="center_vertical"
+                            android:progress="100"
+                            android:progressTint="#0d8602"
+                            android:progressBackgroundTint="@android:color/transparent"
+                            android:indeterminate="false"
+                            android:layout_weight="999" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/knowledge_avg"
+                            android:text="5.0"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="5dp"
+                            android:layout_gravity="right"
+                            android:lines="1"
+                            android:minWidth="25dp"
+                            android:textColor="#ffffff" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
         </RelativeLayout>
     </ScrollView>
+
 </RelativeLayout>

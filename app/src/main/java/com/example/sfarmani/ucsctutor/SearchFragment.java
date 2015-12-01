@@ -88,7 +88,7 @@ public class SearchFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     //Get text from each field in register
-                    className = classToSearchFor.getText().toString();
+                    className = classToSearchFor.getText().toString().toUpperCase();
 
                     /// Remove white spaces from any field
                     /// and make sure they are not empty
@@ -109,7 +109,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Get text from each field in register
-                className = classToSearchFor.getText().toString();
+                className = classToSearchFor.getText().toString().toUpperCase();
 
                 /// Remove white spaces from any field
                 /// and make sure they are not empty

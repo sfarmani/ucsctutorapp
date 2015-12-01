@@ -7,13 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.processbutton.FlatButton;
+import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 public class HomeFragment extends android.support.v4.app.Fragment {
@@ -24,6 +30,15 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     String username;
     String fullname;
     String bio;
+    TextView review_count;
+    TextView reliability_avg;
+    TextView friendliness_avg;
+    TextView knowledge_avg;
+    ProgressBar reliability_prog;
+    ProgressBar friendliness_prog;
+    ProgressBar knowledge_prog;
+    LinearLayout parent;
+    TextView reviewIntro;
     
     View v; // because this is a fragment, it helps to store the View as a global variable
 
@@ -42,6 +57,15 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         ImageView logout = (ImageView) v.findViewById(R.id.logbtn);
         final ImageView edit = (ImageView) v.findViewById(R.id.editbtn);
         final FlatButton schedule = (FlatButton) v.findViewById(R.id.schedule);
+        reviewIntro = (TextView) v.findViewById(R.id.reviewIntro);
+        review_count = (TextView) v.findViewById(R.id.review_count);
+        reliability_avg = (TextView) v.findViewById(R.id.reliability_avg);
+        friendliness_avg = (TextView) v.findViewById(R.id.friendliness_avg);
+        knowledge_avg = (TextView) v.findViewById(R.id.knowledge_avg);
+        reliability_prog = (ProgressBar) v.findViewById(R.id.reliability_prog);
+        friendliness_prog = (ProgressBar) v.findViewById(R.id.friendliness_prog);
+        knowledge_prog = (ProgressBar) v.findViewById(R.id.knowledge_prog);
+        parent = (LinearLayout) v.findViewById(R.id.parent_linear_layout);
         ParseImageView userprofilepic = (ParseImageView) v.findViewById(R.id.userprofilepic);
         TextView fnamelname = (TextView) v.findViewById(R.id.fnamelname);
         TextView profileusername = (TextView) v.findViewById(R.id.profileusername);
@@ -110,6 +134,36 @@ public class HomeFragment extends android.support.v4.app.Fragment {
                 getActivity().finish();
             }
         });
+
+
+        ParseQuery<ParseObject> reviewQuery = ParseQuery.getQuery("ReviewMetaData");
+        reviewQuery.whereEqualTo("ownerID", currUser.getObjectId());
+        reviewQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+
+                if (e == null) {
+
+                    review_count.setText(object.get("review_count").toString());
+
+                    Double rel_avg_val = object.getDouble("rel_avg");
+                    reliability_avg.setText(String.format("%.1f", rel_avg_val));
+
+                    Double friend_avg_val = object.getDouble("friend_avg");
+                    friendliness_avg.setText(String.format("%.1f", friend_avg_val));
+
+                    Double know_avg_val = object.getDouble("know_avg");
+                    knowledge_avg.setText(String.format("%.1f", know_avg_val));
+
+                    reliability_prog.setProgress((int) (rel_avg_val * 20));
+                    friendliness_prog.setProgress((int) (friend_avg_val * 20));
+                    knowledge_prog.setProgress((int) (know_avg_val * 20));
+                } else {
+                    Toast.makeText(getActivity(), "Thus is the parse error code: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 
     // newInstance constructor for creating fragment with arguments
@@ -126,6 +180,22 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.getInBackground(currUser.getObjectId(), new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser curr, ParseException e) {
+
+                if (e == null && curr != null) {
+                    if (curr.getBoolean("isTutor")) {
+                        reviewIntro.setText("Here's what students had to say about " + curr.getString("FirstName") + " :");
+                    } else {
+                        parent.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
         int page = getArguments().getInt("someInt", 0);
         String title = getArguments().getString("someTitle");
     }

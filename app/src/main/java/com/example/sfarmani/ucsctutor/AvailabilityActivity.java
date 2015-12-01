@@ -23,13 +23,8 @@ public class AvailabilityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_availability);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-
-        if(currUser.getBoolean("isTutor")) {
-            FlatButton save = configSave();    // set up save button in helper function
-            configureBtns(arrayList, currUser, save); // configure button states and depictions with red[], user, and save button
-        }
-
-
+        FlatButton save = configSave();    // set up save button in helper function
+        configureBtns(arrayList, currUser, save); // configure button states and depictions with red[], user, and save button
     }
 
     public void configureBtns(ArrayList<Boolean> arrayList, ParseUser currUser, FlatButton save) {

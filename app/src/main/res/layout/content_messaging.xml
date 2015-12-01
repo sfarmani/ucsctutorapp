@@ -68,6 +68,7 @@
     <com.parse.ParseImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:scaleType="centerCrop"
         android:id="@+id/ChatProfPic"
         android:src="@drawable/temppic"
         android:layout_alignParentTop="true"
