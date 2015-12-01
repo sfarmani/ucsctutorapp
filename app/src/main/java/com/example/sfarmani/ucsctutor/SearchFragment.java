@@ -82,21 +82,22 @@ public class SearchFragment extends Fragment {
         mCurrentUser = ParseUser.getCurrentUser();
         classToSearchFor = (EditText) v.findViewById(R.id.searchUser);
         mSearchButton = (Button) v.findViewById(R.id.searchButton);
-        setSelectedDaysAndTimes(); // grabs the days and times the user is searching for
         classToSearchFor.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    setSelectedDaysAndTimes(); // grabs the days and times the user is searching for
                     //Get text from each field in register
                     className = classToSearchFor.getText().toString().toUpperCase();
 
                     /// Remove white spaces from any field
                     /// and make sure they are not empty
                     className = className.trim();
-                    if (!Args.hasContent(className)){
+                    if (!Args.hasContent(className)) {
                         Toast.makeText(getActivity(), "Please enter a valid course to search for", Toast.LENGTH_LONG).show();
-                    }
-                    else{
+                    } else if (desiredAvailability == null){
+                        Toast.makeText(getActivity(), "Please enter valid times to search for", Toast.LENGTH_LONG).show();
+                    } else {
                         doSearch(className, desiredAvailability);
                     }
                     return true;
@@ -108,6 +109,7 @@ public class SearchFragment extends Fragment {
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setSelectedDaysAndTimes(); // grabs the days and times the user is searching for
                 //Get text from each field in register
                 className = classToSearchFor.getText().toString().toUpperCase();
 
@@ -115,10 +117,12 @@ public class SearchFragment extends Fragment {
                 /// and make sure they are not empty
                 className = className.trim();
 
-                if (!Args.hasContent(className)){
+                if (!Args.hasContent(className)) {
                     Toast.makeText(getActivity(), "Please enter a valid course to search for", Toast.LENGTH_LONG).show();
+                } else if (desiredAvailability == null){
+                    Toast.makeText(getActivity(), "Please enter valid times to search for", Toast.LENGTH_LONG).show();
                 }
-                else{
+                else {
                     doSearch(className, desiredAvailability); // performs search based off of desired availability
                 }
             }
@@ -164,7 +168,6 @@ public class SearchFragment extends Fragment {
         }
         else{
             for (int i = 0; i < 21; i++) desiredAvailability.set(i, false);
-
         }
 
         // loop through morning, afternoon, evening sequentially for each day of the week
@@ -208,12 +211,17 @@ public class SearchFragment extends Fragment {
      */
     private void performQuery(String courseTitle, ParseQuery<ParseUser> query){
         try {
+            names.clear();
             userList = query.find();
             for (ParseUser tutor : userList){
                 // check each user to see if they're available at the times specified
                 ArrayList<Boolean> tutorAvailability = (ArrayList<Boolean>)tutor.get("Availability");
-                TreeMap<String, Boolean> credentialsMap = new TreeMap<>((HashMap<String, Boolean>)tutor.get("courses"));
-                Credentials tutorCredentials = new Credentials(credentialsMap);
+                TreeMap<String, Boolean> credentialsMap = null;
+                Credentials tutorCredentials = null;
+                if ((HashMap<String, Boolean>)tutor.get("courses") != null){
+                    credentialsMap = new TreeMap<>((HashMap<String, Boolean>)tutor.get("courses"));
+                    tutorCredentials = new Credentials(credentialsMap);
+                }
 
                 // if user has searched for a specific class, time available,
                 // and the tutor has inputted their availability
@@ -229,7 +237,7 @@ public class SearchFragment extends Fragment {
                         }
                     }
                 }
-                else if (tutorAvailability == null && courseTitle != null) {
+                else if (tutorAvailability == null && courseTitle != null && tutorCredentials != null) {
                     if (tutorCredentials.canTutorCourse(courseTitle)){
                         names.add(tutor.getUsername());
                     }

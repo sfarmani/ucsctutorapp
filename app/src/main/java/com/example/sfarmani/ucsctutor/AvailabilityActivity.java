@@ -68,9 +68,9 @@ public class AvailabilityActivity extends AppCompatActivity {
                 ImageButton btn = (ImageButton) findViewById
                         (getResources().getIdentifier("imageButton" + i, "id", getPackageName()));
                 if(arrayList.get(i-1))
-                    btn.setImageResource(R.drawable.red_rect_btn);
-                else
                     btn.setImageResource(R.drawable.grn_rect_btn);
+                else
+                    btn.setImageResource(R.drawable.red_rect_btn);
 
                 final int localI = i;
                 final ArrayList<Boolean> availabilityList = arrayList;

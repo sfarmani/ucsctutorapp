@@ -140,9 +140,6 @@ public class SinchService extends Service implements SinchClientListener {
     @Override
     public void onDestroy() {
         Log.i("onDestroy", "");
-        // without check, giving me nullpointer exception
-        // is this because sinchclient is never started?
-        // is it because there are no other users?
         if (sinchClient != null) {
             sinchClient.stopListeningOnActiveConnection();
             sinchClient.terminate();
