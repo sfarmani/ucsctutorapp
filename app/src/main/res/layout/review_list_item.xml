@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="150dp"
-    android:weightSum="1">
 
-    <com.parse.ParseImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/reviewerImage"
-        android:layout_weight="0"
-        android:layout_gravity="center_vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="152dp">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#4b4b4b"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"/>
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:weightSum="1"
+        android:background="#389cd7"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <com.parse.ParseImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/reviewerImage"
+            android:layout_weight="0"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -26,7 +39,8 @@
             android:id="@+id/reviewerName"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_gravity="left" />
+            android:layout_gravity="left"
+            android:textColor="#ffffff" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -40,7 +54,8 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Reliability"
                 android:id="@+id/textView18"
-                android:layout_gravity="left" />
+                android:layout_gravity="left"
+                android:textColor="#ffffff" />
 
             <RatingBar
                 android:layout_width="wrap_content"
@@ -63,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Friendliness"
-                android:id="@+id/textView20" />
+                android:id="@+id/textView20"
+                android:textColor="#ffffff" />
 
             <RatingBar
                 style="?android:attr/ratingBarStyleSmall"
@@ -84,7 +100,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Knowledge"
-                android:id="@+id/textView19" />
+                android:id="@+id/textView19"
+                android:textColor="#ffffff" />
 
             <RatingBar
                 style="?android:attr/ratingBarStyleSmall"
@@ -102,7 +119,15 @@
             android:id="@+id/reviewContent"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:textColor="#ffffff" />
 
-    </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#4b4b4b"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 </LinearLayout>

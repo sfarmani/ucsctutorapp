@@ -17,10 +17,15 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.dd.processbutton.FlatButton;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.sfarmani.ucsctutor.utils.ProgressGenerator;
 import com.parse.ParseACL;
@@ -37,6 +42,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.TreeMap;
 
 /**
  * Created by RetardedNinja on 10/27/2015.
@@ -56,7 +62,14 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
     private String mCurrentPhotoPath;
     private ImageView imgPhoto;
     private File cameraImageFile;
-
+    private FlatButton AddCourse;
+    private FlatButton RemoveCourse;
+    private EditText course;
+    private ListView courseListView;
+    private TreeMap<String,Boolean> courses;
+    private Credentials credentials;
+    private String selectedFromList;
+    private int selectedPosition;
     @Override
     public void onComplete() {
     }
@@ -112,6 +125,47 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tutorsignupcont);
+
+        AddCourse = (FlatButton) findViewById(R.id.AddCourseBtn);
+        RemoveCourse = (FlatButton) findViewById(R.id.RemoveCourseBtn);
+        RemoveCourse.setEnabled(false);
+        RemoveCourse.setClickable(false);
+
+        course = (EditText) findViewById(R.id.course);
+        courseListView = (ListView) findViewById(R.id.courseListView);
+        courses = new TreeMap<String,Boolean>();
+        credentials = new Credentials(courses, true);
+        courseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+                selectedFromList = (String) (courseListView.getItemAtPosition(myItemInt));
+                selectedPosition = myItemInt;
+                RemoveCourse.setEnabled(true);
+                RemoveCourse.setClickable(true);
+            }
+        });
+
+        final ArrayAdapter<String> courseAdapter = new ArrayAdapter<String>(this, R.layout.user_list_item,credentials.getAllCourses());
+        courseListView.setAdapter(courseAdapter);
+        AddCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String inCourse = course.getText().toString();
+                if(inCourse != null && inCourse.trim().length() > 0){
+                    courses.put(inCourse, Boolean.TRUE);
+                    courseAdapter.add(inCourse);
+                    course.setText("");
+                }
+            }
+        });
+        RemoveCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                courseAdapter.remove(selectedFromList);
+                courses.remove(selectedFromList);
+                RemoveCourse.setEnabled(false);
+                RemoveCourse.setClickable(false);
+            }
+        });
 
         // gets the intent and stores them into a variable
         Intent intent = getIntent();
@@ -179,7 +233,7 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                                 user.put("isTutor", true);
                                 user.put("FirstName", fNameTxt);
                                 user.put("LastName", lNameTxt);
-
+                                user.put("courses", courses);
                                 // finally signs them up.
                                 user.signUpInBackground(new SignUpCallback() {
 

@@ -63,7 +63,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="6pt"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:text="Message"
                     android:id="@+id/message_btn"
                     android:layout_gravity="start|center_vertical" />
@@ -74,7 +74,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="6pt"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:text="View Schedule"
                     android:id="@+id/schedule_button"
                     android:layout_gravity="center|center_vertical" />
@@ -391,27 +391,52 @@
 
         </LinearLayout>
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Write Review"
-            android:id="@+id/writeReviewBtn"
-            android:layout_gravity="center_horizontal|right" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#4b4b4b"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/reviewsList"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"/>
 
-        <Button
-            android:layout_width="wrap_content"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#4b4b4b"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View All"
-            android:id="@+id/viewAllRevsBtn"
-            android:layout_gravity="right" />
+            android:orientation="horizontal"
+            android:layout_gravity="right">
+
+            <com.dd.processbutton.FlatButton
+                style="?android:attr/buttonStyleSmall"
+                custom:pb_colorNormal="#A96200"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Write Review"
+                android:textColor="@android:color/white"
+                android:textSize="6pt"
+                android:id="@+id/writeReviewBtn"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+            <com.dd.processbutton.FlatButton
+                custom:pb_colorNormal="#A96200"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View All"
+                android:textColor="@android:color/white"
+                android:textSize="6pt"
+                android:id="@+id/viewAllRevsBtn" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

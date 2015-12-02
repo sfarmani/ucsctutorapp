@@ -1,17 +1,14 @@
 package com.example.sfarmani.ucsctutor;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -19,7 +16,6 @@ import android.widget.Toast;
 
 import com.dd.processbutton.FlatButton;
 import com.example.sfarmani.ucsctutor.utils.Args;
-import com.example.sfarmani.ucsctutor.utils.ReviewsAdapter;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -60,12 +56,19 @@ public class ViewProfileActivity extends FragmentActivity {
     private Button viewAllReviews;
     private ProgressBar totalAvgProg;
     private TextView totalAvgText;
+    private ProgressDialog progress;
+
     @Override
     public void onCreate(Bundle SavedInstanceState){
 
         super.onCreate(SavedInstanceState);
-        setContentView(R.layout.view_profile);
 
+        progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Wait while loading...");
+        progress.show();
+
+        setContentView(R.layout.view_profile);
         Intent intent = getIntent();
         final String profileID = intent.getStringExtra("EXTRA_PROFILE_ID");
         Args.checkForContent(profileID, "profileID");
@@ -101,15 +104,14 @@ public class ViewProfileActivity extends FragmentActivity {
             }
         });
 
-/*        viewAllReviews.setOnClickListener(new View.OnClickListener() {
+        viewAllReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewAllRevsIntent = new Intent(ViewProfileActivity.this, ViewAllReviews.class);
+                Intent viewAllRevsIntent = new Intent(ViewProfileActivity.this, ViewAllReviewsActivity.class);
                 viewAllRevsIntent.putExtra("EXTRA_PROFILE_ID", profileID);
                 startActivity(viewAllRevsIntent);
             }
         });
-        */
         ParseQuery<ParseObject> reviewsQuery = ParseQuery.getQuery("Review");
         reviewsQuery.orderByDescending("updatedAt");
         reviewsQuery.setLimit(5);
@@ -213,12 +215,12 @@ public class ViewProfileActivity extends FragmentActivity {
                     reliability_prog.setProgress((int) (rel_avg_val * 20));
                     friendliness_prog.setProgress((int) (friend_avg_val * 20));
                     knowledge_prog.setProgress((int) (know_avg_val * 20));
-                }
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Thus is the parse error code" + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
+        progress.dismiss();
     }
 
     private View getReview(Review review) {
