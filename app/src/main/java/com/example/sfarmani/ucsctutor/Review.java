@@ -1,16 +1,11 @@
 package com.example.sfarmani.ucsctutor;
 
 import com.example.sfarmani.ucsctutor.utils.Args;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by george on 10/30/15.
@@ -23,12 +18,10 @@ public class Review {
     private int reliability;
     private int friendliness;
     private int knowledge;
-    private boolean isTutorReview = true;
 
     Review(int inRatings, String inContent, String inReviewerID, String inOwnerID){
             Args.checkForContent(inOwnerID, "inOwnerID");
             Args.checkForContent(inReviewerID, "inReviewerID");
-            verifyTutorStudent(inReviewerID, inOwnerID);
             getReviewMetaData(inOwnerID);
             ownerID = inOwnerID;
             setRatings(inRatings);
@@ -38,7 +31,6 @@ public class Review {
     Review(int rel, int friend, int know, String inContent, String inReviewerID, String inOwnerID){
         Args.checkForContent(inOwnerID, "inOwnerID");
         Args.checkForContent(inReviewerID, "inReviewerID");
-        verifyTutorStudent(inReviewerID, inOwnerID);
         getReviewMetaData(inOwnerID);
         ownerID = inOwnerID;
         setRatings(rel, friend, know);
@@ -50,32 +42,6 @@ public class Review {
         try {
             reviewMetaData = query.getFirst();
         }catch (ParseException e){}
-    }
-    private void verifyTutorStudent(final String inReviewerID, String inOwnerID){
-        ParseQuery<ParseUser> ownerQuery = ParseUser.getQuery();
-        ownerQuery.whereEqualTo("objectId", inOwnerID);
-        ParseQuery<ParseUser> reviewerQuery = ParseUser.getQuery();
-        reviewerQuery.whereEqualTo("objectId", inReviewerID);
-
-        List<ParseQuery<ParseUser>> queries = new ArrayList<ParseQuery<ParseUser>>();
-        queries.add(ownerQuery);
-        queries.add(reviewerQuery);
-        ParseQuery<ParseUser> query = ParseQuery.or(queries);
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> objects, ParseException e) {
-                if (e == null && objects.size() == 2) {
-                    if (objects.get(0).getBoolean("isTutor") == objects.get(1).getBoolean("isTutor")) {
-                        if (objects.get(0).getBoolean("isTutor"))
-                            throw new IllegalArgumentException("Error: Tutor reviewing Tutor.");
-                        else
-                            throw new IllegalArgumentException("Error: Student reviewing student.");
-                    }
-                } else if (objects.size() != 2) {
-                    throw new IllegalArgumentException("Could not find both reviewer or reviewee");
-                }
-            }
-        });
     }
 
 

@@ -87,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/WriteReviewContent"
-        android:minHeight="200dp"
+        android:singleLine="false"
         android:layout_below="@+id/WrtReviewContentTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
@@ -105,10 +105,12 @@
         android:layout_marginTop="25dp"
         android:layout_marginLeft="15dp" />
 
-    <Button
-        android:layout_width="150dp"
+    <com.dd.processbutton.FlatButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit!"
+        android:textColor="@android:color/white"
+        android:textSize="8pt"
+        android:text="@string/submit"
         android:id="@+id/writeReviewSubmitBtn"
         android:layout_below="@+id/WriteReviewContent"
         android:layout_alignParentRight="true"
