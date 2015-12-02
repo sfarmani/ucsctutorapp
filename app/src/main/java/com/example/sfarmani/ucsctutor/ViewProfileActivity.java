@@ -64,9 +64,9 @@ public class ViewProfileActivity extends FragmentActivity {
     private TextView courseList;
 
     @Override
-    public void onCreate(Bundle SavedInstanceState){
+    public void onStart(){
 
-        super.onCreate(SavedInstanceState);
+        super.onStart();
 
         progress = new ProgressDialog(this);
         progress.setTitle("Loading");
@@ -184,7 +184,8 @@ public class ViewProfileActivity extends FragmentActivity {
                     profile_image.loadInBackground();
 
                     //set the course list
-                    HashMap<String, Boolean> hash = (HashMap<String, Boolean>)user_profile.get("courses");
+
+                    HashMap<String, Boolean> hash =user_profile.get("courses") != null? (HashMap<String, Boolean>)user_profile.get("courses") : new HashMap<String, Boolean>();
                     Credentials courses = new Credentials(new TreeMap<String, Boolean>(hash));
                     ArrayList<String> courseArray = courses.getAllCourses();
                     String buildCourseList = "";

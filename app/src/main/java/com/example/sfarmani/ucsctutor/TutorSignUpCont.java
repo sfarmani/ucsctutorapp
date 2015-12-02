@@ -130,7 +130,7 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
         RemoveCourse = (FlatButton) findViewById(R.id.RemoveCourseBtn);
         RemoveCourse.setEnabled(false);
         RemoveCourse.setClickable(false);
-
+        courses = new TreeMap<>();
         course = (EditText) findViewById(R.id.course);
         courseListView = (ListView) findViewById(R.id.courseListView);
         credentials = new Credentials(courses, true);

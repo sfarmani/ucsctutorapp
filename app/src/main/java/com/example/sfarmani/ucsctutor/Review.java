@@ -136,14 +136,14 @@ public class Review {
                     reviewMetaData.put("friend_avg", tempFrnAvg);
                     reviewMetaData.put("know_avg", tempKnwAvg);
 
-                    reviewMetaData.saveInBackground();
                     review.saveInBackground();
+                    reviewMetaData.saveInBackground();
 
                 }else if(e.getCode() == ParseException.OBJECT_NOT_FOUND){
                     ParseACL acl = new ParseACL();
                     acl.setPublicReadAccess(true);
                     acl.setPublicWriteAccess(false);
-                    acl.setWriteAccess(reviewerID, false);
+                    acl.setWriteAccess(reviewerID, true);
 
                     ParseObject parseReview = new ParseObject("Review");
                     double tempRelAvg = addAvg(reviewMetaData.getDouble("rel_avg"), reliability, reviewMetaData.getInt("review_count"));
