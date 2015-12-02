@@ -329,6 +329,16 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                                 acl.setPublicReadAccess(true);
                                                 acl.setPublicWriteAccess(true);
 
+
+                                                progressGenerator.start(submit);
+                                                submit.setEnabled(false);
+                                                username.setEnabled(false);
+                                                password.setEnabled(false);
+                                                passwordconfirm.setEnabled(false);
+                                                email.setEnabled(false);
+                                                fName.setEnabled(false);
+                                                lName.setEnabled(false);
+
                                                 ParseObject ReviewData = new ParseObject("ReviewMetaData");
                                                 ReviewData.put("ownerID", currentUser.getObjectId());
                                                 ReviewData.put("rel_avg", 0.0);
@@ -339,14 +349,6 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                                 ReviewData.setACL(acl);
                                                 ReviewData.saveInBackground();
 
-                                                progressGenerator.start(submit);
-                                                submit.setEnabled(false);
-                                                username.setEnabled(false);
-                                                password.setEnabled(false);
-                                                passwordconfirm.setEnabled(false);
-                                                email.setEnabled(false);
-                                                fName.setEnabled(false);
-                                                lName.setEnabled(false);
                                                 // delay the code so that the animation can play out.
                                                 Handler handler = new Handler();
                                                 handler.postDelayed(new Runnable() {
@@ -358,8 +360,7 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                                             Intent intent = new Intent(StudentSignUp.this, EmailNotVerified.class);
                                                             startActivity(intent);
                                                             finish();
-                                                        }
-                                                        else{
+                                                        } else {
                                                             Intent homeIntent = new Intent(StudentSignUp.this, FragmentPagerSupport.class);
                                                             startActivity(homeIntent);
                                                             finish();
@@ -446,6 +447,8 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                         user.setPassword(passwordtxt);
                         user.setEmail(emailTxt);
 
+
+
                         // user.put manually puts any specific field you want to put in parse
                         user.put("isTutor", false);
                         user.put("FirstName", fNameTxt);
@@ -477,6 +480,19 @@ public class StudentSignUp extends Activity implements ProgressGenerator.OnCompl
                                     // start the animation for the submit button and disable the fields and submit button
                                     final ParseUser currentUser = ParseUser.getCurrentUser();
 
+                                    ParseACL acl = new ParseACL();
+                                    acl.setPublicReadAccess(true);
+                                    acl.setPublicWriteAccess(true);
+
+                                    ParseObject ReviewData = new ParseObject("ReviewMetaData");
+                                    ReviewData.put("ownerID", currentUser.getObjectId());
+                                    ReviewData.put("rel_avg", 0.0);
+                                    ReviewData.put("friend_avg", 0.0);
+                                    ReviewData.put("know_avg", 0.0);
+                                    ReviewData.put("total_avg", 0.0);
+                                    ReviewData.put("review_count", 0);
+                                    ReviewData.setACL(acl);
+                                    ReviewData.saveInBackground();
                                     progressGenerator.start(submit);
                                     submit.setEnabled(false);
                                     username.setEnabled(false);

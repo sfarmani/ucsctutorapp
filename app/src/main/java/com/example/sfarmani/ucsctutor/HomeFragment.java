@@ -22,6 +22,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+
 public class HomeFragment extends android.support.v4.app.Fragment {
 
     ParseUser currUser = ParseUser.getCurrentUser();
@@ -39,7 +41,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     ProgressBar knowledge_prog;
     LinearLayout parent;
     TextView reviewIntro;
-    
     View v; // because this is a fragment, it helps to store the View as a global variable
 
     // Inflate the view for the fragment based on layout XML
@@ -57,6 +58,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         ImageView logout = (ImageView) v.findViewById(R.id.logbtn);
         final ImageView edit = (ImageView) v.findViewById(R.id.editbtn);
         final FlatButton schedule = (FlatButton) v.findViewById(R.id.schedule);
+        FlatButton editCourses = (FlatButton) v.findViewById(R.id.EditCoursesBtn);
         reviewIntro = (TextView) v.findViewById(R.id.reviewIntro);
         review_count = (TextView) v.findViewById(R.id.review_count);
         reliability_avg = (TextView) v.findViewById(R.id.reliability_avg);
@@ -92,6 +94,19 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         username = currUser.get("username").toString();
         profileusername.setText(username);
 
+        //set the course list
+        Credentials courses = Credentials.getFromParse();
+        ArrayList<String> courseArray = courses.getAllCourses();
+        String buildCourseList = "";
+        for(int i = 0; i < courseArray.size(); ++i){
+            if(i == 0){
+                buildCourseList += courseArray.get(i);
+            }else{
+                buildCourseList += " , " + courseArray.get(i);
+            }
+        }
+        coursefield.setText(buildCourseList);
+
         fname = currUser.get("FirstName").toString();
         lname = currUser.get("LastName").toString();
         fullname = fname + " " + lname;
@@ -113,6 +128,14 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 Intent editIntent = new Intent(getActivity(), EditProfile.class);
+                startActivity(editIntent);
+            }
+        });
+
+        editCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editIntent = new Intent(getActivity(), EditCoursesActivity.class);
                 startActivity(editIntent);
             }
         });

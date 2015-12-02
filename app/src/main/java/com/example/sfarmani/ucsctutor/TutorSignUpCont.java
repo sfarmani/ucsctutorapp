@@ -133,7 +133,6 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
 
         course = (EditText) findViewById(R.id.course);
         courseListView = (ListView) findViewById(R.id.courseListView);
-        courses = new TreeMap<String,Boolean>();
         credentials = new Credentials(courses, true);
         courseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
@@ -151,6 +150,7 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
             public void onClick(View v) {
                 String inCourse = course.getText().toString();
                 if(inCourse != null && inCourse.trim().length() > 0){
+                    inCourse = inCourse.toUpperCase().trim();
                     courses.put(inCourse, Boolean.TRUE);
                     courseAdapter.add(inCourse);
                     course.setText("");
@@ -292,7 +292,6 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                                                     else{
                                                         Intent homeIntent = new Intent(TutorSignUpCont.this, FragmentPagerSupport.class);
                                                         startActivity(homeIntent);
-                                                        TutorSignUp.tutorSignUp.finish();
                                                         finish();
                                                     }
                                                 }
@@ -317,6 +316,7 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                     user.put("bio", "");
                     user.put("FirstName", fNameTxt);
                     user.put("LastName", lNameTxt);
+                    user.put("courses", courses);
 
                     // finally signs them up.
                     user.signUpInBackground(new SignUpCallback() {
@@ -343,13 +343,21 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                             // if user is okay to be made
                             else {
                                 final ParseUser currentUser = ParseUser.getCurrentUser();
+
+                                ParseACL acl = new ParseACL();
+                                acl.setPublicReadAccess(true);
+                                acl.setPublicWriteAccess(true);
+
                                 ParseObject ReviewData = new ParseObject("ReviewMetaData");
                                 ReviewData.put("ownerID", currentUser.getObjectId());
                                 ReviewData.put("rel_avg", 0.0);
                                 ReviewData.put("friend_avg", 0.0);
                                 ReviewData.put("know_avg", 0.0);
+                                ReviewData.put("total_avg", 0.0);
                                 ReviewData.put("review_count", 0);
+                                ReviewData.setACL(acl);
                                 ReviewData.saveInBackground();
+
 
                                 // start the animation for the submit button and disable the fields and submit button
                                 progressGenerator.start(submit);
@@ -363,13 +371,11 @@ public class TutorSignUpCont extends Activity implements ProgressGenerator.OnCom
                                         if (!currentUser.getBoolean("emailVerified")) {
                                             Intent intent = new Intent(TutorSignUpCont.this, EmailNotVerified.class);
                                             startActivity(intent);
-                                            TutorSignUp.tutorSignUp.finish();
                                             finish();
                                         }
                                         else{
                                             Intent homeIntent = new Intent(TutorSignUpCont.this, FragmentPagerSupport.class);
                                             startActivity(homeIntent);
-                                            TutorSignUp.tutorSignUp.finish();
                                             finish();
                                         }
                                     }

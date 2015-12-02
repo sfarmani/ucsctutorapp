@@ -1,9 +1,15 @@
 package com.example.sfarmani.ucsctutor;
 
+import android.nfc.Tag;
+import android.util.Log;
+
 import com.example.sfarmani.ucsctutor.utils.Args;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -123,15 +129,30 @@ public class Credentials {
     public void sendToParse(){
         if(isCurrentUserMap) {
             ParseUser currentUser = ParseUser.getCurrentUser();
-            currentUser.put("courses", courses);
-            currentUser.saveInBackground();
+            HashMap<String, Boolean> hash = new HashMap<>(courses);
+            currentUser.put("courses", hash);
+            currentUser.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if( e == null){
+                        Log.e("Saving", "Save worked?");
+                    }else{
+                        Log.e("Saving", "Save didn't work: " + e.getMessage() );
+                    }
+                }
+            });
         }else {
-            throw new RuntimeException("Error: attempting to save non-current user course list to the current user.");
+            throw new RuntimeException("Error: attempting to save non currentuser course list to the current user.");
         }
     }
 
     public static Credentials getFromParse(){
         ParseUser currentUser = ParseUser.getCurrentUser();
-        return new Credentials((TreeMap<String, Boolean>)currentUser.get("courses"), true);
+        if(currentUser.get("courses") == null){
+            return new Credentials();
+        }else {
+            HashMap<String, Boolean> hash = (HashMap<String, Boolean>)currentUser.get("courses");
+            return new Credentials(new TreeMap<String, Boolean>(hash), true);
+        }
     }
 }

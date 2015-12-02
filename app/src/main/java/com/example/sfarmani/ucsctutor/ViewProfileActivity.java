@@ -26,7 +26,11 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
+
+import bolts.Bolts;
 
 /**
  * Created by george on 11/9/15.
@@ -57,6 +61,7 @@ public class ViewProfileActivity extends FragmentActivity {
     private ProgressBar totalAvgProg;
     private TextView totalAvgText;
     private ProgressDialog progress;
+    private TextView courseList;
 
     @Override
     public void onCreate(Bundle SavedInstanceState){
@@ -94,6 +99,7 @@ public class ViewProfileActivity extends FragmentActivity {
         reviewList = (LinearLayout) findViewById(R.id.reviewsList);
         totalAvgProg = (ProgressBar) findViewById(R.id.totalAvgProg);
         totalAvgText =  (TextView) findViewById(R.id.totalAvgText);
+        courseList = (TextView) findViewById(R.id.viewProfileCourseList);
 
         writeReview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,15 +182,29 @@ public class ViewProfileActivity extends FragmentActivity {
                     profile_image = (ParseImageView) findViewById(R.id.prof_img);
                     profile_image.setParseFile(parseFile);
                     profile_image.loadInBackground();
+
+                    //set the course list
+                    HashMap<String, Boolean> hash = (HashMap<String, Boolean>)user_profile.get("courses");
+                    Credentials courses = new Credentials(new TreeMap<String, Boolean>(hash));
+                    ArrayList<String> courseArray = courses.getAllCourses();
+                    String buildCourseList = "";
+                    for(int i = 0; i < courseArray.size(); ++i){
+                        if(i == 0){
+                            buildCourseList += courseArray.get(i);
+                        }else{
+                            buildCourseList += " , " + courseArray.get(i);
+                        }
+                    }
+                    courseList.setText(buildCourseList);
+
                     if (user_profile.getBoolean("isTutor")) {
                         description.setText(user_profile.getString("bio"));
-                        tutor_courses.setText(user_profile.getString("courses"));
+                        tutor_courses.setText("Courses I'd like to tutor for:");
                         reviewIntro.setText("Here's what students had to say about " + user_profile.getString("FirstName") + " :");
                     } else {
                         reviewIntro.setText("Here's what tutors had to say about " + user_profile.getString("FirstName") + " :");
-                        parent.removeView(findViewById(R.id.description_label));
-                        parent.removeView(description);
-                        parent.removeView(tutor_courses);
+                        tutor_courses.setText("Courses I'd like a tutor for: ");
+                        description.setText(user_profile.getString("bio"));
                     }
                 }
             }

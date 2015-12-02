@@ -140,6 +140,10 @@
             android:name=".ViewAllReviewsActivity"
             android:label="View All Reviews Activity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditCoursesActivity"
+            android:label="Edit Courses Activity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".SinchService" />
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for

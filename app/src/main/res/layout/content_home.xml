@@ -128,6 +128,20 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:visibility="visible" />
+            <com.dd.processbutton.FlatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Courses"
+                android:id="@+id/EditCoursesBtn"
+                android:textSize="8pt"
+                custom:pb_colorNormal="#A96200"
+                custom:pb_colorPressed="#804A00"
+                android:textColor="#ffffff"
+                android:layout_below="@+id/userprofilepic"
+                android:layout_alignParentRight="false"
+                android:layout_alignParentEnd="false"
+                android:layout_toLeftOf="@+id/schedule"
+                android:layout_marginRight="10dp" />
 
             <com.dd.processbutton.FlatButton
                 android:layout_width="wrap_content"
