@@ -391,8 +391,11 @@
 
         </LinearLayout>
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
+        <com.dd.processbutton.FlatButton
+            custom:pb_colorNormal="#A96200"
+            custom:pb_colorPressed="#804A00"
+            android:textColor="@android:color/white"
+            android:textSize="6pt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Write Review"
@@ -406,7 +409,11 @@
             android:id="@+id/reviewsList"
             android:layout_gravity="center_horizontal" />
 
-        <Button
+        <com.dd.processbutton.FlatButton
+            custom:pb_colorNormal="#A96200"
+            custom:pb_colorPressed="#804A00"
+            android:textColor="@android:color/white"
+            android:textSize="6pt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View All"

@@ -8,7 +8,9 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/reviewerImage"
+        android:src="@drawable/temppic"
         android:layout_weight="0"
+        android:scaleType="centerCrop"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
@@ -26,7 +28,8 @@
             android:id="@+id/reviewerName"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_gravity="left" />
+            android:layout_gravity="left"
+            android:textColor="#fff" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -40,7 +43,8 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Reliability"
                 android:id="@+id/textView18"
-                android:layout_gravity="left" />
+                android:layout_gravity="left"
+                android:textColor="#fff" />
 
             <RatingBar
                 android:layout_width="wrap_content"
@@ -63,7 +67,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Friendliness"
-                android:id="@+id/textView20" />
+                android:id="@+id/textView20"
+                android:textColor="#fff" />
 
             <RatingBar
                 style="?android:attr/ratingBarStyleSmall"
@@ -84,7 +89,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Knowledge"
-                android:id="@+id/textView19" />
+                android:id="@+id/textView19"
+                android:textColor="#fff" />
 
             <RatingBar
                 style="?android:attr/ratingBarStyleSmall"
@@ -102,7 +108,8 @@
             android:id="@+id/reviewContent"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:textColor="#fff" />
 
     </LinearLayout>
 </LinearLayout>
