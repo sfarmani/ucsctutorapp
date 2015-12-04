@@ -233,7 +233,7 @@ public class MessagingActivity extends Activity {
                             if (messageList.size() == 0) {
                                 long start = System.currentTimeMillis();
                                 Date timeDiff = new Date(start); // compensate for 1h in millis
-                                SimpleDateFormat timeFormat = new SimpleDateFormat("MMM d, h:mma");
+                                SimpleDateFormat timeFormat = new SimpleDateFormat("M/d/yyyy, h:mm:s a");
                                 String timestamp = timeFormat.format(timeDiff);
                                 writableMessage.addHeader("Sent", timestamp);
                                 messageAdapter.addMessage(writableMessage, MessageAdapter.DIRECTION_INCOMING);
@@ -259,7 +259,7 @@ public class MessagingActivity extends Activity {
                         if (messageList.size() == 0) {
                             long start = System.currentTimeMillis();
                             Date timeDiff = new Date(start); // compensate for 1h in millis
-                            SimpleDateFormat timeFormat = new SimpleDateFormat("MMM d, h:mma");
+                            SimpleDateFormat timeFormat = new SimpleDateFormat("M/d/yyyy, h:mm:s a");
                             String timestamp = timeFormat.format(timeDiff);
                             writableMessage.addHeader("Sent", timestamp);
 

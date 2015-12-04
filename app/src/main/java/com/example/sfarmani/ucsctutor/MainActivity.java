@@ -32,13 +32,6 @@ public class MainActivity extends AppCompatActivity {
             // Get current user data from Parse.com
             ParseUser currentUser = ParseUser.getCurrentUser();
 
-            /* Code to generate dummy course list for testing purposes
-            Credentials test = new Credentials();
-            test.addCourse("CMPS104", false);
-            test.addCourse("CMPS115", false);
-            test.addCourse("CMPE110", false);
-            test.sendToParse();
-            */
             if (currentUser != null) {
                 if (!currentUser.getBoolean("emailVerified")) {
                     Intent homeIntent = new Intent(MainActivity.this, EmailNotVerified.class);
@@ -46,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
                 else{
-
-
                     Intent intent = new Intent(MainActivity.this, FragmentPagerSupport.class);
                     startActivity(intent);
                     serviceIntent = new Intent(MainActivity.this, SinchService.class);
